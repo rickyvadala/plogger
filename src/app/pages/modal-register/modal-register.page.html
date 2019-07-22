@@ -1,0 +1,51 @@
+<ion-header>
+    <ion-toolbar color="dark" mode="ios">
+        <ion-buttons slot="end">
+            <ion-button (click)="volver()">
+                <ion-icon slot="icon-only" name="close"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>Registrarse</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding color="plogger">
+    <h4 class="mb-20">Crea un nuevo usuario de Plogger</h4>
+    <form #formulario="ngForm" (ngSubmit)="onSubmitTemplate()">
+        <ion-list class="mb-20" color="plogger">
+            <!-- <ion-list-header>
+                <ion-label>Formulario template: Valido {{formulario.valid}}</ion-label>
+            </ion-list-header> -->
+            <ion-item>
+                <ion-label position="floating">Email</ion-label>
+                <ion-input name="email" [(ngModel)]="usuario.email" type="email" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" required></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label position="floating">Nombre</ion-label>
+                <ion-input name="nombre" [(ngModel)]="usuario.nombre" type="text" required></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label position="floating">Apellido</ion-label>
+                <ion-input name="apellido" [(ngModel)]="usuario.apellido" type="text" required></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-datetime name="fecha" [(ngModel)]="usuario.fechaNac" (ionChange)="cambioFecha($event)" display-format="DD MM YYYY" placeholder="Nacimiento" cancelText="Cancelar" doneText="Ok">
+                    Fecha de Nacimiento
+                </ion-datetime>
+            </ion-item>
+            <ion-item>
+                <ion-label position="floating">Contraseña</ion-label>
+                <ion-input name="pass1" type="password" required></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label position="floating">Repetir Contraseña</ion-label>
+                <ion-input name="pass2" [(ngModel)]="usuario.password" type="password" required></ion-input>
+            </ion-item>
+        </ion-list>
+        <ion-button color="dark" expand="full" type="submit" [disabled]="formulario.invalid">
+            <ion-icon slot="start" name="walk"></ion-icon>Crear
+        </ion-button>
+        <br>
+        <ion-label (click)="volver()">¿Ya tenes cuenta? - Ingresar</ion-label>
+    </form>
+</ion-content>

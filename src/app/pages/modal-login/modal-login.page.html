@@ -1,0 +1,35 @@
+<ion-header>
+    <ion-toolbar color="dark" mode="ios">
+        <ion-buttons slot="end">
+            <ion-button (click)="volver()">
+                <ion-icon slot="icon-only" name="close"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>Iniciar Sesi&oacute;n</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding color="plogger">
+    <h4 class="mb-20">Ingresa con tu usuario de Plogger</h4>
+    <form #formulario="ngForm" (ngSubmit)="onSubmitTemplate()">
+        <ion-list class="mb-20" color="plogger">
+            <!-- <ion-list-header>
+                <ion-label>Formulario template: Valido {{formulario.valid}}</ion-label>
+            </ion-list-header> -->
+            <ion-item>
+                <ion-label position="floating">Email</ion-label>
+                <ion-input name="email" [(ngModel)]="usuario.email" type="email" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" required></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label position="floating">Password</ion-label>
+                <ion-input name="pass" [(ngModel)]="usuario.password" type="password" required></ion-input>
+            </ion-item>
+        </ion-list>
+        <ion-button color="dark" expand="full" type="submit" [disabled]="formulario.invalid">
+            <ion-icon slot="start" name="log-in"></ion-icon>Acceder
+        </ion-button>
+        <br>
+        <ion-label (click)="volver()">¿No tenes cuenta? - Registrarse</ion-label>
+
+    </form>
+</ion-content>
