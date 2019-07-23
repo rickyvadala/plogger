@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 import { PopProfileSettingsComponent } from '../../components/pop-profile-settings/pop-profile-settings.component';
+import { UsuarioService } from './../../services/usuario-facebook.service';
 
 @Component({
   selector: 'app-profile',
@@ -9,7 +10,8 @@ import { PopProfileSettingsComponent } from '../../components/pop-profile-settin
 })
 export class ProfilePage implements OnInit {
 
-  constructor(private popoverCtrl: PopoverController) { }
+  constructor(private popoverCtrl: PopoverController,
+              public us: UsuarioService) { }
 
   ngOnInit() {
   }

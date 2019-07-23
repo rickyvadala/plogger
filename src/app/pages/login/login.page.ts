@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { ModalLoginPage } from '../modal-login/modal-login.page';
 import { ModalController } from '@ionic/angular';
 import { ModalRegisterPage } from '../modal-register/modal-register.page';
+import { UsuarioService } from '../../services/usuario-facebook.service';
+
 
 @Component({
   selector: 'app-login',
@@ -12,7 +14,8 @@ import { ModalRegisterPage } from '../modal-register/modal-register.page';
 export class LoginPage implements OnInit {
 
   constructor(private router: Router,
-              private modalCtrl: ModalController) { }
+              private modalCtrl: ModalController,
+              public us: UsuarioService) { }
 
   ngOnInit() {
   }
@@ -24,6 +27,9 @@ export class LoginPage implements OnInit {
 
     // Inicio de session via Facebook
     iniciarSesionFacebook() {
+
+      this.us.login(  );
+
       this.irHome();
     }
 
@@ -59,5 +65,10 @@ export class LoginPage implements OnInit {
     // Navega al home
     irHome() {
       this.router.navigate(['/tabs']);
+    }
+
+    // Navega al profile
+    irProfile() {
+      this.router.navigate(['/profile']);
     }
 }

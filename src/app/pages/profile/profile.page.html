@@ -12,4 +12,17 @@
 
 <ion-content>
 
+
+    <ion-card style="background: palegoldenrod" *ngIf="us.usuario.uid">
+        <img [src]="us.usuario.foto" class="card-img-top" alt="...">
+        <ion-card-header>
+            <ion-card-subtitle>Usuario Logueado</ion-card-subtitle>
+            <ion-card-title>{{ us.usuario.nombre }}</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+            Email: {{ us.usuario.email }}
+        </ion-card-content>
+    </ion-card>
+
 </ion-content>
