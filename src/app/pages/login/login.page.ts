@@ -4,6 +4,7 @@ import { ModalLoginPage } from '../modal-login/modal-login.page';
 import { ModalController } from '@ionic/angular';
 import { ModalRegisterPage } from '../modal-register/modal-register.page';
 import { UsuarioService } from '../../services/usuario-facebook.service';
+import { userInfo } from 'os';
 
 
 @Component({
@@ -28,9 +29,12 @@ export class LoginPage implements OnInit {
     // Inicio de session via Facebook
     iniciarSesionFacebook() {
 
-      this.us.login(  );
+      this.us.login();
 
-      this.irHome();
+      if ( this.us.usuario.uid != null ) {
+        this.irHome();
+      }
+
     }
 
     // Inicio de session via Plogger

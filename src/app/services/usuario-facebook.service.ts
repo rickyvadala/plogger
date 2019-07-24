@@ -25,6 +25,7 @@ export class UsuarioService {
       this.usuario.email = user.email;
       this.usuario.foto = user.photoURL;
 
+
     } );
   }
 
