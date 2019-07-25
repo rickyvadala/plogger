@@ -18,13 +18,14 @@ export class ProfilePage implements OnInit {
 
 
   ngOnInit() {
-    if (!this.us.usuario.nombre) {
-      const x = this.usPlogger.mail;
-      const y = x.slice(0, x.indexOf("@"));
-      console.log(x);
-      console.log(y);
-      this.us.usuario.nombre = y;
-    }
+     if (!this.us.usuario.nombre) {
+       const x = this.usPlogger.mail;
+       console.log(x);
+       const y = x.slice(0, x.indexOf('@'));
+       console.log(x);
+       console.log(y);
+       // this.us.usuario.nombre = y;
+     }
   }
 
   async mostrarPop(evento) {

@@ -19,8 +19,18 @@ export class PopProfileSettingsComponent implements OnInit {
   ngOnInit() {}
 
   onClick() {
-   // this.authPlogger.logout();
-    this.us.logout();
+    if (this.us.tipoInicio !== undefined) {
+      console.log('facebook');
+      this.us.logout();
+    } else {
+      if (this.authPlogger.tipoInicio !== undefined) {
+        console.log('plogger');
+      } else {
+        console.log('google');
+      }
+    }
+    localStorage.removeItem('token');
+
     this.popoverCtrl.dismiss();
   }
 

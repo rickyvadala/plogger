@@ -2,26 +2,32 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UsuarioPloggerModel } from '../models/usuario-plogger.model';
 import { map } from 'rxjs/operators';
+import { GuardService } from './guard.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioPloggerService {
 
+  public tipoInicio: string;
+
   mail: string;
   private url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty';
 
   private apikey = 'AIzaSyADjXkXnSklUgJq9vFZzH6razPr2XiRz6Q';
 
-  userToken: string;
+  // userToken: string;
 
-  constructor( private http: HttpClient ) {
-    this.leerToken();
+
+
+  constructor( private http: HttpClient, public guard: GuardService ) {
+    this.guard.leerToken();
   }
 
-  logout() {
-    localStorage.removeItem('token');
-  }
+
+  // logout() {
+  //   localStorage.removeItem('token');
+  // }
 
   login( usuario: UsuarioPloggerModel ) {
     const authData = {
@@ -34,8 +40,11 @@ export class UsuarioPloggerService {
     authData).pipe(
       map( resp => {
         // tslint:disable-next-line: no-string-literal
-        this.guardarToken( resp['idToken'] );
+        this.guard.guardarToken( resp['idToken'] );
+        this.tipoInicio = 'p';
+        this.mail = usuario.email;
         console.log(usuario.email);
+        console.log(resp);
         return resp;
       })
     );
@@ -53,33 +62,35 @@ export class UsuarioPloggerService {
     authData).pipe(
       map( resp => {
         // tslint:disable-next-line: no-string-literal
-        this.guardarToken( resp['idToken'] );
+        this.guard.guardarToken( resp['idToken'] );
+        this.tipoInicio = 'p';
         this.mail = usuario.email;
+        console.log(resp);
         console.log(this.mail);
         return resp;
       })
     );
   }
 
-  private guardarToken( idToken: string ) {
+  // private guardarToken( idToken: string ) {
 
-    this.userToken = idToken;
-    localStorage.setItem('token', idToken);
-  }
+  //   this.userToken = idToken;
+  //   localStorage.setItem('token', idToken);
+  // }
 
-  leerToken() {
-    if (localStorage.getItem('token')) {
-        this.userToken = localStorage.getItem('token');
-    } else {
-      this.userToken = '';
-    }
+  // leerToken() {
+  //   if (localStorage.getItem('token')) {
+  //       this.userToken = localStorage.getItem('token');
+  //   } else {
+  //     this.userToken = '';
+  //   }
 
-    return this.userToken;
-  }
+  //   return this.userToken;
+  // }
 
-  estaAutenticado(): boolean {
-    return this.userToken.length > 2;
-  }
+  // estaAutenticado(): boolean {
+  //   return this.userToken.length > 2;
+  // }
 }
 
 
