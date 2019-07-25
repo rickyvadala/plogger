@@ -8,6 +8,7 @@ import { map } from 'rxjs/operators';
 })
 export class UsuarioPloggerService {
 
+  mail: string;
   private url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty';
 
   private apikey = 'AIzaSyADjXkXnSklUgJq9vFZzH6razPr2XiRz6Q';
@@ -51,9 +52,10 @@ export class UsuarioPloggerService {
     .post(`${ this.url }/signupNewUser?key=${ this.apikey }`,
     authData).pipe(
       map( resp => {
-        console.log(resp);
         // tslint:disable-next-line: no-string-literal
         this.guardarToken( resp['idToken'] );
+        this.mail = usuario.email;
+        console.log(this.mail);
         return resp;
       })
     );
