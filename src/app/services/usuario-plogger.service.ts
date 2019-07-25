@@ -34,6 +34,7 @@ export class UsuarioPloggerService {
       map( resp => {
         // tslint:disable-next-line: no-string-literal
         this.guardarToken( resp['idToken'] );
+        console.log(usuario.email);
         return resp;
       })
     );
@@ -50,6 +51,7 @@ export class UsuarioPloggerService {
     .post(`${ this.url }/signupNewUser?key=${ this.apikey }`,
     authData).pipe(
       map( resp => {
+        console.log(resp);
         // tslint:disable-next-line: no-string-literal
         this.guardarToken( resp['idToken'] );
         return resp;

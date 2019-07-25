@@ -9,7 +9,6 @@ const routes: Routes = [
   { path: 'home', loadChildren: './pages/home/home.module#HomePageModule'},
   { path: 'profile', loadChildren: './pages/profile/profile.module#ProfilePageModule'},
   { path: 'events', loadChildren: './pages/events/events.module#EventsPageModule'},
-  
 
   // { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule' , canActivate: [AuthGuard]},
   // { path: 'tabs', loadChildren: './pages/tabs/tabs.module#TabsPageModule', canActivate: [AuthGuard] },
@@ -18,6 +17,7 @@ const routes: Routes = [
   // { path: 'events', loadChildren: './pages/events/events.module#EventsPageModule', canActivate: [AuthGuard]},
 
 ];
+
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })

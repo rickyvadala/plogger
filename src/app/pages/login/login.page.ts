@@ -4,10 +4,6 @@ import { ModalLoginPage } from '../modal-login/modal-login.page';
 import { ModalController } from '@ionic/angular';
 import { ModalRegisterPage } from '../modal-register/modal-register.page';
 import { UsuarioService } from '../../services/usuario-facebook.service';
-<<<<<<< HEAD
-// import { userInfo } from 'os';
-=======
->>>>>>> b8a3a49becc57c1c776db05b15f229ff2001b131
 
 
 @Component({
