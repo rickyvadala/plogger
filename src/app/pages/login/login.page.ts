@@ -27,13 +27,7 @@ export class LoginPage implements OnInit {
 
     // Inicio de session via Facebook
     iniciarSesionFacebook() {
-
       this.us.login();
-
-      if ( this.us.usuario.uid != null ) {
-        this.irHome();
-      }
-
     }
 
     // Inicio de session via Plogger
