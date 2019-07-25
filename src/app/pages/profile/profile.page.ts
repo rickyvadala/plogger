@@ -13,7 +13,16 @@ export class ProfilePage implements OnInit {
   constructor(private popoverCtrl: PopoverController,
               public us: UsuarioService) { }
 
+
+
   ngOnInit() {
+    if (!this.us.usuario.nombre) {
+      const x = this.us.usuario.email;
+      const y = x.slice(0, x.indexOf("@"));
+      console.log(x);
+      console.log(y);
+      this.us.usuario.nombre = y;
+    }
   }
 
   async mostrarPop(evento) {
