@@ -1,28 +1,29 @@
 <ion-header>
-    <ion-toolbar mode="ios">
-        <ion-title>Richi Gang</ion-title>
+    <ion-toolbar mode="ios" color="plogger">
+        <ion-title>{{ us.usuario.nombre }}</ion-title>
         <ion-buttons slot="end">
             <ion-button (click)="mostrarPop($event)">
-                <ion-icon name="settings"></ion-icon>
+                <ion-icon name="settings" color="dark"></ion-icon>
             </ion-button>
         </ion-buttons>
     </ion-toolbar>
 
 </ion-header>
 
-<ion-content>
-
-
-    <ion-card style="background: palegoldenrod" *ngIf="us.usuario.uid">
-        <img [src]="us.usuario.foto" class="card-img-top" alt="...">
-        <ion-card-header>
-            <ion-card-subtitle>Usuario Logueado</ion-card-subtitle>
-            <ion-card-title>{{ us.usuario.nombre }}</ion-card-title>
-        </ion-card-header>
-
-        <ion-card-content>
-            Email: {{ us.usuario.email }}
-        </ion-card-content>
-    </ion-card>
-
+<ion-content padding>
+    <ion-grid fixed>
+        <ion-row>
+            <ion-col size="3">
+                <ion-avatar class="item-avatar">
+                    <img [src]="us.usuario.foto" />
+                </ion-avatar>
+            </ion-col>
+            <ion-col size="9">
+                <ion-button class="center" color="plogger" mode="ios">
+                    <ion-icon slot="start" name="add"></ion-icon>
+                    Enviar solicitud de amistad
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 </ion-content>
