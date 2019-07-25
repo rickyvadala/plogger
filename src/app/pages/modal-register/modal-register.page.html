@@ -11,7 +11,7 @@
 
 <ion-content padding color="plogger">
     <h4 class="mb-20">Crea un nuevo usuario de Plogger</h4>
-    <form #formulario="ngForm" (ngSubmit)="onSubmitTemplate()">
+    <form #formulario="ngForm" (ngSubmit)="onSubmitTemplate( formulario )">
         <ion-list class="mb-20" color="plogger">
             <!-- <ion-list-header>
                 <ion-label>Formulario template: Valido {{formulario.valid}}</ion-label>
@@ -20,7 +20,7 @@
                 <ion-label position="floating">Email</ion-label>
                 <ion-input name="email" [(ngModel)]="usuario.email" type="email" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" required></ion-input>
             </ion-item>
-            <ion-item>
+            <!-- <ion-item>
                 <ion-label position="floating">Nombre</ion-label>
                 <ion-input name="nombre" [(ngModel)]="usuario.nombre" type="text" required></ion-input>
             </ion-item>
@@ -32,14 +32,14 @@
                 <ion-datetime name="fecha" [(ngModel)]="usuario.fechaNac" (ionChange)="cambioFecha($event)" display-format="DD MM YYYY" placeholder="Nacimiento" cancelText="Cancelar" doneText="Ok">
                     Fecha de Nacimiento
                 </ion-datetime>
-            </ion-item>
+            </ion-item> -->
             <ion-item>
                 <ion-label position="floating">Contraseña</ion-label>
-                <ion-input name="pass1" type="password" required></ion-input>
+                <ion-input name="password2" type="password" [(ngModel)]="usuario.password2" required></ion-input>
             </ion-item>
             <ion-item>
                 <ion-label position="floating">Repetir Contraseña</ion-label>
-                <ion-input name="pass2" [(ngModel)]="usuario.password" type="password" required></ion-input>
+                <ion-input name="password1" [(ngModel)]="usuario.password" type="password" required></ion-input>
             </ion-item>
         </ion-list>
         <ion-button color="dark" expand="full" type="submit" [disabled]="formulario.invalid">

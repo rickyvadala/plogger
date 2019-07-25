@@ -11,7 +11,7 @@
 
 <ion-content padding color="plogger">
     <h4 class="mb-20">Ingresa con tu usuario de Plogger</h4>
-    <form #formulario="ngForm" (ngSubmit)="onSubmitTemplate()">
+    <form #formulario="ngForm" (ngSubmit)="login(formulario)">
         <ion-list class="mb-20" color="plogger">
             <!-- <ion-list-header>
                 <ion-label>Formulario template: Valido {{formulario.valid}}</ion-label>

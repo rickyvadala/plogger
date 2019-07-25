@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PopoverController } from '@ionic/angular';
 import { UsuarioService } from './../../services/usuario-facebook.service';
+import { UsuarioPloggerService } from 'src/app/services/usuario-plogger.service';
 
 
 @Component({
@@ -12,11 +13,13 @@ import { UsuarioService } from './../../services/usuario-facebook.service';
 export class PopProfileSettingsComponent implements OnInit {
 
   constructor(private popoverCtrl: PopoverController,
-              public us: UsuarioService) { }
+              public us: UsuarioService,
+              public authPlogger: UsuarioPloggerService) { }
 
   ngOnInit() {}
 
   onClick() {
+   // this.authPlogger.logout();
     this.us.logout();
     this.popoverCtrl.dismiss();
   }

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { UsuarioPloggerModel } from '../../models/usuario-plogger.model';
+import { NgForm } from '@angular/forms';
+import { UsuarioPloggerService } from 'src/app/services/usuario-plogger.service';
 
 @Component({
   selector: 'app-modal-register',
@@ -9,37 +12,78 @@ import { Router } from '@angular/router';
 })
 export class ModalRegisterPage implements OnInit {
 
-  usuario = {
-    email: '',
-    password: '',
-    nombre: '',
-    apellido: '',
-    fechaNac: new Date()
-  };
+  usuario: UsuarioPloggerModel;
 
   constructor(private modalCtrl: ModalController,
-              private router: Router) { }
+              private router: Router,
+              private authPlogger: UsuarioPloggerService,
+              public alertCtrl: AlertController) { }
+
+
+
+  async registroCorrecto() {
+      const alert = await this.alertCtrl.create({
+        header: 'Usuario registrado',
+        // subHeader: 'Subtitle',
+        // message: 'This is an alert message.',
+        buttons: [
+          {
+            text: 'Ok',
+            handler: (blah) => {
+              console.log('Boton ok');
+
+            }
+          }
+        ]
+      });
+      await alert.present();
+    }
+
+    async registroIncorrecto() {
+      const alert = await this.alertCtrl.create({
+        header: 'Usuario ya registrado',
+        // subHeader: 'Subtitle',
+        // message: 'This is an alert message.',
+        buttons: [
+          {
+            text: 'Ok',
+            handler: (blah) => {
+              console.log('Boton ok');
+
+            }
+          }
+        ]
+      });
+      await alert.present();
+    }
+
 
   ngOnInit() {
+    this.usuario = new UsuarioPloggerModel();
   }
 
   volver() {
     this.modalCtrl.dismiss();
   }
 
-  onSubmitTemplate() {
-    this.router.navigate(['/tabs']);
-    setTimeout(() => {
-      this.volver();
-    }, 250);
-    console.log('Form Submit');
-    console.log(this.usuario);
+  onSubmitTemplate(form: NgForm) {
+
+    if ( form.invalid ) { return; }
+
+    this.authPlogger.nuevoUsuarioPlogger(this.usuario)
+    .subscribe( resp => {
+      // this.registroCorrecto();
+      this.modalCtrl.dismiss();
+      this.router.navigate(['/tabs']);
+    }, (err) => {
+      this.registroIncorrecto();
+    });
   }
 
-  cambioFecha(event) {
-    console.log('ionChange', event);
-    console.log('Date', new Date(event.detail.value));
 
-  }
+  // cambioFecha(event) {
+  //   console.log('ionChange', event);
+  //   console.log('Date', new Date(event.detail.value));
+  // }
 
 }

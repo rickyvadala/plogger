@@ -9,6 +9,8 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ComponentsModule } from './components/components.module';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 // AutentificacionFacebook
 import { AngularFireModule } from '@angular/fire';
@@ -27,7 +29,9 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
     ComponentsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
-    AngularFireStorageModule
+    AngularFireStorageModule,
+    FormsModule,
+    HttpClientModule
   ],
   providers: [
     StatusBar,
