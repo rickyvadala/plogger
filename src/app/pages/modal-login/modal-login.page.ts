@@ -83,6 +83,5 @@ export class ModalLoginPage implements OnInit {
     }, (err) => {
       this.contraseñaInvalida(err.error.error.message, form);
     });
-
   }
 }

@@ -25,50 +25,36 @@ export class LoginPage implements OnInit {
     // Inicio de session via Google
     iniciarSesionGoogle() {
       this.usGoogle.login();
-
+      console.log('Iniciando sesion via google');
     }
 
     // Inicio de session via Facebook
     iniciarSesionFacebook() {
       this.us.login();
+      console.log('Iniciando sesion via facebook');
     }
 
     // Inicio de session via Plogger
     async iniciarSesionPlogger() {
+      console.log('Iniciando sesion via plogger');
       const modal = await this.modalCtrl.create({
-        component: ModalLoginPage,
-        componentProps: {
-          nombre: 'Ricky',
-          pais: 'ARG'
-        }
+        component: ModalLoginPage
       });
       await modal.present();
-
       const {data} = await modal.onDidDismiss();
-      console.log('Retorno del modal', data);
     }
 
     // Registrar nuevo usuario via Plogger
     async registrarPlogger() {
       const modal = await this.modalCtrl.create({
-        component: ModalRegisterPage,
-        componentProps: {
-          nombre: 'Ricky',
-          pais: 'ARG'
-        }
+        component: ModalRegisterPage
       });
       await modal.present();
       const {data} = await modal.onDidDismiss();
-      console.log('Retorno del modal', data);
     }
 
     // Navega al home
     irHome() {
       this.router.navigate(['/tabs']);
-    }
-
-    // Navega al profile
-    irProfile() {
-      this.router.navigate(['/profile']);
     }
 }

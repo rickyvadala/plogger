@@ -12,27 +12,38 @@ import { UsuarioServiceGoogle } from 'src/app/services/usuarioGoogle.service';
 })
 export class ProfilePage implements OnInit {
 
+  foto = '';
+  nombre = '';
+
   constructor(private popoverCtrl: PopoverController,
-              public us: UsuarioService,
-              public usPlogger: UsuarioPloggerService,
-              public usGoogle:UsuarioServiceGoogle) { }
-
-
-
+              private us: UsuarioService,
+              private usPlogger: UsuarioPloggerService,
+              private usGoogle:UsuarioServiceGoogle) { }
 
   ngOnInit() {
-     if (!this.us.usuario.nombre) {
-       if (this.usGoogle.usuario.nombre) {
-         this.us.usuario = this.usGoogle.usuario.nombre;
-       } else {
-         const x = this.usPlogger.mail;
-         console.log(x);
-         const y = x.slice(0, x.indexOf('@'));
-         console.log(x);
-         console.log(y);
-         this.us.usuario.nombre = y;
-       }
-     }
+    console.log('Facebook',this.us.usuario.nombre);
+    console.log('Google',this.usGoogle.usuario.nombre);
+    console.log('Plogger',this.usPlogger.mail);
+
+        if (this.us.usuario.nombre !== undefined) {
+          console.log("face");
+          this.nombre = this.us.usuario.nombre;
+          this.foto = this.us.usuario.foto;
+          return;
+        } else {
+          if (this.usGoogle.usuario.nombre !== undefined) {
+            console.log("google");
+            this.nombre = this.usGoogle.usuario.nombre;
+            this.foto = this.usGoogle.usuario.foto;
+            return;
+          } else {
+            console.log("plogger");
+            const x = this.usPlogger.mail;
+            this.nombre = x.slice(0, x.indexOf('@'));
+            this.foto = '../../../assets/img/default-user.png';
+            return;
+          }
+        }
   }
 
   async mostrarPop(evento) {

@@ -12,16 +12,22 @@ export class UsuarioService {
 
   public tipoInicio: string;
 
-  public usuario: any = {};
+  usuario: any = {};
 
-  constructor(  public afAuth: AngularFireAuth,
-                public router: Router,
-                public guard: GuardService ) {
+  constructor(  private afAuth: AngularFireAuth,
+                private router: Router,
+                private guard: GuardService ) {
 
     this.guard.leerToken();
 
-    this.afAuth.authState.subscribe( user => {
+  }
 
+   login() {
+    this.afAuth.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider());
+    this.tipoInicio = 'LOGIN FACEBOOK';
+
+    this.afAuth.authState.subscribe( user => {
+      
       console.log( 'Estado del usuario: ', user );
 
       if ( !user ) {
@@ -34,20 +40,15 @@ export class UsuarioService {
       this.usuario.token = user.refreshToken;
       this.router.navigate(['/tabs']);
       this.guard.guardarToken(this.usuario.token);
-
     } );
-  }
-
-   login() {
-    this.afAuth.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider());
-    console.log(this.usuario.token);
-    this.tipoInicio = 'f';
    }
 
    logout() {
-     this.usuario = {};
-     this.afAuth.auth.signOut();
-     this.tipoInicio = '';
+    console.log("Metodo logout FACEBOOK");
+    this.tipoInicio = undefined;
+    this.usuario.nombre = undefined;
+    this.usuario = {};
+    this.afAuth.auth.signOut();
    }
 }
 

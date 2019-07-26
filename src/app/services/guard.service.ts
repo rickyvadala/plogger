@@ -21,13 +21,10 @@ export class GuardService {
     } else {
       this.userToken = '';
     }
-
     return this.userToken;
   }
 
   estaAutenticado(): boolean {
-
-    console.log(this.userToken);
     if (this.userToken === '') {
       return false;
     } else {

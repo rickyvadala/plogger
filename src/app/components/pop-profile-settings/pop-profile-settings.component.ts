@@ -13,28 +13,30 @@ import { UsuarioServiceGoogle } from 'src/app/services/usuarioGoogle.service';
 export class PopProfileSettingsComponent implements OnInit {
 
   constructor(private popoverCtrl: PopoverController,
-              public us: UsuarioService,
-              public authPlogger: UsuarioPloggerService,
-              public usGoogle: UsuarioServiceGoogle) { }
+              private us: UsuarioService,
+              private authPlogger: UsuarioPloggerService,
+              private usGoogle: UsuarioServiceGoogle) { }
 
   ngOnInit() {}
 
+  // click para logout
   onClick() {
-    console.log(this.us.tipoInicio);
+    console.log('Inicio por facebook',this.us.tipoInicio);
+    console.log('Inicio por google',this.usGoogle.tipoInicio);
+    console.log('Inicio por plogger',this.authPlogger.tipoInicio);
     if (this.us.tipoInicio !== undefined) {
       console.log('facebook');
       this.us.logout();
     } else {
       if (this.authPlogger.tipoInicio !== undefined) {
         console.log('plogger');
-        this.authPlogger.tipoInicio = '';
+        this.authPlogger.logout();
       } else {
         console.log('google');
         this.usGoogle.logout();
       }
     }
     localStorage.removeItem('token');
-
     this.popoverCtrl.dismiss();
   }
 

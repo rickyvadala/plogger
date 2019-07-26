@@ -18,16 +18,14 @@ export class UsuarioPloggerService {
 
   // userToken: string;
 
-
-
   constructor( private http: HttpClient, public guard: GuardService ) {
     this.guard.leerToken();
   }
 
-
-  // logout() {
-  //   localStorage.removeItem('token');
-  // }
+  logout() {
+    this.tipoInicio = undefined;
+    this.mail = undefined;
+  }
 
   login( usuario: UsuarioPloggerModel ) {
     const authData = {
@@ -41,7 +39,7 @@ export class UsuarioPloggerService {
       map( resp => {
         // tslint:disable-next-line: no-string-literal
         this.guard.guardarToken( resp['idToken'] );
-        this.tipoInicio = 'p';
+        this.tipoInicio = 'LOGIN PLOGGER';
         this.mail = usuario.email;
         console.log(usuario.email);
         console.log(resp);
@@ -71,26 +69,6 @@ export class UsuarioPloggerService {
       })
     );
   }
-
-  // private guardarToken( idToken: string ) {
-
-  //   this.userToken = idToken;
-  //   localStorage.setItem('token', idToken);
-  // }
-
-  // leerToken() {
-  //   if (localStorage.getItem('token')) {
-  //       this.userToken = localStorage.getItem('token');
-  //   } else {
-  //     this.userToken = '';
-  //   }
-
-  //   return this.userToken;
-  // }
-
-  // estaAutenticado(): boolean {
-  //   return this.userToken.length > 2;
-  // }
 }
 
 
