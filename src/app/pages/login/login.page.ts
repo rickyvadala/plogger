@@ -4,6 +4,7 @@ import { ModalLoginPage } from '../modal-login/modal-login.page';
 import { ModalController } from '@ionic/angular';
 import { ModalRegisterPage } from '../modal-register/modal-register.page';
 import { UsuarioService } from '../../services/usuario-facebook.service';
+import { UsuarioServiceGoogle } from 'src/app/services/usuarioGoogle.service';
 
 
 @Component({
@@ -15,14 +16,16 @@ export class LoginPage implements OnInit {
 
   constructor(private router: Router,
               private modalCtrl: ModalController,
-              public us: UsuarioService) { }
+              public us: UsuarioService,
+              public usGoogle: UsuarioServiceGoogle) { }
 
   ngOnInit() {
   }
 
     // Inicio de session via Google
     iniciarSesionGoogle() {
-      this.irHome();
+      this.usGoogle.login();
+
     }
 
     // Inicio de session via Facebook

@@ -34,7 +34,6 @@ export class UsuarioService {
       this.usuario.token = user.refreshToken;
       this.router.navigate(['/tabs']);
       this.guard.guardarToken(this.usuario.token);
-      this.tipoInicio = 'f';
 
     } );
   }
@@ -42,11 +41,13 @@ export class UsuarioService {
    login() {
     this.afAuth.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider());
     console.log(this.usuario.token);
+    this.tipoInicio = 'f';
    }
 
    logout() {
      this.usuario = {};
      this.afAuth.auth.signOut();
+     this.tipoInicio = '';
    }
 }
 
