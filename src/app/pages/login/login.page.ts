@@ -14,6 +14,8 @@ import { UsuarioServiceGoogle } from 'src/app/services/usuarioGoogle.service';
 })
 export class LoginPage implements OnInit {
 
+  recordarme = false;
+
   constructor(private router: Router,
               private modalCtrl: ModalController,
               public us: UsuarioService,
