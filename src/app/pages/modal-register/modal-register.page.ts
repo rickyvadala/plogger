@@ -14,6 +14,8 @@ export class ModalRegisterPage implements OnInit {
 
   usuario: UsuarioPloggerModel;
 
+  contValidas = false;
+
   constructor(private modalCtrl: ModalController,
               private router: Router,
               private authPlogger: UsuarioPloggerService,
@@ -78,6 +80,14 @@ export class ModalRegisterPage implements OnInit {
     }, (err) => {
       this.registroIncorrecto();
     });
+  }
+
+  validarContrasena(pass1, pass2) {
+    if ( pass1 === pass2 ) {
+      this.contValidas = true;
+    } else {
+      this.contValidas = false;
+    }
   }
 
 
