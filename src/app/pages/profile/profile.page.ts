@@ -26,18 +26,18 @@ export class ProfilePage implements OnInit {
     console.log('Plogger',this.usPlogger.mail);
 
         if (this.us.usuario.nombre !== undefined) {
-          console.log("face");
+          console.log("luki face");
           this.nombre = this.us.usuario.nombre;
           this.foto = this.us.usuario.foto;
           return;
         } else {
           if (this.usGoogle.usuario.nombre !== undefined) {
-            console.log("google");
+            console.log("luki google");
             this.nombre = this.usGoogle.usuario.nombre;
             this.foto = this.usGoogle.usuario.foto;
             return;
           } else {
-            console.log("plogger");
+            console.log("luki plogger");
             const x = this.usPlogger.mail;
             this.nombre = x.slice(0, x.indexOf('@'));
             this.foto = '../../../assets/img/default-user.png';
