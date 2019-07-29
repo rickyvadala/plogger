@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 import { PopProfileSettingsComponent } from '../../components/pop-profile-settings/pop-profile-settings.component';
-import { UsuarioService } from './../../services/usuario-facebook.service';
+import { UsuarioService } from '../../services/usuario-social.service';
 import { UsuarioPloggerService } from 'src/app/services/usuario-plogger.service';
-import { UsuarioServiceGoogle } from 'src/app/services/usuarioGoogle.service';
 
 @Component({
   selector: 'app-profile',
@@ -17,12 +16,10 @@ export class ProfilePage implements OnInit {
 
   constructor(private popoverCtrl: PopoverController,
               private us: UsuarioService,
-              private usPlogger: UsuarioPloggerService,
-              private usGoogle:UsuarioServiceGoogle) { }
+              private usPlogger: UsuarioPloggerService) { }
 
   ngOnInit() {
     console.log('Facebook',this.us.usuario.nombre);
-    console.log('Google',this.usGoogle.usuario.nombre);
     console.log('Plogger',this.usPlogger.mail);
 
         if (this.us.usuario.nombre !== undefined) {
@@ -30,19 +27,19 @@ export class ProfilePage implements OnInit {
           this.nombre = this.us.usuario.nombre;
           this.foto = this.us.usuario.foto;
           return;
-        } else {
-          if (this.usGoogle.usuario.nombre !== undefined) {
-            console.log("luki google");
-            this.nombre = this.usGoogle.usuario.nombre;
-            this.foto = this.usGoogle.usuario.foto;
-            return;
-          } else {
-            console.log("luki plogger");
-            const x = this.usPlogger.mail;
-            this.nombre = x.slice(0, x.indexOf('@'));
-            this.foto = '../../../assets/img/default-user.png';
-            return;
-          }
+        // } else {
+        //   if (this.usGoogle.usuario.nombre !== undefined) {
+        //     console.log("luki google");
+        //     this.nombre = this.usGoogle.usuario.nombre;
+        //     this.foto = this.usGoogle.usuario.foto;
+        //     return;
+        //   } else {
+        //     console.log("luki plogger");
+        //     const x = this.usPlogger.mail;
+        //     this.nombre = x.slice(0, x.indexOf('@'));
+        //     this.foto = '../../../assets/img/default-user.png';
+        //     return;
+        //   }
         }
   }
 
