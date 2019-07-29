@@ -14,7 +14,7 @@ import { PopProfileSettingsComponent } from './pop-profile-settings/pop-profile-
   imports: [
     CommonModule,
     IonicModule,
-    RouterModule
+    RouterModule,
   ]
 })
 export class ComponentsModule {}

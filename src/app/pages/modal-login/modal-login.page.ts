@@ -18,8 +18,8 @@ export class ModalLoginPage implements OnInit {
 
   constructor(private modalCtrl: ModalController,
               private router: Router,
-              private authPlogger: UsuarioPloggerService,
-              public alertCtrl: AlertController) { }
+              public authPlogger: UsuarioPloggerService,
+              private alertCtrl: AlertController) { }
 
 
   async contraseñaInvalida(error: string, form: NgForm) {

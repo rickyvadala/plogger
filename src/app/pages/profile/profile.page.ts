@@ -15,31 +15,22 @@ export class ProfilePage implements OnInit {
   nombre = '';
 
   constructor(private popoverCtrl: PopoverController,
-              private us: UsuarioService,
-              private usPlogger: UsuarioPloggerService) { }
+              public us: UsuarioService, 
+              public usPlogger: UsuarioPloggerService) { }
 
   ngOnInit() {
     console.log('Facebook',this.us.usuario.nombre);
     console.log('Plogger',this.usPlogger.mail);
 
         if (this.us.usuario.nombre !== undefined) {
-          console.log("luki face");
           this.nombre = this.us.usuario.nombre;
           this.foto = this.us.usuario.foto;
           return;
-        // } else {
-        //   if (this.usGoogle.usuario.nombre !== undefined) {
-        //     console.log("luki google");
-        //     this.nombre = this.usGoogle.usuario.nombre;
-        //     this.foto = this.usGoogle.usuario.foto;
-        //     return;
-        //   } else {
-        //     console.log("luki plogger");
-        //     const x = this.usPlogger.mail;
-        //     this.nombre = x.slice(0, x.indexOf('@'));
-        //     this.foto = '../../../assets/img/default-user.png';
-        //     return;
-        //   }
+        } else {
+            const x = this.usPlogger.mail;
+            this.nombre = x.slice(0, x.indexOf('@'));
+            this.foto = '../../../assets/img/default-user.png';
+            return;
         }
   }
 

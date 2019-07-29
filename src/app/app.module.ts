@@ -19,6 +19,10 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 
+//cookies
+import { CookieService } from "ngx-cookie-service";
+
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -34,6 +38,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
     HttpClientModule
   ],
   providers: [
+    CookieService,
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

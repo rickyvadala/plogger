@@ -18,7 +18,7 @@ export class LoginPage implements OnInit {
 
   constructor(private router: Router,
               private modalCtrl: ModalController,
-              private us: UsuarioService) { }
+              public us: UsuarioService) { }
 
   ngOnInit() {
   }
@@ -32,6 +32,7 @@ export class LoginPage implements OnInit {
     // Inicio de session via Facebook
     iniciarSesionSocial(proveedor) {
       this.us.login(proveedor);
+      console.log(proveedor)
     }
 
     // Inicio de session via Plogger
