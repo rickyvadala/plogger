@@ -14,6 +14,10 @@ export class UsuarioPloggerService {
   mail: string;
   private url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty';
 
+<<<<<<< HEAD
+=======
+ // private apikey = 'AIzaSyADjXkXnSklUgJq9vFZzH6razPr2XiRz6Q';
+>>>>>>> 0eaccdd43d5b363770db10868cb5da5cf2edbb8f
   private apikey = 'AIzaSyDdNqooqWdJ7E4nt2KRz-nt2esJ-OmmX54';
 
   // userToken: string;
