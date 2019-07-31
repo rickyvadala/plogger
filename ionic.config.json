@@ -1,5 +1,7 @@
 {
   "name": "plogger",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
