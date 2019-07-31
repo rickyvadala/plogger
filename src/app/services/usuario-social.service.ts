@@ -43,11 +43,14 @@ export class UsuarioService {
 
    login(proveedor: string) {
      if (proveedor==="google") {
-      this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+      this.afAuth.auth.setPersistence(firebase.auth.Auth.Persistence.NONE).then(() => {
+        this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+      });
      } else {
-      this.afAuth.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider());
-     }
-    
+      this.afAuth.auth.setPersistence(firebase.auth.Auth.Persistence.NONE).then(() => {
+        this.afAuth.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider());
+      });     
+    }
    }
 
    logout() {
