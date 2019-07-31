@@ -75,6 +75,12 @@ export class ModalLoginPage implements OnInit {
      }],
       buttons: [
         {
+          text: 'Cancelar',
+          handler: (data) => {
+            return;
+          }
+        },
+        {
           text: 'Ok',
           handler: (data) => {
             return this.authPlogger.sendPasswordResetEmail(data.name1).then(resp => {
