@@ -12,7 +12,7 @@ import { UsuarioPloggerService } from 'src/app/services/usuario-plogger.service'
 export class ModalProfilePage implements OnInit {
 
   usuario: PerfilUsuarioModel = {
-    id: '',
+    uid: '',
     nombre: '',
     apellido: '',
     fechaNac: '',

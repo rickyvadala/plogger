@@ -1,5 +1,5 @@
 export class PerfilUsuarioModel {
-    id: string;
+    uid: string;
     nombre: string;
     apellido: string;
     fechaNac: string;

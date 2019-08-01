@@ -26,24 +26,6 @@ export class ModalRegisterPage implements OnInit {
   async registroCorrecto() {
       const alert = await this.alertCtrl.create({
         header: 'Usuario registrado',
-        // subHeader: 'Subtitle',
-        // message: 'This is an alert message.',
-        buttons: [
-          {
-            text: 'Ok',
-            handler: (blah) => {
-              console.log('Boton ok');
-
-            }
-          }
-        ]
-      });
-      await alert.present();
-    }
-
-    async registroIncorrecto() {
-      const alert = await this.alertCtrl.create({
-        header: 'Usuario registrado',
         subHeader: 'Bienvenido a plogger!',
         message: 'Entre todo podemos salvar el planeta!',
         buttons: [
@@ -57,6 +39,43 @@ export class ModalRegisterPage implements OnInit {
         ]
       });
       await alert.present();
+    }
+
+    async registroIncorrecto(error) {
+      if (error===400) {
+        const alert = await this.alertCtrl.create({
+          header: 'Error',
+          subHeader: 'Email ya registrado',
+          message: 'Si ya tiene cuenta inicie sesion o intente con otro mail',
+          buttons: [
+            {
+              text: 'Ok',
+              handler: (blah) => {
+                console.log('Boton ok');
+  
+              }
+            }
+          ]
+        });
+        await alert.present();
+      } else {
+        const alert = await this.alertCtrl.create({
+          header: 'Error',
+          subHeader: 'No tiene conexion a internet',
+          message: 'Verifique su conexion e intente nuevamente',
+          buttons: [
+            {
+              text: 'Ok',
+              handler: (blah) => {
+                console.log('Boton ok')
+              }
+            }
+          ]
+        });
+        await alert.present();
+
+      }
+
     }
 
 
@@ -73,16 +92,28 @@ export class ModalRegisterPage implements OnInit {
     if ( form.invalid ) { return; }
 
     this.authPlogger.nuevoUsuarioPlogger(this.usuario)
-    .subscribe( resp => {
-      console.log('Resp: ', resp);
-      console.log('usuario: ', this.usuario);
-      
+    .subscribe( (resp: any) => {
+      const usr = {
+        nombre: '',
+        apellido: '',
+        fechaNac: '',
+        sexo: '',
+        foto: '',
+        tipoInicio: 'p',
+        uid: resp.localId
+      };
+      console.log(usr);
+      this.authPlogger.crearPerfil(usr)
+      .subscribe(resp => {
+        console.log(resp);
+      });
 
       this.registroCorrecto();
       this.modalCtrl.dismiss();
       this.router.navigate(['/tabs']);
     }, (err) => {
-      this.registroIncorrecto();
+      console.log(err.status);
+      this.registroIncorrecto(err.status);
     });
   }
 
