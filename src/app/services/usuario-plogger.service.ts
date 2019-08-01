@@ -5,13 +5,14 @@ import { map } from 'rxjs/operators';
 import { GuardService } from './guard.service';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { PerfilUsuarioModel } from '../models/perfil-usuario.model';
+import { CookieService } from 'ngx-cookie-service';
+import { disableDebugTools } from '@angular/platform-browser';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioPloggerService {
-
-  public tipoInicio: string;
 
   mail: string;
   private url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty';
@@ -20,15 +21,11 @@ export class UsuarioPloggerService {
 
   private urlABM = 'https://plogger-437eb.firebaseio.com';
 
-  // userToken: string;
-
-  constructor( private http: HttpClient, public guard: GuardService, public  afAuth: AngularFireAuth  ) {
+  constructor( private http: HttpClient, 
+              public guard: GuardService, 
+              public  afAuth: AngularFireAuth,
+              private cookies: CookieService  ) {
     this.guard.leerToken();
-  }
-
-  logout() {
-    this.tipoInicio = undefined;
-    this.mail = undefined;
   }
 
   login( usuario: UsuarioPloggerModel ) {
@@ -40,14 +37,29 @@ export class UsuarioPloggerService {
     return this.http.
     post(`${ this.url }/verifyPassword?key=${ this.apikey }`,
     authData).pipe(
-      map( resp => {
+      map( (resp: any) => {
         // tslint:disable-next-line: no-string-literal
         this.guard.guardarToken( resp['idToken'] );
-        this.tipoInicio = 'LOGIN PLOGGER';
         this.mail = usuario.email;
-        console.log(usuario.email);
-        console.log(resp);
-        return resp;
+        const UID = resp.localId;
+        console.log(UID);
+        this.http.get(`${ this.urlABM }/perfil.json`)
+        .subscribe( resp => {
+
+          console.log(resp);
+          const array: any[] = Object.values(resp);
+          const arrayKeys: any[] = Object.keys(resp);
+          console.log(array);
+
+          
+          for (let index = 0; index < array.length; index++) {
+            if (array[index].uid === UID) {
+              console.log(arrayKeys[index]);
+              this.cookies.set('Usuario', arrayKeys[index]);
+              return;
+            }
+          }
+        });
       })
     );
 
@@ -65,7 +77,6 @@ export class UsuarioPloggerService {
       map( resp => {
         // tslint:disable-next-line: no-string-literal
         this.guard.guardarToken( resp['idToken'] );
-        this.tipoInicio = 'p';
         this.mail = usuario.email;
         console.log(resp);
         console.log(this.mail);
@@ -81,9 +92,13 @@ export class UsuarioPloggerService {
   // aca creamos el perfil del usuario en su primer login yo que se
 
   crearPerfil(user: PerfilUsuarioModel) {
-
-    return this.http.post(`${this.urlABM}/perfil.json`, user);
-
+    return this.http.post(`${this.urlABM}/perfil.json`, user)
+    .pipe(
+      map( (resp: any) => {
+        console.log(resp);
+        this.cookies.set('Usuario', resp.name)
+      })
+    );
   }
 
 

@@ -9,6 +9,8 @@ This project was generated with:
 
 $ npm install
 
+$ npm install ngx-cookie-service --save
+
 -> To add node packages that are in the .gitignore
 
 ## Git commands

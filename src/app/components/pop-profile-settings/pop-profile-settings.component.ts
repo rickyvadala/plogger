@@ -1,11 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { PopoverController, ModalController } from '@ionic/angular';
 import { UsuarioService } from '../../services/usuario-social.service';
-import { UsuarioPloggerService } from 'src/app/services/usuario-plogger.service';
-import { LoginPage } from 'src/app/pages/login/login.page';
-import { LoginPageModule } from 'src/app/pages/login/login.module';
 import { ModalProfilePage } from 'src/app/pages/modal-profile/modal-profile.page';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-pop-profile-settings',
@@ -16,7 +13,8 @@ export class PopProfileSettingsComponent implements OnInit {
   
   constructor(private popoverCtrl: PopoverController,
               public us: UsuarioService,
-              private modalCtrl: ModalController) { }
+              private modalCtrl: ModalController,
+              private cookies: CookieService ) { }
 
   ngOnInit() {}
 
@@ -24,6 +22,10 @@ export class PopProfileSettingsComponent implements OnInit {
   cerrarSesion() {
     // click para logout con redes sociales
     this.us.logout();
+
+    //Borrar cookies cool buena onda bff
+    console.log(this.cookies.getAll());  
+    this.cookies.deleteAll();
     
     // Plogger sale con estos dos
     localStorage.removeItem('token');

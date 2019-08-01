@@ -3,7 +3,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import * as firebase from 'firebase/app';
 import { Router } from '@angular/router';
 import { GuardService } from './guard.service';
-// import { CookieService } from 'ngx-cookie-service';
+import { CookieService } from 'ngx-cookie-service';
  
 
 
@@ -18,7 +18,8 @@ export class UsuarioService {
 
   constructor(  private afAuth: AngularFireAuth,
                 private router: Router,
-                private guard: GuardService ) {
+                private guard: GuardService,
+                private cookies: CookieService ) {
                   
     this.afAuth.authState.subscribe( user => {      
       console.log( 'Estado del usuario: ', user );
