@@ -160,16 +160,6 @@ export class ModalLoginPage implements OnInit {
   }
 
   async olvidasteContrasena() {
-    // if (!email) {
       this.ingreseMail();
-//     } else {
-//      return await this.authPlogger.sendPasswordResetEmail(email).then(resp => {
-//      console.log(resp);
-//      this.emailEnviado();
-//    }).catch( err => {
-//      console.log(err);
-//      this.emailNoValido(err.message, err.code);
-//    });
-//  }
   }
 }
