@@ -65,6 +65,75 @@ export class ModalLoginPage implements OnInit {
 
     }
 
+    async ingreseMail() {
+
+      const alert = await this.alertCtrl.create({
+      header: 'Ingrese email:',
+      inputs: [{
+       name: 'name1',
+       type: 'text',
+       placeholder: 'Email'
+     }],
+      buttons: [
+        {
+          text: 'Cancelar',
+          handler: (data) => {
+            return;
+          }
+        },
+        {
+          text: 'Ok',
+          handler: (data) => {
+            return this.authPlogger.sendPasswordResetEmail(data.name1).then(resp => {
+              this.emailEnviado();
+            }).catch( err => {
+              console.log(err);
+              this.emailNoValido(err.message, err.code);
+            });
+            return;
+          }
+        }
+      ]
+    });
+      await alert.present();
+      }
+
+      async emailEnviado() {
+
+       const alert = await this.alertCtrl.create({
+       header: 'Email enviado',
+       // subHeader: 'Subtitle',
+       message: 'Se ha enviado un email de reesatblecimiento de contraseña',
+       buttons: [
+         {
+           text: 'Ok',
+           handler: (blah) => {
+             return;
+           }
+         }
+       ],
+
+     });
+       await alert.present();
+       }
+
+    async emailNoValido(mensaje: string, error: string) {
+     const alert = await this.alertCtrl.create({
+     header: 'Usuario no encontrado',
+     // subHeader: 'Subtitle',
+     message: mensaje,
+     buttons: [
+       {
+         text: 'Ok',
+         handler: (blah) => {
+           return;
+         }
+       }
+     ]
+   });
+     await alert.present();
+     }
+
   ngOnInit() {
     this.usuario = new UsuarioPloggerModel();
     this.usuario = {
@@ -88,5 +157,19 @@ export class ModalLoginPage implements OnInit {
     }, (err) => {
       this.contraseñaInvalida(err.error.error.message, form);
     });
+  }
+
+  async olvidasteContrasena() {
+    // if (!email) {
+      this.ingreseMail();
+//     } else {
+//      return await this.authPlogger.sendPasswordResetEmail(email).then(resp => {
+//      console.log(resp);
+//      this.emailEnviado();
+//    }).catch( err => {
+//      console.log(err);
+//      this.emailNoValido(err.message, err.code);
+//    });
+//  }
   }
 }

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { UsuarioPloggerModel } from '../models/usuario-plogger.model';
 import { map } from 'rxjs/operators';
 import { GuardService } from './guard.service';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class UsuarioPloggerService {
 
   // userToken: string;
 
-  constructor( private http: HttpClient, public guard: GuardService ) {
+  constructor( private http: HttpClient, public guard: GuardService, public  afAuth: AngularFireAuth  ) {
     this.guard.leerToken();
   }
 
@@ -68,6 +69,10 @@ export class UsuarioPloggerService {
         return resp;
       })
     );
+  }
+
+  async sendPasswordResetEmail(passwordResetEmail: string) {
+    return await this.afAuth.auth.sendPasswordResetEmail(passwordResetEmail);
   }
 }
 
