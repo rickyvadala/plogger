@@ -45,16 +45,10 @@ export class UsuarioPloggerService {
         console.log(UID);
         this.http.get(`${ this.urlABM }/perfil.json`)
         .subscribe( resp => {
-
-          console.log(resp);
           const array: any[] = Object.values(resp);
           const arrayKeys: any[] = Object.keys(resp);
-          console.log(array);
-
-          
           for (let index = 0; index < array.length; index++) {
             if (array[index].uid === UID) {
-              console.log(arrayKeys[index]);
               this.cookies.set('Usuario', arrayKeys[index]);
               return;
             }
