@@ -4,6 +4,7 @@ import { ModalLoginPage } from '../modal-login/modal-login.page';
 import { ModalController } from '@ionic/angular';
 import { ModalRegisterPage } from '../modal-register/modal-register.page';
 import { UsuarioService } from '../../services/usuario-social.service';
+import { CookieService } from 'ngx-cookie-service';
 
 
 @Component({
@@ -18,9 +19,14 @@ export class LoginPage implements OnInit {
 
   constructor(private router: Router,
               private modalCtrl: ModalController,
-              public us: UsuarioService) { }
+              public us: UsuarioService,
+              private cookies: CookieService) { }
 
   ngOnInit() {
+    //cuando guardamos y se refresca la web sin logout quedan guardadas cosas en la memoria, con esto se borra
+    this.cookies.deleteAll();
+    localStorage.removeItem('token');
+
   }
 
     public logoutDelRichs() {

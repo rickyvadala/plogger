@@ -33,7 +33,9 @@ export class PopProfileSettingsComponent implements OnInit {
   }
 
         // Editar perfil de la cuenta
-        async editarCuenta() {
+        async editarCuenta() {    
+          this.popoverCtrl.dismiss();
+
           const modal = await this.modalCtrl.create({
             component: ModalProfilePage
           });

@@ -22,14 +22,34 @@
                 <ion-input name="apellido" [(ngModel)]="usuario.apellido" type="text" required></ion-input>
             </ion-item>
             <ion-item>
-                <ion-datetime name="fecha" [(ngModel)]="usuario.fechaNac" (ionChange)="cambioFecha($event)" display-format="DD MM YYYY" placeholder="Nacimiento" cancelText="Cancelar" doneText="Ok">
+                <ion-datetime name="fecha" [(ngModel)]="usuario.fechaNac" (ionChange)="cambioFecha($event)" display-format="DD MM YYYY" placeholder="Nacimiento" cancelText="Cancelar" doneText="Ok" required>
                     Fecha de Nacimiento
                 </ion-datetime>
             </ion-item>
-            <ion-item>
-                <ion-label>Cambiar Foto</ion-label>
-                <ion-input type="text" placeholder="Awesome Input"></ion-input>
-            </ion-item>
+            <ion-list>
+                <ion-radio-group name="sexo" [(ngModel)]="usuario.sexo">
+                    <ion-list-header>
+                        <ion-label>Sexo</ion-label>
+                    </ion-list-header>
+
+                    <ion-item>
+                        <ion-label>Masculino</ion-label>
+                        <ion-radio slot="start" value="m" checked></ion-radio>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-label>Femenino</ion-label>
+                        <ion-radio slot="start" value="f"></ion-radio>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-label>Planta</ion-label>
+                        <ion-radio slot="start" value="p"></ion-radio>
+                    </ion-item>
+                </ion-radio-group>
+
+            </ion-list>
+
         </ion-list>
         <ion-button color="dark" expand="full" type="submit" [disabled]="formulario.invalid">
             <ion-icon slot="start" name="create"></ion-icon>Guardar

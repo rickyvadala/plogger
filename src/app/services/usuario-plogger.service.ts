@@ -6,7 +6,6 @@ import { GuardService } from './guard.service';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { PerfilUsuarioModel } from '../models/perfil-usuario.model';
 import { CookieService } from 'ngx-cookie-service';
-import { disableDebugTools } from '@angular/platform-browser';
 
 
 @Injectable({
@@ -49,7 +48,19 @@ export class UsuarioPloggerService {
           const arrayKeys: any[] = Object.keys(resp);
           for (let index = 0; index < array.length; index++) {
             if (array[index].uid === UID) {
+              //Guardo toda la data del usuario en las cookies
+              this.cookies.set('UID', UID);
+              this.cookies.set('Mail', this.mail);
               this.cookies.set('Usuario', arrayKeys[index]);
+              this.cookies.set('TipoInicio', 'p');
+
+              this.cookies.set('Nombre', array[index].nombre);
+              this.cookies.set('Apellido', array[index].apellido);
+              this.cookies.set('Sexo', array[index].sexo);
+              this.cookies.set('FechaNac', array[index].fechaNac);
+              this.cookies.set('Foto', array[index].foto);
+
+
               return;
             }
           }
@@ -68,12 +79,15 @@ export class UsuarioPloggerService {
     return this.http
     .post(`${ this.url }/signupNewUser?key=${ this.apikey }`,
     authData).pipe(
-      map( resp => {
+      map( (resp: any) => {
         // tslint:disable-next-line: no-string-literal
         this.guard.guardarToken( resp['idToken'] );
         this.mail = usuario.email;
-        console.log(resp);
-        console.log(this.mail);
+
+        this.cookies.set('UID', resp.localId);
+        this.cookies.set('TipoInicio', 'p');
+        this.cookies.set('Mail', this.mail);
+
         return resp;
       })
     );
@@ -95,6 +109,16 @@ export class UsuarioPloggerService {
     );
   }
 
+
+  editarUsuario (usr) {
+    const userCookie = this.cookies.get('Usuario');
+    const usrTemp = {
+      ...usr
+    };
+
+    return this.http.put(`${this.urlABM}/perfil/${userCookie}.json`, usrTemp ).subscribe();
+
+  }
 
 }
 

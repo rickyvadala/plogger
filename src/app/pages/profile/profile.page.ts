@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { PopoverController, ModalController } from '@ionic/angular';
+import { PopoverController } from '@ionic/angular';
 import { PopProfileSettingsComponent } from '../../components/pop-profile-settings/pop-profile-settings.component';
 import { UsuarioService } from '../../services/usuario-social.service';
 import { UsuarioPloggerService } from 'src/app/services/usuario-plogger.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-profile',
@@ -16,22 +17,22 @@ export class ProfilePage implements OnInit {
 
   constructor(private popoverCtrl: PopoverController,
               public us: UsuarioService, 
-              public usPlogger: UsuarioPloggerService) { }
+              public usPlogger: UsuarioPloggerService,
+              private cookies: CookieService) { }
 
   ngOnInit() {
     console.log('Facebook',this.us.usuario.nombre);
     console.log('Plogger',this.usPlogger.mail);
 
-        if (this.us.usuario.nombre !== undefined) {
-          this.nombre = this.us.usuario.nombre;
-          this.foto = this.us.usuario.foto;
-          return;
-        } else {
-            const x = this.usPlogger.mail;
-            this.nombre = x.slice(0, x.indexOf('@'));
-            this.foto = '../../../assets/img/default-user.png';
-            return;
-        }
+    this.mostrarNombreFoto();
+  }
+
+  ionViewWillEnter(){
+    this.mostrarNombreFoto();
+  }
+
+  ngOnViewWillInter (){
+
   }
 
   async mostrarPop(evento) {
@@ -41,6 +42,34 @@ export class ProfilePage implements OnInit {
       mode: 'ios'
     });
     await popover.present();
+  }
+
+  public mostrarNombreFoto () {
+        //Nombre y foto que se muestra en el perfil
+        if (this.us.usuario.nombre !== undefined) {
+          this.nombre = this.us.usuario.nombre;
+          this.foto = this.us.usuario.foto;
+          return;
+        } else {
+          let nombre=this.cookies.get('Nombre');
+          if (nombre!=='') {
+            const foto = this.cookies.get('Foto');
+            const apellido = this.cookies.get('Apellido');
+
+            this.nombre=nombre.concat(' ').concat(apellido);
+            if (foto!=='') {
+              //aca deberia traer la foto de la cookie
+              this.foto = '../../../assets/img/default-user.png';
+            } else {
+              this.foto = '../../../assets/img/default-user.png';
+            }
+          } else {
+            const x = this.usPlogger.mail;
+            this.nombre = x.slice(0, x.indexOf('@'));
+            this.foto = '../../../assets/img/default-user.png';
+            return;
+          } 
+        }
   }
 
 }
