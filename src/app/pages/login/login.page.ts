@@ -27,12 +27,12 @@ export class LoginPage implements OnInit {
         this.us.logout();
     }
 
-   
+
 
     // Inicio de session via Facebook
     iniciarSesionSocial(proveedor) {
       this.us.login(proveedor);
-      console.log(proveedor)
+      console.log(proveedor);
     }
 
     // Inicio de session via Plogger

@@ -74,6 +74,10 @@ export class ModalRegisterPage implements OnInit {
 
     this.authPlogger.nuevoUsuarioPlogger(this.usuario)
     .subscribe( resp => {
+      console.log('Resp: ', resp);
+      console.log('usuario: ', this.usuario);
+      
+
       this.registroCorrecto();
       this.modalCtrl.dismiss();
       this.router.navigate(['/tabs']);

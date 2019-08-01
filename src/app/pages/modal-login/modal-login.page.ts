@@ -19,7 +19,7 @@ export class ModalLoginPage implements OnInit {
   constructor(private modalCtrl: ModalController,
               private router: Router,
               public authPlogger: UsuarioPloggerService,
-              private alertCtrl: AlertController) { 
+              private alertCtrl: AlertController) {
               }
 
 
@@ -139,7 +139,7 @@ export class ModalLoginPage implements OnInit {
     this.usuario = {
       email: 'coco@hotmail.com',
       password: '12345678'
-    }
+    };
   }
 
   volver() {

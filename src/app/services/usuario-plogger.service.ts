@@ -4,6 +4,7 @@ import { UsuarioPloggerModel } from '../models/usuario-plogger.model';
 import { map } from 'rxjs/operators';
 import { GuardService } from './guard.service';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { PerfilUsuarioModel } from '../models/perfil-usuario.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,8 @@ export class UsuarioPloggerService {
   private url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty';
 
   private apikey = 'AIzaSyDdNqooqWdJ7E4nt2KRz-nt2esJ-OmmX54';
+
+  private urlABM = 'https://plogger-437eb.firebaseio.com';
 
   // userToken: string;
 
@@ -74,6 +77,16 @@ export class UsuarioPloggerService {
   async sendPasswordResetEmail(passwordResetEmail: string) {
     return await this.afAuth.auth.sendPasswordResetEmail(passwordResetEmail);
   }
+
+  // aca creamos el perfil del usuario en su primer login yo que se
+
+  crearPerfil(user: PerfilUsuarioModel) {
+
+    return this.http.post(`${this.urlABM}/perfil.json`, user);
+
+  }
+
+
 }
 
 
