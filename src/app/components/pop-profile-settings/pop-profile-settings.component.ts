@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { PopoverController } from '@ionic/angular';
+import { PopoverController, ModalController } from '@ionic/angular';
 import { UsuarioService } from '../../services/usuario-social.service';
 import { UsuarioPloggerService } from 'src/app/services/usuario-plogger.service';
 import { LoginPage } from 'src/app/pages/login/login.page';
 import { LoginPageModule } from 'src/app/pages/login/login.module';
+import { ModalProfilePage } from 'src/app/pages/modal-profile/modal-profile.page';
 
 @Component({
   selector: 'app-pop-profile-settings',
@@ -14,30 +15,29 @@ import { LoginPageModule } from 'src/app/pages/login/login.module';
 export class PopProfileSettingsComponent implements OnInit {
   
   constructor(private popoverCtrl: PopoverController,
-              public us: UsuarioService) { }
+              public us: UsuarioService,
+              private modalCtrl: ModalController) { }
 
   ngOnInit() {}
 
-  // click para logout
-  onClick() {
+  // click para logout con redes sociales
+  cerrarSesion() {
+    // click para logout con redes sociales
     this.us.logout();
     
-    // console.log('Inicio por facebook',this.us.tipoInicio);
-    // console.log('Inicio por plogger',this.authPlogger.tipoInicio);
-    // if (this.us.tipoInicio !== undefined) {
-    //   console.log('facebook');
-    //   this.us.logout();
-    // } else {
-    //   if (this.authPlogger.tipoInicio !== undefined) {
-    //     console.log('plogger');
-    //     this.authPlogger.logout();
-    //   } else {
-    //     console.log('google');
-    //   }
-    // }
+    // Plogger sale con estos dos
     localStorage.removeItem('token');
     this.popoverCtrl.dismiss();
   }
+
+        // Editar perfil de la cuenta
+        async editarCuenta() {
+          const modal = await this.modalCtrl.create({
+            component: ModalProfilePage
+          });
+          await modal.present();
+          const {data} = await modal.onDidDismiss();
+        }
 
 
 

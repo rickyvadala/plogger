@@ -13,23 +13,21 @@
     <h4 class="mb-20">Ingresa con tu usuario de Plogger</h4>
     <form #formulario="ngForm" (ngSubmit)="login(formulario)">
         <ion-list class="mb-20" color="plogger">
-            <!-- <ion-list-header>
-                <ion-label>Formulario template: Valido {{formulario.valid}}</ion-label>
-            </ion-list-header> -->
             <ion-item>
                 <ion-label position="floating">Email</ion-label>
                 <ion-input name="email" [(ngModel)]="usuario.email" type="email" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" required></ion-input>
             </ion-item>
             <ion-item>
                 <ion-label position="floating">Password</ion-label>
-                <ion-input name="pass" [(ngModel)]="usuario.password" type="password" required></ion-input>
+                <ion-input id="pass" required minlength="8" name="pass" [(ngModel)]="usuario.password" type="password"></ion-input>
             </ion-item>
         </ion-list>
+        <script>
+        </script>
         <ion-button color="dark" expand="full" type="submit" [disabled]="formulario.invalid">
             <ion-icon slot="start" name="log-in"></ion-icon>Acceder
         </ion-button>
         <br>
-        <ion-label (click)="volver()">¿No tenes cuenta? - Registrarse</ion-label>
-
+        <ion-label (click)="volver() ">¿No tenes cuenta? - Registrarse</ion-label>
     </form>
 </ion-content>

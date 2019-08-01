@@ -9,6 +9,7 @@ import { ProfilePage } from './profile.page';
 import { ComponentsModule } from '../../components/components.module';
 import { PopProfileSettingsComponent } from '../../components/pop-profile-settings/pop-profile-settings.component';
 
+
 const routes: Routes = [
   {
     path: '',
@@ -19,7 +20,7 @@ const routes: Routes = [
 @NgModule({
   entryComponents: [
     PopProfileSettingsComponent
-  ],
+    ],
   imports: [
     CommonModule,
     FormsModule,

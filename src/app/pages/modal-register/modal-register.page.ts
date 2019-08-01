@@ -43,9 +43,9 @@ export class ModalRegisterPage implements OnInit {
 
     async registroIncorrecto() {
       const alert = await this.alertCtrl.create({
-        header: 'Usuario ya registrado',
-        // subHeader: 'Subtitle',
-        // message: 'This is an alert message.',
+        header: 'Usuario registrado',
+        subHeader: 'Bienvenido a plogger!',
+        message: 'Entre todo podemos salvar el planeta!',
         buttons: [
           {
             text: 'Ok',
@@ -74,7 +74,7 @@ export class ModalRegisterPage implements OnInit {
 
     this.authPlogger.nuevoUsuarioPlogger(this.usuario)
     .subscribe( resp => {
-      // this.registroCorrecto();
+      this.registroCorrecto();
       this.modalCtrl.dismiss();
       this.router.navigate(['/tabs']);
     }, (err) => {
@@ -89,11 +89,5 @@ export class ModalRegisterPage implements OnInit {
       this.contValidas = false;
     }
   }
-
-
-  // cambioFecha(event) {
-  //   console.log('ionChange', event);
-  //   console.log('Date', new Date(event.detail.value));
-  // }
 
 }

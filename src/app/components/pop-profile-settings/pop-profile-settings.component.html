@@ -1,9 +1,9 @@
 <ion-list>
-    <ion-item>
+    <ion-item (click)="editarCuenta()">
         <ion-icon name="person"></ion-icon>
         <ion-label>&nbsp;&nbsp;&nbsp;Cuenta</ion-label>
     </ion-item>
-    <ion-item (click)="onClick()" [routerLink]="['/']" color="danger">
+    <ion-item (click)="cerrarSesion()" [routerLink]="['/']" color="danger">
         <ion-icon name="log-out"></ion-icon>
         <ion-label>&nbsp;&nbsp;&nbsp;Salir</ion-label>
     </ion-item>

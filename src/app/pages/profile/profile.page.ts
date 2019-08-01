@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PopoverController } from '@ionic/angular';
+import { PopoverController, ModalController } from '@ionic/angular';
 import { PopProfileSettingsComponent } from '../../components/pop-profile-settings/pop-profile-settings.component';
 import { UsuarioService } from '../../services/usuario-social.service';
 import { UsuarioPloggerService } from 'src/app/services/usuario-plogger.service';

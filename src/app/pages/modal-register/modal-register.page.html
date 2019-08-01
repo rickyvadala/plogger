@@ -35,11 +35,11 @@
             </ion-item> -->
             <ion-item>
                 <ion-label position="floating">Contraseña</ion-label>
-                <ion-input #pass1 name="password2" type="password" [(ngModel)]="usuario.password2" required></ion-input>
+                <ion-input #pass1 name="password2" minlength="8" type="password" [(ngModel)]="usuario.password2" required></ion-input>
             </ion-item>
             <ion-item style="margin-bottom: 10px;">
                 <ion-label position="floating">Repetir Contraseña</ion-label>
-                <ion-input #pass2 name="password1" (input)="validarContrasena(pass1.value, pass2.value)" [(ngModel)]="usuario.password" type="password" required></ion-input>
+                <ion-input #pass2 name="password1" minlength="8" (input)="validarContrasena(pass1.value, pass2.value)" [(ngModel)]="usuario.password" type="password" required></ion-input>
             </ion-item>
 
             <ion-label *ngIf="(contValidas === false) && (formulario.valid)" color="danger">&nbsp;&nbsp;Verificar contraseñas</ion-label>
