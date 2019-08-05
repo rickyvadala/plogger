@@ -59,8 +59,6 @@ export class UsuarioPloggerService {
               this.cookies.set('Sexo', array[index].sexo);
               this.cookies.set('FechaNac', array[index].fechaNac);
               this.cookies.set('Foto', array[index].foto);
-
-
               return;
             }
           }
