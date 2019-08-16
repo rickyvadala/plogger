@@ -19,7 +19,7 @@ export class UsuarioService {
 
   public tipoInicio: string;
 
-  usuario: any = {};
+  usuario: PerfilUsuarioModel = {};
 
   constructor(  private afAuth: AngularFireAuth,
                 private router: Router,
@@ -34,8 +34,11 @@ export class UsuarioService {
    login(proveedor: string) {
      if (proveedor==="google") {
         this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+        this.usuario.tipoInicio = "g";
+
      } else {
         this.afAuth.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider());
+        this.usuario.tipoInicio = "f";
     }
         this.afAuth.authState.subscribe( user => {      
       console.log( 'Estado del usuario: ', user );
@@ -44,18 +47,47 @@ export class UsuarioService {
         console.log('Return');
         return;
       }
-      debugger;
       this.usuario.nombre = user.displayName;
+      this.usuario.apellido ="";
       this.usuario.uid = user.uid;
-      this.usuario.email = user.email;
+      this.usuario.mail = user.email;
       this.usuario.foto = user.photoURL;
-      this.usuario.token = user.refreshToken;
+      this.usuario.sexo ="p";
+      this.usuario.fechaNac ="";
       this.router.navigate(['/tabs']);
-      this.guard.guardarToken(this.usuario.token);
+      this.guard.guardarToken(user.refreshToken);
 
-      this.crearPerfil(this.usuario).subscribe( user => {
-        console.log("Subscribe de crear perfil",user);
+
+
+
+      this.http.get(`${ this.urlABM }/perfil.json`)
+      .subscribe( resp => {
+        const array: any[] = Object.values(resp);
+        const arrayKeys: any[] = Object.keys(resp);
+        let bandera: boolean = false; 
+        for (let index = 0; index < array.length; index++) {
+          if (array[index].uid === this.usuario.uid) {
+            console.log("Perfil existente");
+            //Se crea el objeto usuario con mail y nroUsuario
+            let nroUsuario = arrayKeys[index];
+            //Llamo al metodo para guardar cookies
+            this.setCookies (this.usuario, nroUsuario);
+            bandera = true;
+            return;
+          }
+        }
+        if (bandera === false) {
+          this.crearPerfil(this.usuario).subscribe( user => {
+            console.log("Crea nuevo perfil",user);
+          });
+        }
       });
+
+
+
+
+
+
     });
 
    }
@@ -74,7 +106,6 @@ export class UsuarioService {
    }
 
    crearPerfil(user: PerfilUsuarioModel) {
-    debugger;
     console.log(user);
     return this.http.post(`${this.urlABM}/perfil.json`, user)
     .pipe(
@@ -91,7 +122,7 @@ export class UsuarioService {
     //Guardo toda la data del usuario en las cookies
     this.cookies.set('Usuario', nroUsuario);
     this.cookies.set('UID', objUsuario.uid);
-    this.cookies.set('TipoInicio', 'p');
+    this.cookies.set('TipoInicio', objUsuario.tipoInicio);
     this.cookies.set('Nombre', objUsuario.nombre);
     this.cookies.set('Apellido', objUsuario.apellido);
     this.cookies.set('Sexo', objUsuario.sexo);

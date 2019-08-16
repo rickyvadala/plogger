@@ -71,7 +71,6 @@ export class UsuarioPloggerService {
   }
 
   nuevoUsuarioPlogger( usuario: UsuarioPloggerModel ) {
-    debugger;
     const authData = {
       ...usuario, // trae todas las propiedades del UsuarioPlogger
       returnSecureToken: true
