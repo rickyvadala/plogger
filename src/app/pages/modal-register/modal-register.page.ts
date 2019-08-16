@@ -93,14 +93,16 @@ export class ModalRegisterPage implements OnInit {
 
     this.authPlogger.nuevoUsuarioPlogger(this.usuario)
     .subscribe( (resp: any) => {
+      let mail = this.usuario.email;
       const usr = {
-        nombre: '',
+        uid: resp.localId,
+        nombre: mail.slice(0, mail.indexOf('@')),
         apellido: '',
         fechaNac: '',
-        sexo: '',
-        foto: '',
+        sexo: 'p',
+        foto: '../../../assets/img/default-user.png',
         tipoInicio: 'p',
-        uid: resp.localId
+        mail: mail
       };
       console.log(usr);
       this.authPlogger.crearPerfil(usr)
@@ -123,6 +125,10 @@ export class ModalRegisterPage implements OnInit {
     } else {
       this.contValidas = false;
     }
+  }
+
+  crearNombreFromEmail (mail){
+
   }
 
 }

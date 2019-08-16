@@ -13,7 +13,6 @@ export class PopProfileSettingsComponent implements OnInit {
   
   constructor(private popoverCtrl: PopoverController,
               public us: UsuarioService,
-              private modalCtrl: ModalController,
               private cookies: CookieService,
               private router: Router ) { }
 
@@ -33,21 +32,10 @@ export class PopProfileSettingsComponent implements OnInit {
     this.popoverCtrl.dismiss();
   }
 
-  // Editar perfil de la cuenta
-  // async editarCuenta() {    
-  //   this.popoverCtrl.dismiss();
-  //   const modal = await this.modalCtrl.create({
-  //     component: ModalProfilePage
-  //   });
-  //   await modal.present();
-  //   const {data} = await modal.onDidDismiss();
-  // }
 
   editarCuenta() {
     this.popoverCtrl.dismiss();
-
     this.router.navigate(['/cuenta']);
-
   }
 
 

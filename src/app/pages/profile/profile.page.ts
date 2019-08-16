@@ -12,8 +12,8 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class ProfilePage implements OnInit {
 
-  foto = '';
-  nombre = '';
+  foto: string;
+  nombre: string;
 
   constructor(private popoverCtrl: PopoverController,
               public us: UsuarioService, 
@@ -21,19 +21,14 @@ export class ProfilePage implements OnInit {
               private cookies: CookieService) { }
 
   ngOnInit() {
-    console.log('Facebook',this.us.usuario.nombre);
-    console.log('Plogger',this.usPlogger.mail);
 
-    this.mostrarNombreFoto();
   }
 
   ionViewWillEnter(){
-    this.mostrarNombreFoto();
+    this.getNombre();
+    this.getFoto();
   }
 
-  ngOnViewWillInter (){
-
-  }
 
   async mostrarPop(evento) {
     const popover = await this.popoverCtrl.create({
@@ -44,32 +39,43 @@ export class ProfilePage implements OnInit {
     await popover.present();
   }
 
-  public mostrarNombreFoto () {
-        //Nombre y foto que se muestra en el perfil
-        if (this.us.usuario.nombre !== undefined) {
-          this.nombre = this.us.usuario.nombre;
-          this.foto = this.us.usuario.foto;
-          return;
-        } else {
-          let nombre=this.cookies.get('Nombre');
-          if (nombre!=='') {
-            const foto = this.cookies.get('Foto');
-            const apellido = this.cookies.get('Apellido');
+  // public mostrarNombreFoto () {
+  //   debugger;
+  //       //Nombre y foto que se muestra en el perfil
+  //       if (this.us.usuario.nombre !== undefined) {
+  //         this.nombre = this.us.usuario.nombre;
+  //         this.foto = this.us.usuario.foto;
+  //         return;
+  //       } else {
+  //         let nombre=this.cookies.get('Nombre');
+  //         if (nombre!=='') {
+  //           const foto = this.cookies.get('Foto');
+  //           const apellido = this.cookies.get('Apellido');
 
-            this.nombre=nombre.concat(' ').concat(apellido);
-            if (foto!=='') {
-              //aca deberia traer la foto de la cookie
-              this.foto = '../../../assets/img/default-user.png';
-            } else {
-              this.foto = '../../../assets/img/default-user.png';
-            }
-          } else {
-            const x = this.usPlogger.mail;
-            this.nombre = x.slice(0, x.indexOf('@'));
-            this.foto = '../../../assets/img/default-user.png';
-            return;
-          } 
-        }
+  //           this.nombre=nombre.concat(' ').concat(apellido);
+  //           if (foto!=='') {
+  //             //aca deberia traer la foto de la cookie
+  //             this.foto = '../../../assets/img/default-user.png';
+  //           } else {
+  //             this.foto = '../../../assets/img/default-user.png';
+  //           }
+  //         } else {
+  //           const x = this.usPlogger.mail;
+  //           this.nombre = x.slice(0, x.indexOf('@'));
+  //           this.foto = '../../../assets/img/default-user.png';
+  //           return;
+  //         } 
+  //       }
+  // }
+
+  getNombre () {
+    let nombre = this.cookies.get('Nombre');
+    let apellido = this.cookies.get('Apellido');
+    this.nombre=nombre.concat(' ').concat(apellido);
+  }
+
+  getFoto(){
+    this.foto = this.cookies.get('Foto');
   }
 
 }

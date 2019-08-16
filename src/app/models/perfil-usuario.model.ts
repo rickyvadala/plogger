@@ -6,5 +6,6 @@ export class PerfilUsuarioModel {
     sexo?: string;
     foto?: string;
     tipoInicio?: string;
+    mail?:string;
 }
 

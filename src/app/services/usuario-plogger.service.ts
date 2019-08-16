@@ -13,7 +13,6 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class UsuarioPloggerService {
 
-  mail: string;
   private url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty';
 
   private apikey = 'AIzaSyDdNqooqWdJ7E4nt2KRz-nt2esJ-OmmX54';
@@ -39,7 +38,7 @@ export class UsuarioPloggerService {
       map( (resp: any) => {
         // tslint:disable-next-line: no-string-literal
         this.guard.guardarToken( resp['idToken'] );
-        this.mail = usuario.email;
+        const mail = usuario.email;
         const UID = resp.localId;
         console.log(UID);
         this.http.get(`${ this.urlABM }/perfil.json`)
@@ -48,17 +47,20 @@ export class UsuarioPloggerService {
           const arrayKeys: any[] = Object.keys(resp);
           for (let index = 0; index < array.length; index++) {
             if (array[index].uid === UID) {
-              //Guardo toda la data del usuario en las cookies
-              this.cookies.set('UID', UID);
-              this.cookies.set('Mail', this.mail);
-              this.cookies.set('Usuario', arrayKeys[index]);
-              this.cookies.set('TipoInicio', 'p');
-
-              this.cookies.set('Nombre', array[index].nombre);
-              this.cookies.set('Apellido', array[index].apellido);
-              this.cookies.set('Sexo', array[index].sexo);
-              this.cookies.set('FechaNac', array[index].fechaNac);
-              this.cookies.set('Foto', array[index].foto);
+              //Se crea el objeto usuario con mail y nroUsuario
+              let nroUsuario = arrayKeys[index];
+              let objUsuario: PerfilUsuarioModel = {
+                uid: UID,
+                nombre: array[index].nombre,
+                apellido: array[index].apellido,
+                fechaNac: array[index].fechaNac,
+                sexo: array[index].sexo,
+                foto: array[index].foto,
+                tipoInicio: 'p',
+                mail: mail
+              }
+              //Llamo al metodo para guardar cookies
+              this.setCookies (objUsuario, nroUsuario);
               return;
             }
           }
@@ -69,6 +71,7 @@ export class UsuarioPloggerService {
   }
 
   nuevoUsuarioPlogger( usuario: UsuarioPloggerModel ) {
+    debugger;
     const authData = {
       ...usuario, // trae todas las propiedades del UsuarioPlogger
       returnSecureToken: true
@@ -80,11 +83,11 @@ export class UsuarioPloggerService {
       map( (resp: any) => {
         // tslint:disable-next-line: no-string-literal
         this.guard.guardarToken( resp['idToken'] );
-        this.mail = usuario.email;
+
+        let mail = usuario.email;
 
         this.cookies.set('UID', resp.localId);
-        this.cookies.set('TipoInicio', 'p');
-        this.cookies.set('Mail', this.mail);
+        this.cookies.set('Mail', mail);
 
         return resp;
       })
@@ -98,11 +101,14 @@ export class UsuarioPloggerService {
   // aca creamos el perfil del usuario en su primer login yo que se
 
   crearPerfil(user: PerfilUsuarioModel) {
+    console.log(user);
     return this.http.post(`${this.urlABM}/perfil.json`, user)
     .pipe(
       map( (resp: any) => {
         console.log(resp);
-        this.cookies.set('Usuario', resp.name)
+        let nroUsuario = resp.name;
+        this.setCookies(user,nroUsuario)
+
       })
     );
   }
@@ -113,9 +119,21 @@ export class UsuarioPloggerService {
     const usrTemp = {
       ...usr
     };
-
     return this.http.put(`${this.urlABM}/perfil/${userCookie}.json`, usrTemp ).subscribe();
+  }
 
+
+  setCookies (objUsuario, nroUsuario) {
+      //Guardo toda la data del usuario en las cookies
+      this.cookies.set('Usuario', nroUsuario);
+      this.cookies.set('UID', objUsuario.uid);
+      this.cookies.set('TipoInicio', 'p');
+      this.cookies.set('Nombre', objUsuario.nombre);
+      this.cookies.set('Apellido', objUsuario.apellido);
+      this.cookies.set('Sexo', objUsuario.sexo);
+      this.cookies.set('FechaNac', objUsuario.fechaNac);
+      this.cookies.set('Foto', objUsuario.foto);
+      this.cookies.set('Mail', objUsuario.mail);
   }
 
 }

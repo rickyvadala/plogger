@@ -13,8 +13,6 @@ import { NgForm } from '@angular/forms';
 })
 export class CuentaPage implements OnInit {
 
-  sexo: string = 'p';
-  foto: string = 'none';
   usuario: PerfilUsuarioModel;
 
 
@@ -26,31 +24,15 @@ export class CuentaPage implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
-    this.tieneSexo();
-    this.tieneFoto();
-
      this.usuario = {
       uid: this.cookies.get('UID'),
       nombre: this.cookies.get('Nombre'),
       apellido: this.cookies.get('Apellido'),
       fechaNac: this.cookies.get('FechaNac'),
-      sexo: this.sexo,
-      foto: this.foto,
+      sexo: this.cookies.get('Sexo'),
+      foto: this.cookies.get('Foto'),
       tipoInicio: this.cookies.get('TipoInicio')
     };
-  }
-
-  tieneSexo () {
-    debugger;
-    if (this.cookies.get('Sexo')!=='p') {
-      this.sexo=this.cookies.get('Sexo');
-    } 
-  }
-
-  tieneFoto () {
-    if (this.cookies.get('Foto')!=='') {
-      this.sexo=this.cookies.get('Foto');
-    } 
   }
 
   volver() {
@@ -71,7 +53,8 @@ export class CuentaPage implements OnInit {
       nombre: form.value.nombre,
       sexo: form.value.sexo,
       tipoInicio: this.cookies.get('TipoInicio'),
-      uid: this.cookies.get('UID')
+      uid: this.cookies.get('UID'),
+      mail:this.cookies.get('Mail')
     }
     //Llamo al metodo que hace el PUT y le mando el usuario
     this.authPlogger.editarUsuario( usuario );
