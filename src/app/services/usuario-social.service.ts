@@ -47,8 +47,11 @@ export class UsuarioService {
         console.log('Return');
         return;
       }
-      this.usuario.nombre = user.displayName;
-      this.usuario.apellido ="";
+      let displayName = user.displayName;
+      let nombre = displayName.slice(0, displayName.indexOf(' '));
+      let apellido = displayName.slice(displayName.indexOf(' ')+1);
+      this.usuario.nombre = nombre;
+      this.usuario.apellido = apellido;
       this.usuario.uid = user.uid;
       this.usuario.mail = user.email;
       this.usuario.foto = user.photoURL;
