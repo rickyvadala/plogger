@@ -23,13 +23,20 @@ $ git add
 $ git status
 (Checks changes on folders and archives in and out of the staging area)
 
-$ git commit
+$ git commit -m "message"
 (Commit the changes on the staging area)
 
 $ git push
-()
 
 $ git pull
+
+## To build follow this steps
+
+For Android
+https://ionicframework.com/docs/publishing/play-store
+
+For iOS
+https://ionicframework.com/docs/publishing/app-store
 
 ## Lets go!
 

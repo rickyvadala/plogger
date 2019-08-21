@@ -65,14 +65,25 @@ export class UsuarioService {
 
       this.http.get(`${ this.urlABM }/perfil.json`)
       .subscribe( resp => {
+        console.log(resp);
+        debugger;
+
         const array: any[] = Object.values(resp);
         const arrayKeys: any[] = Object.keys(resp);
         let bandera: boolean = false; 
         for (let index = 0; index < array.length; index++) {
+          debugger;
           if (array[index].uid === this.usuario.uid) {
             console.log("Perfil existente");
             //Se crea el objeto usuario con mail y nroUsuario
             let nroUsuario = arrayKeys[index];
+            this.usuario.nombre = array[index].nombre;
+            this.usuario.apellido = array[index].apellido;
+            this.usuario.uid = array[index].uid;
+            this.usuario.mail = array[index].mail;
+            this.usuario.foto = array[index].foto;
+            this.usuario.sexo =array[index].sexo;
+            this.usuario.fechaNac = array[index].fechaNac;
             //Llamo al metodo para guardar cookies
             this.setCookies (this.usuario, nroUsuario);
             bandera = true;
