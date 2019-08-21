@@ -39,35 +39,6 @@ export class ProfilePage implements OnInit {
     await popover.present();
   }
 
-  // public mostrarNombreFoto () {
-  //   debugger;
-  //       //Nombre y foto que se muestra en el perfil
-  //       if (this.us.usuario.nombre !== undefined) {
-  //         this.nombre = this.us.usuario.nombre;
-  //         this.foto = this.us.usuario.foto;
-  //         return;
-  //       } else {
-  //         let nombre=this.cookies.get('Nombre');
-  //         if (nombre!=='') {
-  //           const foto = this.cookies.get('Foto');
-  //           const apellido = this.cookies.get('Apellido');
-
-  //           this.nombre=nombre.concat(' ').concat(apellido);
-  //           if (foto!=='') {
-  //             //aca deberia traer la foto de la cookie
-  //             this.foto = '../../../assets/img/default-user.png';
-  //           } else {
-  //             this.foto = '../../../assets/img/default-user.png';
-  //           }
-  //         } else {
-  //           const x = this.usPlogger.mail;
-  //           this.nombre = x.slice(0, x.indexOf('@'));
-  //           this.foto = '../../../assets/img/default-user.png';
-  //           return;
-  //         } 
-  //       }
-  // }
-
   getNombre () {
     let nombre = this.cookies.get('Nombre');
     let apellido = this.cookies.get('Apellido');

@@ -74,7 +74,6 @@ export class UsuarioService {
         for (let index = 0; index < array.length; index++) {
           debugger;
           if (array[index].uid === this.usuario.uid) {
-            console.log("Perfil existente");
             //Se crea el objeto usuario con mail y nroUsuario
             let nroUsuario = arrayKeys[index];
             this.usuario.nombre = array[index].nombre;
@@ -84,6 +83,8 @@ export class UsuarioService {
             this.usuario.foto = array[index].foto;
             this.usuario.sexo =array[index].sexo;
             this.usuario.fechaNac = array[index].fechaNac;
+            console.log("Perfil existente", this.usuario);
+
             //Llamo al metodo para guardar cookies
             this.setCookies (this.usuario, nroUsuario);
             bandera = true;
