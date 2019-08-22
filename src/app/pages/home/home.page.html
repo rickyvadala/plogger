@@ -5,5 +5,20 @@
 </ion-header>
 
 <ion-content>
+    <ion-item>
+        <ion-button (click)="subirFoto()" color="dark">
+            <ion-icon name="images"></ion-icon>
+        </ion-button>
+        <ion-button (click)="sacarFoto()" color="dark">
+            <ion-icon name="camera"></ion-icon>
+        </ion-button>
+        <ion-textarea class="margin" placeholder="Publicar"></ion-textarea>
+        <ion-button (click)="publicar()" color="plogger">
+            <ion-icon name="checkmark-circle" color="dark"></ion-icon>
+        </ion-button>
+
+    </ion-item>
+
+    <app-publicacion *ngFor="let items of [1,1,1,1,1,1]"></app-publicacion>
 
 </ion-content>

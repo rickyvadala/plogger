@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { PopoverController } from '@ionic/angular';
+import { PopPublicacionSettingsComponent } from '../pop-publicacion-settings/pop-publicacion-settings.component';
 
 @Component({
   selector: 'app-publicacion',
@@ -7,8 +9,36 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PublicacionComponent implements OnInit {
 
-  constructor() { }
+  foto = "../../../assets/img/default-user.png";
+  nombre = "Nombre Harcodeado";
+
+  constructor(private popoverCtrl: PopoverController) { }
 
   ngOnInit() {}
+
+  async mostrarPop(evento) {
+    const popover = await this.popoverCtrl.create({
+      component: PopPublicacionSettingsComponent,
+      event: evento,
+      mode: 'ios'
+    });
+    await popover.present();
+  }
+
+  meGusta(){
+
+  }
+
+  comentar(){
+
+  }
+
+  confirmarComentario() {
+
+  }
+
+  compartir() {
+
+  }
 
 }

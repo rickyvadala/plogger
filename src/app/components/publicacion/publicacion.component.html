@@ -1,12 +1,35 @@
-<ion-card>
+<ion-card class="publicaciones">
     <ion-item mode="ios" color="plogger">
+        <ion-avatar class="item-avatar">
+            <img [src]="foto" />
+        </ion-avatar>
         <ion-card-header color="plogger">
-            <ion-card-title>Ricky Vadala</ion-card-title>
+
+            <ion-card-title>{{nombre}}</ion-card-title>
         </ion-card-header>
-        <ion-icon slot="end" name="more" color="dark" (click)="mostrarPop()"></ion-icon>
+        <ion-icon slot="end" name="more" color="dark" (click)="mostrarPop($event)"></ion-icon>
     </ion-item>
     <img src="../../../assets/shapes.svg" />
     <ion-card-content>
         Founded in 1829 on an isthmus between Lake Monona and Lake Mendota, Madison was named the capital of the Wisconsin Territory in 1836.
     </ion-card-content>
+
+    <ion-item color="plogger">
+
+        <ion-button slot="start" (click)="meGusta()" color="light">
+            <ion-icon name="heart" color="danger"></ion-icon>
+        </ion-button>
+        <ion-button (click)="comentar()" color="light">
+            <ion-icon name="code-working" color="dark"></ion-icon>
+        </ion-button>
+        <ion-button (click)="compartir()" slot="end" color="light">
+            <ion-icon name="share" color="dark"></ion-icon>
+        </ion-button>
+    </ion-item>
+    <ion-item>
+        <ion-input type="text" placeholder="Comentar"></ion-input>
+        <ion-button (click)="confirmarComentario()" color="plogger">
+            <ion-icon name="checkmark-circle" color="dark"></ion-icon>
+        </ion-button>
+    </ion-item>
 </ion-card>

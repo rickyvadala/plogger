@@ -13,4 +13,16 @@ export class HomePage implements OnInit {
   ngOnInit() {
   }
 
+  publicar() {
+
+  }
+
+  subirFoto() {
+
+  }
+
+  sacarFoto() {
+
+  }
+
 }

@@ -49,4 +49,19 @@ export class ProfilePage implements OnInit {
     this.foto = this.cookies.get('Foto');
   }
 
+  //A partir de aca vienen los petodos para publicaciones, arriba es login
+
+  
+  publicar() {
+
+  }
+
+  subirFoto() {
+
+  }
+
+  sacarFoto() {
+
+  }
+
 }

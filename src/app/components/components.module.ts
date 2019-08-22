@@ -8,17 +8,21 @@ import { PublicacionComponent } from "./publicacion/publicacion.component";
 //Estos modals ya no hacen falta, los dejo por las dudas
 import { ModalProfilePage } from '../pages/modal-profile/modal-profile.page';
 import { ModalProfilePageModule } from '../pages/modal-profile/modal-profile.module';
+import { PopPublicacionSettingsComponent } from './pop-publicacion-settings/pop-publicacion-settings.component';
 
 @NgModule({
   entryComponents: [
-    ModalProfilePage
+    ModalProfilePage, 
+    PopPublicacionSettingsComponent
   ],
   declarations: [
     PopProfileSettingsComponent,
+    PopPublicacionSettingsComponent,
     PublicacionComponent
   ],
   exports: [
     PopProfileSettingsComponent,
+    PopPublicacionSettingsComponent,
     PublicacionComponent
   ],
   imports: [
