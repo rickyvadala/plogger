@@ -16,7 +16,27 @@ export class PublicacionesService {
   los del objeto PublicacionModel que esta en models/publicacion.model.ts
   */
 
+
   publicacion: PublicacionModel = {
-    
+    uid: '',
+  
   }
+
+  
+
+
+  guardarPost(){
+
+
+
+    this.postPublicacion(this.publicacion)
+  }
+
+
+
+
+  postPublicacion(publicacion:PublicacionModel) {
+
+  }
+
 }

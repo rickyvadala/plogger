@@ -7,7 +7,10 @@ export class PublicacionModel {
     foto?: string;
     video?: string;
     fecha?: string;
-    meGusta?: number;
+    //MG no se toca
+    meGusta?: {
+        uidMegusta:string;
+    };
     //comentarios EN ESTE SPRINT NO SE TOCA (los megusta tampoco)
     comentarios?:{
         uidComentario:string,
