@@ -19,16 +19,16 @@ export class PublicacionesService {
 
   publicacion: PublicacionModel = {
     uid: '',
-  
+    
   }
 
   
 
 
   guardarPost(){
-
-
-
+    
+    
+    
     this.postPublicacion(this.publicacion)
   }
 

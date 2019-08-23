@@ -9,6 +9,7 @@ import { PublicacionComponent } from "./publicacion/publicacion.component";
 import { ModalProfilePage } from '../pages/modal-profile/modal-profile.page';
 import { ModalProfilePageModule } from '../pages/modal-profile/modal-profile.module';
 import { PopPublicacionSettingsComponent } from './pop-publicacion-settings/pop-publicacion-settings.component';
+import { PublicarComponent } from './publicar/publicar.component';
 
 @NgModule({
   entryComponents: [
@@ -18,12 +19,14 @@ import { PopPublicacionSettingsComponent } from './pop-publicacion-settings/pop-
   declarations: [
     PopProfileSettingsComponent,
     PopPublicacionSettingsComponent,
-    PublicacionComponent
+    PublicacionComponent,
+    PublicarComponent
   ],
   exports: [
     PopProfileSettingsComponent,
     PopPublicacionSettingsComponent,
-    PublicacionComponent
+    PublicacionComponent,
+    PublicarComponent
   ],
   imports: [
     CommonModule,
