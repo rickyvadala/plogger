@@ -16,7 +16,7 @@ import { map } from 'rxjs/operators';
 export class UsuarioService {
 
   private urlABM = 'https://plogger-437eb.firebaseio.com';
-
+  
   public tipoInicio: string;
 
   usuario: PerfilUsuarioModel = {};

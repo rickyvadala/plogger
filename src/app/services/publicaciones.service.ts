@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
 import { PublicacionModel } from '../models/publicacion.model';
-
+import { CookieService } from 'ngx-cookie-service';
+import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
 export class PublicacionesService {
+  private urlABM = 'https://plogger-437eb.firebaseio.com';
 
-  constructor() { }
+  constructor(private cookies:CookieService,
+              private http:HttpClient) { }
 
   /* 
   Para que estemos en la misma:
@@ -18,7 +21,22 @@ export class PublicacionesService {
 
 
   publicacion: PublicacionModel = {
-    uid: '',
+    uid:this.cookies.get('uid'),
+    texto: 'ABC',
+    fecha:Date.now.toString(),
+    foto: '',
+    video:'',
+    meGusta: {
+      uidMegusta:''
+    },
+    comentarios: {
+      uidComentario:'',
+      nombreComentario:'',
+      apellidoComentario:'',
+      fotoComentario:'',
+      comentario:'',
+      fechaComentario:''
+    }
   
   }
 
@@ -27,9 +45,9 @@ export class PublicacionesService {
 
   guardarPost(){
 
+    return this.http.post(`${this.urlABM}/publicacion.json`, this.publicacion)
 
-
-    this.postPublicacion(this.publicacion)
+    //this.postPublicacion(this.publicacion)
   }
 
 
