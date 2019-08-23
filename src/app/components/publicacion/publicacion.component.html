@@ -1,20 +1,20 @@
 <ion-card class="publicaciones">
-    <ion-item mode="ios" color="plogger">
+    <ion-item mode="ios" color="spot">
         <ion-avatar class="item-avatar">
             <img [src]="foto" />
         </ion-avatar>
-        <ion-card-header color="plogger">
+        <ion-card-header color="spot">
 
             <ion-card-title>{{nombre}}</ion-card-title>
         </ion-card-header>
         <ion-icon slot="end" name="more" color="dark" (click)="mostrarPop($event)"></ion-icon>
     </ion-item>
-    <img src="../../../assets/shapes.svg" />
+    <img [src]="imagenPublicacion" />
     <ion-card-content>
         Founded in 1829 on an isthmus between Lake Monona and Lake Mendota, Madison was named the capital of the Wisconsin Territory in 1836.
     </ion-card-content>
 
-    <ion-item color="plogger">
+    <ion-item color="spot">
 
         <ion-button slot="start" (click)="meGusta()" color="light">
             <ion-icon name="heart" color="danger"></ion-icon>
@@ -28,7 +28,7 @@
     </ion-item>
     <ion-item>
         <ion-input type="text" placeholder="Comentar"></ion-input>
-        <ion-button (click)="confirmarComentario()" color="plogger">
+        <ion-button (click)="confirmarComentario()" color="spot">
             <ion-icon name="checkmark-circle" color="dark"></ion-icon>
         </ion-button>
     </ion-item>

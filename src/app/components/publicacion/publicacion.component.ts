@@ -11,6 +11,7 @@ export class PublicacionComponent implements OnInit {
 
   foto = "../../../assets/img/default-user.png";
   nombre = "Nombre Harcodeado";
+  imagenPublicacion = "../../../assets/shapes.svg";
 
   constructor(private popoverCtrl: PopoverController) { }
 

@@ -88,6 +88,13 @@
     --ion-color-facebook-contrast-rgb: 255, 255, 255;
     --ion-color-facebook-shade: #344e86;
     --ion-color-facebook-tint: #4f6aa2;
+    /** Spoty **/
+    --ion-color-spot: #1DB954;
+    --ion-color-spot-rgb: 29, 185, 84;
+    --ion-color-spot-contrast: #ffffff;
+    --ion-color-spot-contrast-rgb: 255, 255, 255;
+    --ion-color-spot-shade: #1aa34a;
+    --ion-color-spot-tint: #34c065;
 }
 
 .ion-color-google {
@@ -115,4 +122,13 @@
     --ion-color-contrast-rgb: var(--ion-color-facebook-contrast-rgb) !important;
     --ion-color-shade: var(--ion-color-facebook-shade) !important;
     --ion-color-tint: var(--ion-color-facebook-tint) !important;
+}
+
+.ion-color-spot {
+    --ion-color-base: var(--ion-color-spot) !important;
+    --ion-color-base-rgb: var(--ion-color-spot-rgb) !important;
+    --ion-color-contrast: var(--ion-color-spot-contrast) !important;
+    --ion-color-contrast-rgb: var(--ion-color-spot-contrast-rgb) !important;
+    --ion-color-shade: var(--ion-color-spot-shade) !important;
+    --ion-color-tint: var(--ion-color-spot-tint) !important;
 }

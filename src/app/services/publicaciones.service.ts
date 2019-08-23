@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { PublicacionModel } from '../models/publicacion.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,4 +16,7 @@ export class PublicacionesService {
   los del objeto PublicacionModel que esta en models/publicacion.model.ts
   */
 
+  publicacion: PublicacionModel = {
+    
+  }
 }
