@@ -6,6 +6,7 @@ import { GuardService } from './guard.service';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { PerfilUsuarioModel } from '../models/perfil-usuario.model';
 import { CookieService } from 'ngx-cookie-service';
+import { PublicacionModel } from '../models/publicacion.model';
 
 
 @Injectable({
@@ -22,7 +23,7 @@ export class UsuarioPloggerService {
   constructor( private http: HttpClient, 
               public guard: GuardService, 
               public  afAuth: AngularFireAuth,
-              private cookies: CookieService  ) {
+              private cookies: CookieService ) {
     this.guard.leerToken();
   }
 
@@ -135,6 +136,8 @@ export class UsuarioPloggerService {
       this.cookies.set('Mail', objUsuario.mail);
   }
 
-}
+
+
+  }
 
 

@@ -5,7 +5,7 @@
     <ion-button (click)="sacarFoto()" color="dark">
         <ion-icon name="camera"></ion-icon>
     </ion-button>
-    <ion-textarea class="margin" placeholder="Publicar"></ion-textarea>
+    <ion-textarea class="margin" placeholder="Publicar" [(ngModel)]="publicacion.texto"></ion-textarea>
     <ion-button (click)="publicar()" color="plogger">
         <ion-icon name="checkmark-circle" color="dark"></ion-icon>
     </ion-button>

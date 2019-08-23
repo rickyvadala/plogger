@@ -10,6 +10,7 @@ import { ModalProfilePage } from '../pages/modal-profile/modal-profile.page';
 import { ModalProfilePageModule } from '../pages/modal-profile/modal-profile.module';
 import { PopPublicacionSettingsComponent } from './pop-publicacion-settings/pop-publicacion-settings.component';
 import { PublicarComponent } from './publicar/publicar.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   entryComponents: [
@@ -32,7 +33,8 @@ import { PublicarComponent } from './publicar/publicar.component';
     CommonModule,
     IonicModule,
     RouterModule,
-    ModalProfilePageModule
+    ModalProfilePageModule,
+    FormsModule
   ]
 })
 export class ComponentsModule {}
