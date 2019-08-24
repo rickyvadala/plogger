@@ -70,7 +70,6 @@ export class UsuarioService {
         const arrayKeys: any[] = Object.keys(resp);
         let bandera: boolean = false; 
         for (let index = 0; index < array.length; index++) {
-          debugger;
           if (array[index].uid === this.usuario.uid) {
             //Se crea el objeto usuario con mail y nroUsuario
             let nroUsuario = arrayKeys[index];

@@ -44,7 +44,6 @@ export class PublicarComponent implements OnInit {
 
   async publicar() {
 
-    //debugger;
     this.publicacion.uid = this.cookies.get('UID');
     this.publicacion.fecha = (new Date).toString();
     this.publicacion.nombre = this.cookies.get('Nombre');

@@ -136,7 +136,6 @@ ionViewWillEnter(){
 
   async publicar() {
 
-    //debugger;
     this.publicacion.uid = this.cookies.get('UID');
     this.publicacion.fecha = (new Date).toString();
     this.publicacion.nombre = this.cookies.get('Nombre');
@@ -159,7 +158,6 @@ ionViewWillEnter(){
       await alert.present();
       return;
     }
-    debugger;
     this.publicacionService.guardarPost(this.publicacion).subscribe(resp => this.cargarPublicacionesHome());
 
 
@@ -175,6 +173,30 @@ ionViewWillEnter(){
 
   }
 
+  doRefresh( event){
 
+    var x = window.location.href;
+    var ubicacion = x.substring(x.lastIndexOf('/') + 1);
+    if (ubicacion==='profile') {
+      this.suscripcion=this.publicacionService.obtenerPublicacionesPerfil(this.uid)
+      .subscribe(resp => {
+        this.publicaciones = resp;
+        event.target.complete();
+        }  
+      ); 
+      return;
+      return;
+    } 
+    if (ubicacion==='home') {
+      this.suscripcion=this.publicacionService.obtenerPublicacionesHome()
+      .subscribe(resp => {
+        this.publicaciones = resp;
+        event.target.complete();
+        }  
+      ); 
+      return;
+    }
+
+  }
 
 }

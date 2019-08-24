@@ -1,3 +1,8 @@
+<ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" style="z-index: 999999;">
+    <ion-refresher-content></ion-refresher-content>
+</ion-refresher>
+
+
 <ion-item>
     <ion-button (click)="subirFoto()" color="dark">
         <ion-icon name="images"></ion-icon>
@@ -13,7 +18,7 @@
 
 
 
-<ion-card *ngFor="let item of publicaciones" class="publicaciones">
+<ion-card *ngFor="let item of publicaciones" class="publicaciones animated fadeIn">
     <ion-item mode="ios" color="spot">
         <ion-avatar class="item-avatar">
             <img *ngIf="item.fotoPerfil" [src]="item.fotoPerfil" />
