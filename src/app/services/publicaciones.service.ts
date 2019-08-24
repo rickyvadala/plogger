@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 import { PublicacionModel } from '../models/publicacion.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { CookieService } from 'ngx-cookie-service';
 @Injectable({
   providedIn: 'root'
 })
 export class PublicacionesService {
   private urlABM = 'https://plogger-437eb.firebaseio.com';
 
-  constructor(private http:HttpClient
+  constructor(private http:HttpClient,
+              private cookies:CookieService
               ) { }
 
   /* 
@@ -20,19 +22,74 @@ export class PublicacionesService {
   */
 
 
-
-
   guardarPost(publicacion: PublicacionModel) {
+    //Postea la publicacion
     return this.http.post(`${this.urlABM}/publicacion.json`, publicacion)
     .pipe(
       map( (resp: any) => {
-        //debugger;
-        console.log(resp);
-
-
+        let nroUsuario = this.cookies.get('Usuario');
+        //Obtiene las publicaciones del usuario
+        this.http.get(`${ this.urlABM }/perfil/${ nroUsuario }/publicaciones.json`)
+        .subscribe((x:any) => {
+          let publicacionesArray: any[]; 
+          if (x!==null) {
+            //aca viene cuando el usuario ya tiene publicaciones
+            publicacionesArray = x;
+            publicacionesArray.push(resp.name);
+            this.http.put(`${ this.urlABM }/perfil/${ nroUsuario }/publicaciones.json`,publicacionesArray).subscribe();    
+            return;
+          }
+          //aca viene cuando un usuario hace su primer publicacion
+          publicacionesArray = [resp.name]; 
+          this.http.put(`${ this.urlABM }/perfil/${ nroUsuario }/publicaciones.json`,publicacionesArray).subscribe();    
+        });
       })
     );
   }
+
+  obtenerPublicacionesPerfil(UID:string){
+      return this.http.get(`${ this.urlABM }/publicacion.json`)
+      .pipe(
+        map( resp=>this.crearArregloPerfil(resp) )
+      );
+  }
+
+  private crearArregloPerfil(resp){
+    const publicaciones: PublicacionModel[] = [];
+    const uid = this.cookies.get('UID');
+
+    if (resp===null||resp===undefined) {return [];}
+
+    Object.keys(resp).forEach(key =>{
+      if (resp[key].uid===uid) {
+        const publicacion: PublicacionModel = resp[key];
+        publicaciones.push(publicacion);
+      }
+    });
+    return publicaciones.reverse();
+  }
+
+  obtenerPublicacionesHome(){
+    return this.http.get(`${ this.urlABM }/publicacion.json`)
+    .pipe(
+      map( resp=>this.crearArregloHome(resp) )
+    );
+  }
+
+  private crearArregloHome(resp){
+    const publicaciones: PublicacionModel[] = [];
+
+    if (resp===null||resp===undefined) {return [];}
+
+    Object.keys(resp).forEach(key =>{
+        const publicacion: PublicacionModel = resp[key];
+        publicaciones.push(publicacion);
+    });
+
+    return publicaciones.reverse();
+  }
+
+
 
   
 

@@ -65,9 +65,7 @@ export class UsuarioService {
 
       this.http.get(`${ this.urlABM }/perfil.json`)
       .subscribe( resp => {
-        console.log(resp);
-        debugger;
-
+        
         const array: any[] = Object.values(resp);
         const arrayKeys: any[] = Object.keys(resp);
         let bandera: boolean = false; 

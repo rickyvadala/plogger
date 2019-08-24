@@ -29,13 +29,13 @@ import { CookieService } from 'ngx-cookie-service';
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
+    HttpClientModule,
     AppRoutingModule,
     ComponentsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
     AngularFireStorageModule,
-    FormsModule,
-    HttpClientModule
+    FormsModule
   ],
   providers: [
     CookieService,

@@ -22,4 +22,9 @@ export class PublicacionModel {
         comentario:string,
         fechaComentario:string,
     };
+    //Le agrego nombre apellido y foto del que publico para no tener que hacer otro get por para saber esta data
+    //es redundante pero mucho mas rapido (lo mismo que en el comentario)
+    nombre?:string;
+    apellido?:string;
+    fotoPerfil?:string;
 }

@@ -15,7 +15,7 @@
         <ion-row>
             <ion-col size="3">
                 <ion-avatar class="item-avatar">
-                    <img [src]="foto" />
+                    <img *ngIf="foto" [src]="foto" />
                 </ion-avatar>
             </ion-col>
             <ion-col size="9">
@@ -29,5 +29,5 @@
 
     <app-publicar></app-publicar>
 
-    <app-publicacion *ngFor="let items of [1,1,1,1,1,1]"></app-publicacion>
+    <app-publicacion></app-publicacion>
 </ion-content>

@@ -1,17 +1,17 @@
-<ion-card class="publicaciones">
+<ion-card *ngFor="let item of publicaciones" class="publicaciones">
     <ion-item mode="ios" color="spot">
         <ion-avatar class="item-avatar">
-            <img [src]="foto" />
+            <img *ngIf="item.fotoPerfil" [src]="item.fotoPerfil" />
         </ion-avatar>
         <ion-card-header color="spot">
 
-            <ion-card-title>{{nombre}}</ion-card-title>
+            <ion-card-title>{{item.nombre}} {{item.apellido}}</ion-card-title>
         </ion-card-header>
-        <ion-icon slot="end" name="more" color="dark" (click)="mostrarPop($event)"></ion-icon>
+        <ion-icon *ngIf="item.uid===uid" slot="end" name="more" color="dark" (click)="mostrarPop($event)"></ion-icon>
     </ion-item>
-    <img [src]="imagenPublicacion" />
-    <ion-card-content>
-        Founded in 1829 on an isthmus between Lake Monona and Lake Mendota, Madison was named the capital of the Wisconsin Territory in 1836.
+    <img *ngIf="item.foto" [src]="item.foto" />
+    <ion-card-content *ngIf="item.texto">
+        {{item.texto}}
     </ion-card-content>
 
     <ion-item color="spot">
