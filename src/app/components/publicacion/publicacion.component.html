@@ -15,6 +15,11 @@
         <ion-icon name="checkmark-circle" color="dark"></ion-icon>
     </ion-button>
 </ion-item>
+<ion-list *ngIf="hayFoto">
+    <ion-item>
+        <img src="{{imageResponse}}" />
+    </ion-item>
+</ion-list>
 
 
 

@@ -6,6 +6,13 @@ import { CookieService } from 'ngx-cookie-service';
 import { Subscription } from 'rxjs';
 import { PublicacionModel } from 'src/app/models/publicacion.model';
 
+import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker/ngx';
+import { File } from '@ionic-native/file/ngx';
+
+// import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+// import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
+
+import { storage } from 'firebase';
 
 
 @Component({
@@ -13,10 +20,20 @@ import { PublicacionModel } from 'src/app/models/publicacion.model';
   templateUrl: './publicacion.component.html',
   styleUrls: ['./publicacion.component.scss'],
 })
+
 export class PublicacionComponent implements OnInit, AfterViewChecked {
 
   private suscripcion: Subscription;
 
+  images: any[];
+  imageURL: string;
+
+  imagStorage: string;
+  
+  imageResponse: any;
+  options: ImagePickerOptions;
+
+  hayFoto = false;
 
   foto = "../../../assets/img/default-user.png";
   nombre = "Nombre Harcodeado";
@@ -32,7 +49,12 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
   constructor(private popoverCtrl: PopoverController,
               private publicacionService:PublicacionesService,
               private cookies: CookieService,
-              private alertCtrl: AlertController) { }
+              private alertCtrl: AlertController,
+              public imagePicker: ImagePicker,
+              public file: File,
+              // public camera: Camera,
+              // private sanitizer: DomSanitizer
+              ) { }
   ngOnInit() {
    this.verificarPath();
   }
@@ -71,7 +93,7 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
   }
   
 
-  cargarPublicacionesPerfil(){
+  cargarPublicacionesPerfil(){ 
     let UID=this.cookies.get('UID');
 
     this.suscripcion=this.publicacionService.obtenerPublicacionesPerfil(UID)
@@ -186,11 +208,48 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
     }
     this.publicacionService.guardarPost(this.publicacion).subscribe(resp => {
       this.verificarPath();
+      this.hayFoto = false;
     });
     this.publicacion.texto='';
+    this.publicacion.foto = '';
   }
 
   subirFoto() {
+    this.options = {
+    
+      width: 200,
+      quality: 25,
+      outputType: 1,
+      maximumImagesCount: 1
+
+    };
+    this.imageResponse = [];
+    this.imagePicker.getPictures(this.options).then((results) => {
+      for (var i = 0; i < results.length; i++) {
+      
+      this.imageResponse.push('data:image/jpeg;base64,' + results[i]);
+      this.imageURL = this.imageResponse[i];
+      this.hayFoto = true;
+      }
+
+      let rnd = ( Math.random() * (9999999999)).toString();
+      let img = 'pictures/publicaciones' + rnd  ;
+      
+      const pictures = storage().ref(img);
+      pictures.putString(this.imageURL, 'data_url');
+
+      this.publicacion.foto = this.imageURL;
+      console.log(this.publicacion);
+      
+
+      
+      console.log('imageUrl');
+      console.log(this.imageURL);
+
+    }, (err) => {
+      alert(err);
+    });  
+
 
   }
 
