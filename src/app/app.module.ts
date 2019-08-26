@@ -22,6 +22,13 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 //cookies
 import { CookieService } from 'ngx-cookie-service';
 
+// image picker
+import { ImagePicker } from '@ionic-native/image-picker/ngx';
+import { File } from '@ionic-native/file/ngx';
+import { Base64 } from '@ionic-native/base64/ngx';
+
+import { Camera } from '@ionic-native/camera/ngx';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -41,6 +48,10 @@ import { CookieService } from 'ngx-cookie-service';
     CookieService,
     StatusBar,
     SplashScreen,
+    ImagePicker,
+    File,
+    Base64,
+    Camera,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

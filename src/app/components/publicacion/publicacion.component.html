@@ -11,12 +11,28 @@
         <ion-icon name="camera"></ion-icon>
     </ion-button>
     <ion-textarea class="margin" placeholder="Publicar" [(ngModel)]="publicacion.texto"></ion-textarea>
+
     <ion-button (click)="publicar()" color="plogger">
         <ion-icon name="checkmark-circle" color="dark"></ion-icon>
     </ion-button>
 </ion-item>
+<ion-list *ngIf="hayFoto">
+    <ion-item>
+        <img src="{{imageResponse}}" />
+    </ion-item>
+</ion-list>
+<!-- <ion-list>
+    <ion-item>
+        <img [src]="trustedDashboardUrl" />
+    </ion-item>
+</ion-list> -->
 
-
+<!-- <ion-list *ngFor="let image of imageResponse">
+    <ion-item>
+        <label>Imagen Galeria</label>
+        <img src="{{image}}" />
+    </ion-item>
+</ion-list> -->
 
 <ion-card *ngFor="let item of publicaciones" class="publicaciones animated fadeIn">
     <ion-item mode="ios" color="spot">
@@ -29,7 +45,7 @@
         </ion-card-header>
         <ion-icon *ngIf="item.uid===uid" slot="end" name="more" color="dark" (click)="mostrarPop($event)"></ion-icon>
     </ion-item>
-    <img *ngIf="item.foto" [src]="item.foto" />
+    <img class="imgPublicacion" *ngIf="item.foto" [src]="item.foto" />
     <ion-card-content *ngIf="item.texto">
         {{item.texto}}
     </ion-card-content>
