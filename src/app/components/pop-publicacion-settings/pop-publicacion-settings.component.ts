@@ -40,8 +40,9 @@ export class PopPublicacionSettingsComponent implements OnInit {
             console.log(data.name1);
             if (data.name1==="") {
               console.log("ingresa algo cagon");
+            } else {
+
             }
-            //Aca deberias llamar al metodo eliminar luki
           }
         }
       ]
