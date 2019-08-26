@@ -42,7 +42,7 @@ export class ProfilePage implements OnInit {
       mode: 'ios'
     });
     await popover.present();
-  }
+  } 
 
   getNombre () {
     let nombre = this.cookies.get('Nombre');
