@@ -1,10 +1,12 @@
-import { Component, OnInit, OnDestroy, HostListener, AfterContentInit, AfterContentChecked, AfterViewInit, AfterViewChecked } from '@angular/core';
-import { PopoverController, AlertController, IonInfiniteScroll } from '@ionic/angular';
+import { Component, OnInit, AfterViewChecked, Output, EventEmitter, ViewChild, Input } from '@angular/core';
+import { PopoverController, AlertController } from '@ionic/angular';
 import { PopPublicacionSettingsComponent } from '../pop-publicacion-settings/pop-publicacion-settings.component';
 import { PublicacionesService } from 'src/app/services/publicaciones.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Subscription } from 'rxjs';
 import { PublicacionModel } from 'src/app/models/publicacion.model';
+
+
 
 @Component({
   selector: 'app-publicacion',
@@ -15,25 +17,40 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
 
   private suscripcion: Subscription;
 
+
   foto = "../../../assets/img/default-user.png";
   nombre = "Nombre Harcodeado";
   imagenPublicacion = "../../../assets/shapes.svg";
   publicaciones:any[]=[];
   uid:string;
+  cantPosts:number;
+  flagComentarios:boolean=false;
+
+  @Output() mensajeEvent = new EventEmitter<string>();
+  @ViewChild('inputComentar') inputComentar;
 
   constructor(private popoverCtrl: PopoverController,
               private publicacionService:PublicacionesService,
               private cookies: CookieService,
-              private alertCtrl: AlertController) { 
-
-              }
-
-
-
+              private alertCtrl: AlertController) { }
   ngOnInit() {
+   this.verificarPath();
+  }
+
+  ngAfterViewChecked(): void {
+    //Called after every check of the component's view. Applies to components only.
+    //Add 'implements AfterViewChecked' to the class.
+    this.uid=this.cookies.get('UID');
+  }
+  
+  ionViewWillEnter(){
+    this.cargarPublicacionesHome();
+    this.cargarPublicacionesPerfil();
+  }
+
+  verificarPath(){
     // Ubicacion te dice si estas en perfil o en home, porque aunque es el mismo componente app-publicacion,
     // cada uno se carga con distinto metodo, cargarPublicacionesPerfil() y otro cargarPublicacionesHome()
-    console.log(this.uid);
     var x = window.location.href;
     var ubicacion = x.substring(x.lastIndexOf('/') + 1);
     if (ubicacion==='profile') {
@@ -49,16 +66,9 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
     }
   }
 
-ngAfterViewChecked(): void {
-  //Called after every check of the component's view. Applies to components only.
-  //Add 'implements AfterViewChecked' to the class.
-  this.uid=this.cookies.get('UID');
-}
-
-ionViewWillEnter(){
-  this.cargarPublicacionesHome();
-  this.cargarPublicacionesPerfil();
-}
+  enviarMensaje() {
+    this.mensajeEvent.emit(this.cantPosts.toString());
+  }
   
 
   cargarPublicacionesPerfil(){
@@ -68,6 +78,8 @@ ionViewWillEnter(){
     .subscribe(resp => {
       console.log(resp)
       this.publicaciones = resp;
+      this.cantPosts = resp.length;
+      this.enviarMensaje();
       }  
     );   
   }
@@ -96,8 +108,22 @@ ionViewWillEnter(){
 
   }
 
-  comentar(){
-
+  comentar(i){
+    let elem = document.getElementsByClassName("i"+i) as HTMLCollectionOf<HTMLElement>;
+    var x = window.location.href;
+    var ubicacion = x.substring(x.lastIndexOf('/') + 1);
+    for (let index = 0; index < elem.length; index++) {
+      const element = elem[index].closest('app-'+ubicacion);
+      if (element !== null && element.tagName.toLowerCase()==='app-'+ubicacion) {
+        if (elem[index].style.display==='' || elem[index].style.display==='none') {
+          elem[index].style.display = "block";
+          return;
+        } else {
+          elem[index].style.display = "none";
+          return;
+        }          
+      }
+    }
   }
 
   confirmarComentario() {
@@ -158,10 +184,9 @@ ionViewWillEnter(){
       await alert.present();
       return;
     }
-    this.publicacionService.guardarPost(this.publicacion).subscribe(resp => this.cargarPublicacionesHome());
-
-
-
+    this.publicacionService.guardarPost(this.publicacion).subscribe(resp => {
+      this.verificarPath();
+    });
     this.publicacion.texto='';
   }
 
@@ -174,29 +199,8 @@ ionViewWillEnter(){
   }
 
   doRefresh( event){
-
-    var x = window.location.href;
-    var ubicacion = x.substring(x.lastIndexOf('/') + 1);
-    if (ubicacion==='profile') {
-      this.suscripcion=this.publicacionService.obtenerPublicacionesPerfil(this.uid)
-      .subscribe(resp => {
-        this.publicaciones = resp;
-        event.target.complete();
-        }  
-      ); 
-      return;
-      return;
-    } 
-    if (ubicacion==='home') {
-      this.suscripcion=this.publicacionService.obtenerPublicacionesHome()
-      .subscribe(resp => {
-        this.publicaciones = resp;
-        event.target.complete();
-        }  
-      ); 
-      return;
-    }
-
+    this.verificarPath();
+    event.target.complete();
   }
 
 }

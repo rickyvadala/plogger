@@ -35,3 +35,21 @@
     -ms-flex-align: center;
     align-items: center;
 }
+
+ion-grid {
+    text-align: center;
+}
+
+.subtitle {
+    font-size: 10px;
+    font-style: italic;
+    color: white;
+    padding: 0;
+    padding-bottom: 5px;
+}
+
+.profileStats {
+    background-color: #1DB954;
+    border-radius: 15px;
+    border: 2px solid white;
+}

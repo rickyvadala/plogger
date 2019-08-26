@@ -18,7 +18,7 @@
 
 
 
-<ion-card *ngFor="let item of publicaciones" class="publicaciones animated fadeIn">
+<ion-card *ngFor="let item of publicaciones; let i = index;" class="publicaciones animated fadeIn">
     <ion-item mode="ios" color="spot">
         <ion-avatar class="item-avatar">
             <img *ngIf="item.fotoPerfil" [src]="item.fotoPerfil" />
@@ -39,14 +39,14 @@
         <ion-button slot="start" (click)="meGusta()" color="light">
             <ion-icon name="heart" color="danger"></ion-icon>
         </ion-button>
-        <ion-button (click)="comentar()" color="light">
-            <ion-icon name="code-working" color="dark"></ion-icon>
+        <ion-button [attr.id]="i.toString()" (click)="comentar(i)" color="light">
+            <ion-icon name="chatbubbles" color="dark"></ion-icon>
         </ion-button>
         <ion-button (click)="compartir()" slot="end" color="light">
             <ion-icon name="share" color="dark"></ion-icon>
         </ion-button>
     </ion-item>
-    <ion-item>
+    <ion-item [attr.class]="'comentariosItem i'+i.toString()">
         <ion-input type="text" placeholder="Comentar"></ion-input>
         <ion-button (click)="confirmarComentario()" color="spot">
             <ion-icon name="checkmark-circle" color="dark"></ion-icon>

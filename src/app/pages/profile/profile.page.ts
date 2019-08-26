@@ -4,7 +4,6 @@ import { PopProfileSettingsComponent } from '../../components/pop-profile-settin
 import { UsuarioService } from '../../services/usuario-social.service';
 import { UsuarioPloggerService } from 'src/app/services/usuario-plogger.service';
 import { CookieService } from 'ngx-cookie-service';
-import { PublicacionesService } from 'src/app/services/publicaciones.service';
 
 @Component({
   selector: 'app-profile',
@@ -15,6 +14,7 @@ export class ProfilePage implements OnInit {
 
   foto: string;
   nombre: string;
+  cantPosts:string;
 
   constructor(private popoverCtrl: PopoverController,
               public us: UsuarioService, 
@@ -28,6 +28,10 @@ export class ProfilePage implements OnInit {
   ionViewWillEnter(){
     this.getNombre();
     this.getFoto();
+  }
+
+  recibirMensaje($event) {
+    this.cantPosts = $event
   }
 
 
