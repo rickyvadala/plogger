@@ -13,8 +13,41 @@ export class PopPublicacionSettingsComponent implements OnInit {
 
   ngOnInit() {}
 
-  editarPublicacion() {
+  async editarPublicacion() {
     this.popoverCtrl.dismiss();
+    const alert = await this.alertCtrl.create({
+      header: 'Editar',
+      message: 'Realmente desea editar esta publicacion?',
+      inputs: [
+        {
+          name: 'name1',
+          type: 'text',
+          placeholder: 'Texto'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            console.log('Confirm Cancel: blah');
+          }
+        }, {
+          text: 'Confirmar',
+          cssClass: 'danger',
+          handler: (data) => {
+            console.log(data.name1);
+            if (data.name1==="") {
+              console.log("ingresa algo cagon");
+            }
+            //Aca deberias llamar al metodo eliminar luki
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
   async eliminarPublicacion() {
