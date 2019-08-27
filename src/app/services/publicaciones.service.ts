@@ -79,6 +79,7 @@ export class PublicacionesService {
 
   private crearArregloHome(resp){
     const publicaciones: PublicacionModel[] = [];
+    //const comentarios:any[] = [];
 
     if (resp===null||resp===undefined) {return [];}
               const arrayKeys: any[] = Object.keys(resp);
@@ -88,6 +89,9 @@ export class PublicacionesService {
         let publicacion: PublicacionModel = resp[key];
         publicacion.pid = key;
         publicaciones.push(publicacion);
+
+        //let comentario = resp[key].comentarios;
+        //comentarios.push(comentario);
     });
 
     return publicaciones.reverse();
