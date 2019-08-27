@@ -233,7 +233,7 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
       }
 
       let rnd = ( Math.random() * (9999999999)).toString();
-      let img = 'pictures/publicaciones' + rnd  ;
+      let img = 'pictures/publicaciones/foto' + rnd  ;
       
       const pictures = storage().ref(img);
       pictures.putString(this.imageURL, 'data_url');
