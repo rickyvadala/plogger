@@ -26,6 +26,12 @@
                     Fecha de Nacimiento
                 </ion-datetime>
             </ion-item>
+            <ion-item>
+                <ion-chip>
+                    <ion-label (click)="subirFotoPerfil()">Seleccionar foto de perfil</ion-label>
+                </ion-chip>
+                <ion-label *ngIf="nombreImg">{{ nombreImg }}</ion-label>
+            </ion-item>
             <ion-list>
                 <ion-radio-group name="sexo" [(ngModel)]="usuario.sexo">
                     <ion-list-header>

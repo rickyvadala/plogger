@@ -6,6 +6,10 @@ import { Router } from '@angular/router';
 import { PerfilUsuarioModel } from 'src/app/models/perfil-usuario.model';
 import { NgForm } from '@angular/forms';
 
+import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker/ngx';
+import { File } from '@ionic-native/file/ngx';
+import { storage } from 'firebase';
+
 @Component({
   selector: 'app-cuenta',
   templateUrl: './cuenta.page.html',
@@ -15,13 +19,26 @@ export class CuentaPage implements OnInit {
 
   usuario: PerfilUsuarioModel;
 
+  images: any[];
+  imageURL: string;
+  nombreImg: string;
+
+  imagStorage: string;
+  
+  imageResponse: any;
+  options: ImagePickerOptions;
+
+  hayFoto = false;
+
 
 
 
   constructor(private authPlogger: UsuarioPloggerService, 
               private alertCtrl: AlertController,
               private cookies: CookieService,
-              private router: Router) { }
+              private router: Router,
+              public imagePicker: ImagePicker,
+              public file: File) { }
 
   ngOnInit() {
      this.usuario = {
@@ -45,11 +62,22 @@ export class CuentaPage implements OnInit {
   }
 
   onSubmitTemplate(form: NgForm) {
+    
     //Creo el usuario que va a pisar la base de datos
+    // const usuario: PerfilUsuarioModel = {
+    //   apellido: form.value.apellido,
+    //   fechaNac: form.value.fecha,
+    //   foto: this.cookies.get('Foto'),
+    //   nombre: form.value.nombre,
+    //   sexo: form.value.sexo,
+    //   tipoInicio: this.cookies.get('TipoInicio'),
+    //   uid: this.cookies.get('UID'),
+    //   mail:this.cookies.get('Mail')
+    // }
     const usuario: PerfilUsuarioModel = {
       apellido: form.value.apellido,
       fechaNac: form.value.fecha,
-      foto: this.cookies.get('Foto'),
+      foto: this.imageURL,
       nombre: form.value.nombre,
       sexo: form.value.sexo,
       tipoInicio: this.cookies.get('TipoInicio'),
@@ -64,6 +92,7 @@ export class CuentaPage implements OnInit {
     this.cookies.set('Nombre', form.value.nombre);
     this.cookies.set('FechaNac', form.value.fecha);
     this.cookies.set('Sexo',form.value.sexo);
+    this.cookies.set('Foto', this.imageURL);
     
     
     this.volver();
@@ -98,4 +127,40 @@ export class CuentaPage implements OnInit {
     await alert.present();
     }
 
+
+
+  subirFotoPerfil() {
+    this.options = {
+    
+      width: 200,
+      quality: 25,
+      outputType: 1,
+      maximumImagesCount: 1
+
+    };
+    this.imageResponse = [];
+    this.imagePicker.getPictures(this.options).then((results) => {
+      for (var i = 0; i < results.length; i++) {
+      
+      this.imageResponse.push('data:image/jpeg;base64,' + results[i]);
+      this.imageURL = this.imageResponse[i];
+      this.hayFoto = true;
+      }
+
+      let rnd = ( Math.random() * (9999999999)).toString();
+      let img = 'pictures/perfil/foto' + rnd  ;
+      this.nombreImg = img;
+
+      const pictures = storage().ref(img);
+      pictures.putString(this.imageURL, 'data_url');
+
+      console.log('imageUrl');
+      console.log(this.imageURL);
+
+    }, (err) => {
+      alert(err);
+    });  
+
+
+  }
 }

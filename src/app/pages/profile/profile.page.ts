@@ -4,6 +4,7 @@ import { PopProfileSettingsComponent } from '../../components/pop-profile-settin
 import { UsuarioService } from '../../services/usuario-social.service';
 import { UsuarioPloggerService } from 'src/app/services/usuario-plogger.service';
 import { CookieService } from 'ngx-cookie-service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-profile',
@@ -22,7 +23,7 @@ export class ProfilePage implements OnInit {
               private cookies: CookieService) { }
 
   ngOnInit() {
- 
+   
   }
 
   ionViewWillEnter(){
@@ -51,7 +52,19 @@ export class ProfilePage implements OnInit {
   }
 
   getFoto(){
-    this.foto = this.cookies.get('Foto');
+    let currentUid = this.cookies.get('UID')
+    // console.log('UID');
+    // console.log(currentUid);
+    this.usPlogger.obtenerUsuarioFoto().subscribe(resp => {
+      let fotoUsr = '';
+      const array: any[] = Object.values(resp);
+      const ab = array.filter(a => a.uid === currentUid);
+      fotoUsr = ab[0].foto;
+      this.foto = fotoUsr;
+  
+      // console.log('fotoUsr', fotoUsr);
+  
+  })
   }
 
 }

@@ -7,6 +7,10 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { PerfilUsuarioModel } from '../models/perfil-usuario.model';
 import { CookieService } from 'ngx-cookie-service';
 import { PublicacionModel } from '../models/publicacion.model';
+import * as firebase from 'firebase';
+
+
+
 
 
 @Injectable({
@@ -136,7 +140,10 @@ export class UsuarioPloggerService {
       this.cookies.set('Mail', objUsuario.mail);
   }
 
+  obtenerUsuarioFoto() {
+     return this.http.get(`${this.urlABM}/perfil.json`);
 
+  }
 
   }
 
