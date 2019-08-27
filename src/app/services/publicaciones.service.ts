@@ -94,10 +94,15 @@ export class PublicacionesService {
   }
 
   borrarPost(publicacion:PublicacionModel){
-    debugger;
-    let nroUsuario = this.cookies.get('Usuario');
     return this.http.delete(`${ this.urlABM }/publicacion/${ publicacion.pid }.json`); 
   }
+
+  editarPost(publicacion:PublicacionModel,textoEdit:string){
+    var data = {texto:textoEdit}
+    return this.http.patch(`${ this.urlABM }/publicacion/${ publicacion.pid }.json`,JSON.stringify(data)); 
+  }
+
+
 
 
 

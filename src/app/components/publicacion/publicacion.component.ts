@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewChecked, Output, EventEmitter, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, AfterViewChecked, Output, EventEmitter} from '@angular/core';
 import { PopoverController, AlertController } from '@ionic/angular';
 import { PopPublicacionSettingsComponent } from '../pop-publicacion-settings/pop-publicacion-settings.component';
 import { PublicacionesService } from 'src/app/services/publicaciones.service';
@@ -13,6 +13,7 @@ import { File } from '@ionic-native/file/ngx';
 // import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
 
 import { storage } from 'firebase';
+import { DataShareService } from 'src/app/services/data-share.service';
 
 
 @Component({
@@ -24,6 +25,9 @@ import { storage } from 'firebase';
 export class PublicacionComponent implements OnInit, AfterViewChecked {
 
   private suscripcion: Subscription;
+  textoEditar:string="";
+
+  popClick:string;
 
   images: any[];
   imageURL: string;
@@ -44,7 +48,6 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
   flagComentarios:boolean=false;
 
   @Output() mensajeEvent = new EventEmitter<string>();
-  @ViewChild('inputComentar') inputComentar;
 
   constructor(private popoverCtrl: PopoverController,
               private publicacionService:PublicacionesService,
@@ -52,11 +55,13 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
               private alertCtrl: AlertController,
               public imagePicker: ImagePicker,
               public file: File,
+              private dataShare: DataShareService,
               // public camera: Camera,
               // private sanitizer: DomSanitizer
               ) { }
   ngOnInit() {
-   this.verificarPath();
+    this.dataShare.currentMessage.subscribe( mensaje => this.popClick = mensaje);
+    this.verificarPath();
   }
 
   ngAfterViewChecked(): void {
@@ -83,12 +88,42 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
       this.publicaciones=[];
       this.cargarPublicacionesHome();
       return;
-    } else {
+    } 
+    return;
+  }
+
+
+  confirmarEdicion(i, publicacion:PublicacionModel) {
+    if (this.textoEditar==="") {
       return;
+    }
+    debugger;
+    this.publicacionService.editarPost(publicacion, this.textoEditar).subscribe( resp => {
+      this.cancelarEdicion(i);
+      this.publicaciones[i].texto = this.textoEditar;
+      this.textoEditar="";
+    });
+
+
+  }
+
+  cancelarEdicion(i) {
+    let elem = document.getElementsByClassName("c"+i) as HTMLCollectionOf<HTMLElement>;
+    var x = window.location.href;
+    var ubicacion = x.substring(x.lastIndexOf('/') + 1);
+    for (let index = 0; index < elem.length; index++) {
+      const element = elem[index].closest('app-'+ubicacion);
+      if (element !== null && element.tagName.toLowerCase()==='app-'+ubicacion) {
+        if (elem[index].style.display==='block') {
+          elem[index].style.display = "none";
+          return;
+        }       
+      }
     }
   }
 
   enviarMensaje() {
+    //envia cant de post a profile
     this.mensajeEvent.emit(this.cantPosts.toString());
   }
   
@@ -116,9 +151,6 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
   }
 
   async mostrarPop(evento,i, publicacion:PublicacionModel) {
-    debugger;
-    console.log("i",i);
-    console.log("publicacion",publicacion);
     const popover = await this.popoverCtrl.create({
       component: PopPublicacionSettingsComponent,
       event: evento,
@@ -131,9 +163,27 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
 
     await popover.present();
     popover.onDidDismiss().then( resp => {
-      console.log(resp.role);
-     if (resp.role===undefined) {
+    console.log(this.popClick);
+     if (this.popClick==="borrar") {
       this.publicaciones.splice(i,1);
+     }
+     if (this.popClick==="editar") {
+
+       let elem = document.getElementsByClassName("c"+i) as HTMLCollectionOf<HTMLElement>;
+       var x = window.location.href;
+       var ubicacion = x.substring(x.lastIndexOf('/') + 1);
+       for (let index = 0; index < elem.length; index++) {
+         const element = elem[index].closest('app-'+ubicacion);
+         if (element !== null && element.tagName.toLowerCase()==='app-'+ubicacion) {
+           if (elem[index].style.display==='' || elem[index].style.display==='none') {
+             elem[index].style.display = "block";
+             return;
+           } else {
+             elem[index].style.display = "none";
+             return;
+           }          
+         }
+       }
      }
     });
   }

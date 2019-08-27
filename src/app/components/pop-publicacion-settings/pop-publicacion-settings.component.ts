@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { PopoverController, AlertController, NavParams } from '@ionic/angular';
 import { PublicacionesService } from 'src/app/services/publicaciones.service';
 import { PublicacionModel } from 'src/app/models/publicacion.model';
+import { DataShareService } from 'src/app/services/data-share.service';
 
 @Component({
   selector: 'app-pop-publicacion-settings',
@@ -11,53 +12,34 @@ import { PublicacionModel } from 'src/app/models/publicacion.model';
 export class PopPublicacionSettingsComponent implements OnInit {
 
   passedPublicacion:PublicacionModel;
+  popClick:string;
+
+
+
+
   constructor(private popoverCtrl: PopoverController,
               private alertCtrl: AlertController,
               private navParams: NavParams,
-              private publicarService: PublicacionesService) { }
+              private publicarService: PublicacionesService,
+              private dataShare: DataShareService) { }
 
   ngOnInit() {
     this.passedPublicacion = this.navParams.get('publicacion');
+    this.dataShare.currentMessage.subscribe( mensaje => this.popClick = mensaje);
   }
 
-  async editarPublicacion() {
-    this.popoverCtrl.dismiss();
-    const alert = await this.alertCtrl.create({
-      header: 'Editar',
-      message: 'Realmente desea editar esta publicacion?',
-      inputs: [
-        {
-          name: 'name1',
-          type: 'text',
-          placeholder: 'Texto'
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-          handler: (blah) => {
-            console.log('Confirm Cancel: blah');
-          }
-        }, {
-          text: 'Confirmar',
-          role: 'delete',
-          handler: (data) => {
-            console.log(data.name1);
-            if (data.name1==="") {
-              console.log("ingresa algo cagon");
-            } else {
-              
-            }
-          }
-        }
-      ]
-    });
 
-    await alert.present();
+
+  async editarPublicacion() {
+    this.popClick = "editar";
+    this.dataShare.changeMessage(this.popClick);
+    this.popoverCtrl.dismiss();
   }
 
   async eliminarPublicacion() {
+    this.popClick = "borrar";
+    this.dataShare.changeMessage(this.popClick);
+
     this.popoverCtrl.dismiss();
     this.publicarService.borrarPost(this.passedPublicacion).subscribe();
     // const alert = await this.alertCtrl.create({
@@ -78,7 +60,6 @@ export class PopPublicacionSettingsComponent implements OnInit {
     //       role:'delete',
     //       handler: () => {
     //         console.log(this.passedPublicacion);
-    //         debugger;
     //         this.publicarService.borrarPost(this.passedPublicacion).subscribe();
 
     //       }
