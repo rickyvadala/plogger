@@ -6,34 +6,27 @@ import { PopProfileSettingsComponent } from './pop-profile-settings/pop-profile-
 import { PublicacionComponent } from "./publicacion/publicacion.component";
 
 //Estos modals ya no hacen falta, los dejo por las dudas
-import { ModalProfilePage } from '../pages/modal-profile/modal-profile.page';
-import { ModalProfilePageModule } from '../pages/modal-profile/modal-profile.module';
 import { PopPublicacionSettingsComponent } from './pop-publicacion-settings/pop-publicacion-settings.component';
-import { PublicarComponent } from './publicar/publicar.component';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
   entryComponents: [
-    ModalProfilePage, 
     PopPublicacionSettingsComponent
   ],
   declarations: [
     PopProfileSettingsComponent,
     PopPublicacionSettingsComponent,
-    PublicacionComponent,
-    PublicarComponent
+    PublicacionComponent
   ],
   exports: [
     PopProfileSettingsComponent,
     PopPublicacionSettingsComponent,
-    PublicacionComponent,
-    PublicarComponent
+    PublicacionComponent
   ],
   imports: [
     CommonModule,
     IonicModule,
     RouterModule,
-    ModalProfilePageModule,
     FormsModule
   ]
 })
