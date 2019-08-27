@@ -1,4 +1,5 @@
 export class PublicacionModel {
+    pid?:string;
     //uid es el uid del usuario que hizo la publicacion
     uid?: string;
     texto?: string;

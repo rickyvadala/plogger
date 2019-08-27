@@ -24,27 +24,27 @@ export class PublicacionesService {
 
   guardarPost(publicacion: PublicacionModel) {
     //Postea la publicacion
-    return this.http.post(`${this.urlABM}/publicacion.json`, publicacion)
-    .pipe(
-      map( (resp: any) => {
-        let nroUsuario = this.cookies.get('Usuario');
-        //Obtiene las publicaciones del usuario
-        this.http.get(`${ this.urlABM }/perfil/${ nroUsuario }/publicaciones.json`)
-        .subscribe((x:any) => {
-          let publicacionesArray: any[]; 
-          if (x!==null) {
-            //aca viene cuando el usuario ya tiene publicaciones
-            publicacionesArray = x;
-            publicacionesArray.push(resp.name);
-            this.http.put(`${ this.urlABM }/perfil/${ nroUsuario }/publicaciones.json`,publicacionesArray).subscribe();    
-            return;
-          }
-          //aca viene cuando un usuario hace su primer publicacion
-          publicacionesArray = [resp.name]; 
-          this.http.put(`${ this.urlABM }/perfil/${ nroUsuario }/publicaciones.json`,publicacionesArray).subscribe();    
-        });
-      })
-    );
+    return this.http.post(`${this.urlABM}/publicacion.json`, publicacion);
+    // .pipe(
+    //   map( (resp: any) => {
+    //     let nroUsuario = this.cookies.get('Usuario');
+    //     //Obtiene las publicaciones del usuario
+    //     this.http.get(`${ this.urlABM }/perfil/${ nroUsuario }/publicaciones.json`)
+    //     .subscribe((x:any) => {
+    //       let publicacionesArray: any[]; 
+    //       if (x!==null) {
+    //         //aca viene cuando el usuario ya tiene publicaciones
+    //         publicacionesArray = x;
+    //         publicacionesArray.push(resp.name);
+    //         this.http.put(`${ this.urlABM }/perfil/${ nroUsuario }/publicaciones.json`,publicacionesArray).subscribe();    
+    //         return;
+    //       }
+    //       //aca viene cuando un usuario hace su primer publicacion
+    //       publicacionesArray = [resp.name]; 
+    //       this.http.put(`${ this.urlABM }/perfil/${ nroUsuario }/publicaciones.json`,publicacionesArray).subscribe();    
+    //     });
+    //   })
+    // );
   }
 
   obtenerPublicacionesPerfil(UID:string){
@@ -63,6 +63,7 @@ export class PublicacionesService {
     Object.keys(resp).forEach(key =>{
       if (resp[key].uid===uid) {
         const publicacion: PublicacionModel = resp[key];
+        publicacion.pid = key;
         publicaciones.push(publicacion);
       }
     });
@@ -80,13 +81,22 @@ export class PublicacionesService {
     const publicaciones: PublicacionModel[] = [];
 
     if (resp===null||resp===undefined) {return [];}
+              const arrayKeys: any[] = Object.keys(resp);
+
 
     Object.keys(resp).forEach(key =>{
-        const publicacion: PublicacionModel = resp[key];
+        let publicacion: PublicacionModel = resp[key];
+        publicacion.pid = key;
         publicaciones.push(publicacion);
     });
 
     return publicaciones.reverse();
+  }
+
+  borrarPost(publicacion:PublicacionModel){
+    debugger;
+    let nroUsuario = this.cookies.get('Usuario');
+    return this.http.delete(`${ this.urlABM }/publicacion/${ publicacion.pid }.json`); 
   }
 
 

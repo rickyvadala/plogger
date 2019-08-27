@@ -115,13 +115,27 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
     );  
   }
 
-  async mostrarPop(evento) {
+  async mostrarPop(evento,i, publicacion:PublicacionModel) {
+    debugger;
+    console.log("i",i);
+    console.log("publicacion",publicacion);
     const popover = await this.popoverCtrl.create({
       component: PopPublicacionSettingsComponent,
       event: evento,
-      mode: 'ios'
+      mode: 'ios',
+      componentProps: {
+        publicacion:publicacion
+      }
+      
     });
+
     await popover.present();
+    popover.onDidDismiss().then( resp => {
+      console.log(resp.role);
+     if (resp.role===undefined) {
+      this.publicaciones.splice(i,1);
+     }
+    });
   }
 
 

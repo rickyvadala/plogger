@@ -65,6 +65,7 @@ export class CuentaPage implements OnInit {
     this.cookies.set('FechaNac', form.value.fecha);
     this.cookies.set('Sexo',form.value.sexo);
     
+    
     this.volver();
 
   }

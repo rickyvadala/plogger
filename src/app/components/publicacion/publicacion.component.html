@@ -32,7 +32,7 @@
 
             <ion-card-title>{{item.nombre}} {{item.apellido}}</ion-card-title>
         </ion-card-header>
-        <ion-icon *ngIf="item.uid===uid" slot="end" name="more" color="dark" (click)="mostrarPop($event)"></ion-icon>
+        <ion-icon *ngIf="item.uid===uid" slot="end" name="more" color="dark" (click)="mostrarPop($event,i,item)"></ion-icon>
     </ion-item>
     <img *ngIf="item.foto" [src]="item.foto" />
     <ion-card-content *ngIf="item.texto">

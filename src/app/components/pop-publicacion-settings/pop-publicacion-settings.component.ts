@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { PopoverController, AlertController } from '@ionic/angular';
+import { PopoverController, AlertController, NavParams } from '@ionic/angular';
+import { PublicacionesService } from 'src/app/services/publicaciones.service';
+import { PublicacionModel } from 'src/app/models/publicacion.model';
 
 @Component({
   selector: 'app-pop-publicacion-settings',
@@ -8,10 +10,15 @@ import { PopoverController, AlertController } from '@ionic/angular';
 })
 export class PopPublicacionSettingsComponent implements OnInit {
 
+  passedPublicacion:PublicacionModel;
   constructor(private popoverCtrl: PopoverController,
-              private alertCtrl: AlertController) { }
+              private alertCtrl: AlertController,
+              private navParams: NavParams,
+              private publicarService: PublicacionesService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.passedPublicacion = this.navParams.get('publicacion');
+  }
 
   async editarPublicacion() {
     this.popoverCtrl.dismiss();
@@ -29,19 +36,18 @@ export class PopPublicacionSettingsComponent implements OnInit {
         {
           text: 'Cancelar',
           role: 'cancel',
-          cssClass: 'secondary',
           handler: (blah) => {
             console.log('Confirm Cancel: blah');
           }
         }, {
           text: 'Confirmar',
-          cssClass: 'danger',
+          role: 'delete',
           handler: (data) => {
             console.log(data.name1);
             if (data.name1==="") {
               console.log("ingresa algo cagon");
             } else {
-
+              
             }
           }
         }
@@ -53,30 +59,34 @@ export class PopPublicacionSettingsComponent implements OnInit {
 
   async eliminarPublicacion() {
     this.popoverCtrl.dismiss();
-    const alert = await this.alertCtrl.create({
-      header: 'Eliminar',
-      message: 'Realmente desea eliminar esta publicacion?',
-      // message: 'This is an alert message.',
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: (blah) => {
-            console.log('Confirm Cancel: blah');
-          }
-        }, {
-          text: 'Confirmar',
-          cssClass: 'danger',
-          handler: () => {
-            console.log('Confirm Okay');
-            //Aca deberias llamar al metodo eliminar luki
-          }
-        }
-      ]
-    });
+    this.publicarService.borrarPost(this.passedPublicacion).subscribe();
+    // const alert = await this.alertCtrl.create({
+    //   header: 'Eliminar',
+    //   message: 'Realmente desea eliminar esta publicacion?',
+    //   // message: 'This is an alert message.',
+    //   buttons: [
+    //     {
+    //       text: 'Cancelar',
+    //       role: 'cancel',
+    //       cssClass: 'secondary',
+    //       handler: (blah) => {
+    //         console.log('Confirm Cancel: blah');
+    //       }
+    //     }, {
+    //       text: 'Confirmar',
+    //       cssClass: 'danger',
+    //       role:'delete',
+    //       handler: () => {
+    //         console.log(this.passedPublicacion);
+    //         debugger;
+    //         this.publicarService.borrarPost(this.passedPublicacion).subscribe();
 
-    await alert.present();
+    //       }
+    //     }
+    //   ]
+    // });
+
+    // await alert.present();
   }
 
 }
