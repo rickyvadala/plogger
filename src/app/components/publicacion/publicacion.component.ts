@@ -229,7 +229,6 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
     for (let index = 0; index < elem.length; index++) {
       const element = elem[index].closest('app-'+ubicacion);
       if (element !== null && element.tagName.toLowerCase()==='app-'+ubicacion) {
-        // debugger;
         let input = elem[index] as HTMLInputElement;
         console.log(input.value);
         if (input.value==='') {
@@ -246,8 +245,8 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
           }
           this.publicacionService.comentarPost(publicacion,comentario).subscribe( resp => {
             comentario.cid=resp.toString();
-            this.publicaciones[i].comentarios.unshift(comentario);
-            //this.publicacionService.obtenerComentariosPublicacion(publicacion).subscribe();
+            input.value="";
+            this.publicaciones[i].comentarios.unshift(comentario);     
           });
           return;
         }          
@@ -282,7 +281,6 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
 
   async publicar() {
 
-    // debugger;
     // this.publicacion.uid = this.cookies.get('UID');
     // this.publicacion.fecha = (new Date).toString();
     // this.publicacion.nombre = this.cookies.get('Nombre');
@@ -312,8 +310,6 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
     } else {
 
       this.publicacionService.guardarPost(this.publicacion).subscribe(resp => {
-        // debugger;
-        console.log(resp);
   
         //this.publicaciones.push(this.publicacion)
         this.verificarPath();
@@ -412,6 +408,10 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
 
 
   borrarComentario(j, comentario, i, publicacion) {
+    this.publicacionService.borrarComentarioPost(publicacion, comentario).subscribe( resp => {
+      this.publicaciones[i].comentarios.splice(j,1);
+
+    });
     
   }
 

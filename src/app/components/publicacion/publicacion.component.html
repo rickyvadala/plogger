@@ -90,7 +90,7 @@
             </ion-grid>
             <ion-item>
                 <ion-label>{{comentario.comentario}}</ion-label>
-                <ion-button (click)="borrarComentario(j,comentario,i,item)" color="danger">
+                <ion-button *ngIf="usuario.uid===comentario.uidComentario" (click)="borrarComentario(j,comentario,i,item)" color="danger">
                     <ion-icon style="margin:0; padding: 0;" slot="end" name="trash" color="light"></ion-icon>
                 </ion-button>
             </ion-item>

@@ -28,30 +28,9 @@ export class PublicacionesService{
   los del objeto PublicacionModel que esta en models/publicacion.model.ts
   */
 
-
   guardarPost(publicacion: PublicacionModel) {
     //Postea la publicacion
     return this.http.post(`${this.urlABM}/publicacion.json`, publicacion);
-    // .pipe(
-    //   map( (resp: any) => {
-    //     let nroUsuario = this.cookies.get('Usuario');
-    //     //Obtiene las publicaciones del usuario
-    //     this.http.get(`${ this.urlABM }/perfil/${ nroUsuario }/publicaciones.json`)
-    //     .subscribe((x:any) => {
-    //       let publicacionesArray: any[]; 
-    //       if (x!==null) {
-    //         //aca viene cuando el usuario ya tiene publicaciones
-    //         publicacionesArray = x;
-    //         publicacionesArray.push(resp.name);
-    //         this.http.put(`${ this.urlABM }/perfil/${ nroUsuario }/publicaciones.json`,publicacionesArray).subscribe();    
-    //         return;
-    //       }
-    //       //aca viene cuando un usuario hace su primer publicacion
-    //       publicacionesArray = [resp.name]; 
-    //       this.http.put(`${ this.urlABM }/perfil/${ nroUsuario }/publicaciones.json`,publicacionesArray).subscribe();    
-    //     });
-    //   })
-    // );
   }
 
   obtenerPublicacionesPerfil(UID:string){
@@ -77,15 +56,13 @@ export class PublicacionesService{
         const comentarios: ComentarioModel[] = [];
         var x = resp[key].comentarios;
         console.log(x);
-        // // debugger;
         if (x === undefined || x === null) {
           publicacion.comentarios = [];
         }
         else {
           Object.keys(resp[key].comentarios).forEach(keyComentario =>{
-            // // debugger;
             let comentario: ComentarioModel = resp[key].comentarios[keyComentario];
-            comentario.cid = keyComentario;
+            comentario.cid = keyComentario.toString();
             comentarios.unshift(comentario);
           });
         }
@@ -106,10 +83,6 @@ export class PublicacionesService{
 
   private crearArregloHome(resp){
     if (resp===null||resp===undefined) {return [];}
-    //const arrayKeys: any[] = Object.keys(resp);
-
-    console.log(resp);
-    // // debugger;
     //Armo el vector iterable para las publicaciones
     const publicaciones: PublicacionModel[] = [];
     Object.keys(resp).forEach(key =>{
@@ -119,16 +92,13 @@ export class PublicacionesService{
         //Armo el vector iterable para los comentarios de las publicaciones
         const comentarios: ComentarioModel[] = [];
         var x = resp[key].comentarios;
-        console.log(x);
-        // // debugger;
         if (x === undefined || x === null) {
           publicacion.comentarios = [];
         }
         else {
           Object.keys(resp[key].comentarios).forEach(keyComentario =>{
-            // // debugger;
             let comentario: ComentarioModel = resp[key].comentarios[keyComentario];
-            comentario.cid = keyComentario;
+            comentario.cid = keyComentario.toString();
             comentarios.unshift(comentario);
           });
         }
@@ -137,8 +107,6 @@ export class PublicacionesService{
 
         publicaciones.unshift(publicacion);
     });
-    console.log(publicaciones);
-    // // debugger;
     return publicaciones;
   }
 
@@ -155,22 +123,8 @@ export class PublicacionesService{
     return this.http.post(`${ this.urlABM }/publicacion/${ publicacion.pid }/comentarios.json`,comentario); 
   }
 
-  // obtenerComentariosPublicacion(publicacion:PublicacionModel){
-  //   return this.http.get(`${ this.urlABM }/publicacion/${ publicacion.pid }/comentarios.json`)
-  //   .pipe(
-  //     map( resp=>this.crearArregloComentarios(resp) )
-  //   );
-  // }
-
-  // private crearArregloComentarios(resp){
-  //   if (resp===null||resp===undefined) {return [];}
-  //   const comentarios: ComentarioModel[] = [];
-  //   Object.keys(resp).forEach(key =>{
-  //       let comentario: ComentarioModel = resp[key];
-  //       comentario.cid = key;
-  //       comentarios.unshift(comentario);
-  //   });
-  //   return comentarios;
-  // }
+  borrarComentarioPost(publicacion:PublicacionModel, comentario:ComentarioModel) {
+     return this.http.delete(`${ this.urlABM }/publicacion/${ publicacion.pid }/comentarios/${ comentario.cid }.json`); 
+  }
 
 }
