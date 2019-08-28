@@ -19,8 +19,9 @@ $ ionic cordova plugin add cordova-plugin-telerik-imagepicker
 
 $ npm install @ionic-native/image-picker
 
-Escribí un mensaje acá
+$ ionic cordova plugin add cordova-plugin-camera
 
+$ npm install @ionic-native/camera
 
 -> To add node packages that are in the .gitignore
 

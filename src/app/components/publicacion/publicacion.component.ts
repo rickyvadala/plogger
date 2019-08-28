@@ -243,8 +243,8 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
             fotoComentario: this.usuario.foto,
             fechaComentario: (new Date).toString()
           }
-          this.publicacionService.comentarPost(publicacion,comentario).subscribe( resp => {
-            comentario.cid=resp.toString();
+          this.publicacionService.comentarPost(publicacion,comentario).subscribe( (resp:any) => {
+            comentario.cid=resp.name;
             input.value="";
             this.publicaciones[i].comentarios.unshift(comentario);     
           });

@@ -96,6 +96,7 @@ export class PublicacionesService{
           publicacion.comentarios = [];
         }
         else {
+          debugger;
           Object.keys(resp[key].comentarios).forEach(keyComentario =>{
             let comentario: ComentarioModel = resp[key].comentarios[keyComentario];
             comentario.cid = keyComentario.toString();
@@ -124,6 +125,7 @@ export class PublicacionesService{
   }
 
   borrarComentarioPost(publicacion:PublicacionModel, comentario:ComentarioModel) {
+    debugger;
      return this.http.delete(`${ this.urlABM }/publicacion/${ publicacion.pid }/comentarios/${ comentario.cid }.json`); 
   }
 
