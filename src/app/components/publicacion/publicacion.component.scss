@@ -12,6 +12,13 @@
     max-height: 40px !important; //any size 
 }
 
+.item-avatar-comentario {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 30px !important; //any size
+    max-height: 30px !important; //any size 
+}
+
 .margin {
     margin: 10px;
 }
@@ -34,4 +41,22 @@ ion-card-content {
 
 .itemPublicar {
     border-radius: 5px;
+}
+
+ion-grid {
+    vertical-align: center;
+}
+
+.lblNombreComentario {
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.gridComments {
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
+ion-list {
+    padding: 2px 0;
 }

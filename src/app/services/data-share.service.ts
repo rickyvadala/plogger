@@ -7,7 +7,7 @@ import { PerfilUsuarioModel } from '../models/perfil-usuario.model';
 })
 export class DataShareService {
 
-  private usr:PerfilUsuarioModel;
+  private usr:PerfilUsuarioModel={};
   private userSource = new BehaviorSubject<PerfilUsuarioModel>(this.usr);
   currentUser = this.userSource.asObservable();
 

@@ -18,7 +18,7 @@ import { DataShareService } from 'src/app/services/data-share.service';
 })
 export class CuentaPage implements OnInit {
 
-  usuario: PerfilUsuarioModel;
+  usuario: PerfilUsuarioModel = {};
 
   images: any[];
   imageURL: string;

@@ -14,14 +14,6 @@ export class PublicacionModel {
     };
     //comentarios EN ESTE SPRINT NO SE TOCA (los megusta tampoco)
     comentarios?:{
-        uidComentario:string,
-        //nombre apellido y foto se guarda por comodidad, es redundante, pero sino estaria todo lleno de fors
-        nombreComentario:string,
-        apellidoComentario:string,
-        fotoComentario:string,
-        //
-        comentario:string,
-        fechaComentario:string,
     };
     //Le agrego nombre apellido y foto del que publico para no tener que hacer otro get por para saber esta data
     //es redundante pero mucho mas rapido (lo mismo que en el comentario)

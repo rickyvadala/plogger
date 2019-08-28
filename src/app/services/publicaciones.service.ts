@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 //import { CookieService } from 'ngx-cookie-service';
 import { DataShareService } from './data-share.service';
 import { PerfilUsuarioModel } from '../models/perfil-usuario.model';
+import { ComentarioModel } from '../models/comentario.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -63,7 +64,6 @@ export class PublicacionesService{
   private crearArregloPerfil(resp){
     const publicaciones: PublicacionModel[] = [];
     //const uid = this.cookies.get('UID');
-    debugger;
     let uid = this.usuario.uid;
 
     if (resp===null||resp===undefined) {return [];}
@@ -72,10 +72,29 @@ export class PublicacionesService{
       if (resp[key].uid===uid) {
         const publicacion: PublicacionModel = resp[key];
         publicacion.pid = key;
-        publicaciones.push(publicacion);
+
+        //Armo el vector iterable para los comentarios de las publicaciones
+        const comentarios: ComentarioModel[] = [];
+        var x = resp[key].comentarios;
+        console.log(x);
+        debugger;
+        if (x === undefined || x === null) {
+          publicacion.comentarios = [];
+        }
+        else {
+          Object.keys(resp[key].comentarios).forEach(keyComentario =>{
+            debugger;
+            let comentario: ComentarioModel = resp[key].comentarios[keyComentario];
+            comentario.cid = keyComentario;
+            comentarios.unshift(comentario);
+          });
+        }
+        publicacion.comentarios = comentarios;
+        //Aca termina la parte de comentarios
+        publicaciones.unshift(publicacion);
       }
     });
-    return publicaciones.reverse();
+    return publicaciones;
   }
 
   obtenerPublicacionesHome(){
@@ -86,23 +105,41 @@ export class PublicacionesService{
   }
 
   private crearArregloHome(resp){
-    const publicaciones: PublicacionModel[] = [];
-    //const comentarios:any[] = [];
-
     if (resp===null||resp===undefined) {return [];}
     //const arrayKeys: any[] = Object.keys(resp);
 
-
+    console.log(resp);
+    debugger;
+    //Armo el vector iterable para las publicaciones
+    const publicaciones: PublicacionModel[] = [];
     Object.keys(resp).forEach(key =>{
         let publicacion: PublicacionModel = resp[key];
         publicacion.pid = key;
-        publicaciones.push(publicacion);
 
-        //let comentario = resp[key].comentarios;
-        //comentarios.push(comentario);
+        //Armo el vector iterable para los comentarios de las publicaciones
+        const comentarios: ComentarioModel[] = [];
+        var x = resp[key].comentarios;
+        console.log(x);
+        debugger;
+        if (x === undefined || x === null) {
+          publicacion.comentarios = [];
+        }
+        else {
+          Object.keys(resp[key].comentarios).forEach(keyComentario =>{
+            debugger;
+            let comentario: ComentarioModel = resp[key].comentarios[keyComentario];
+            comentario.cid = keyComentario;
+            comentarios.unshift(comentario);
+          });
+        }
+        publicacion.comentarios = comentarios;
+        //Aca termina la parte de comentarios
+
+        publicaciones.unshift(publicacion);
     });
-
-    return publicaciones.reverse();
+    console.log(publicaciones);
+    debugger;
+    return publicaciones;
   }
 
   borrarPost(publicacion:PublicacionModel){
@@ -114,12 +151,26 @@ export class PublicacionesService{
     return this.http.patch(`${ this.urlABM }/publicacion/${ publicacion.pid }.json`,JSON.stringify(data)); 
   }
 
+  comentarPost(publicacion:PublicacionModel, comentario:ComentarioModel){
+    return this.http.post(`${ this.urlABM }/publicacion/${ publicacion.pid }/comentarios.json`,comentario); 
+  }
 
+  // obtenerComentariosPublicacion(publicacion:PublicacionModel){
+  //   return this.http.get(`${ this.urlABM }/publicacion/${ publicacion.pid }/comentarios.json`)
+  //   .pipe(
+  //     map( resp=>this.crearArregloComentarios(resp) )
+  //   );
+  // }
 
+  // private crearArregloComentarios(resp){
+  //   if (resp===null||resp===undefined) {return [];}
+  //   const comentarios: ComentarioModel[] = [];
+  //   Object.keys(resp).forEach(key =>{
+  //       let comentario: ComentarioModel = resp[key];
+  //       comentario.cid = key;
+  //       comentarios.unshift(comentario);
+  //   });
+  //   return comentarios;
+  // }
 
-
-  
-
-
-  
 }

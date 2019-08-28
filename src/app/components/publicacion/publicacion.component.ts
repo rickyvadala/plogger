@@ -15,6 +15,7 @@ import { File } from '@ionic-native/file/ngx';
 import { storage } from 'firebase';
 import { DataShareService } from 'src/app/services/data-share.service';
 import { PerfilUsuarioModel } from 'src/app/models/perfil-usuario.model';
+import { ComentarioModel } from 'src/app/models/comentario.model';
 
 
 @Component({
@@ -44,6 +45,7 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
   nombre = "Nombre Harcodeado";
   imagenPublicacion = "../../../assets/shapes.svg";
   publicaciones:any[]=[];
+  comentarios:ComentarioModel[]=[];
   uid:string;
   cantPosts:number;
   flagComentarios:boolean=false;
@@ -201,7 +203,7 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
 
   }
 
-  comentar(i){
+  comentar(i,publicacion:PublicacionModel){
     let elem = document.getElementsByClassName("i"+i) as HTMLCollectionOf<HTMLElement>;
     var x = window.location.href;
     var ubicacion = x.substring(x.lastIndexOf('/') + 1);
@@ -210,6 +212,9 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
       if (element !== null && element.tagName.toLowerCase()==='app-'+ubicacion) {
         if (elem[index].style.display==='' || elem[index].style.display==='none') {
           elem[index].style.display = "block";
+          // this.publicacionService.obtenerComentariosPublicacion(publicacion).subscribe( resp => {
+          //   this.comentarios = resp;
+          // });
           return;
         } else {
           elem[index].style.display = "none";
@@ -219,7 +224,37 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  confirmarComentario() {
+  confirmarComentario(i,publicacion:PublicacionModel) {
+    let elem = document.getElementsByClassName("inputComentar"+i) as HTMLCollectionOf<HTMLElement>;
+    var x = window.location.href;
+    var ubicacion = x.substring(x.lastIndexOf('/') + 1);
+    for (let index = 0; index < elem.length; index++) {
+      const element = elem[index].closest('app-'+ubicacion);
+      if (element !== null && element.tagName.toLowerCase()==='app-'+ubicacion) {
+        debugger;
+        let input = elem[index] as HTMLInputElement;
+        console.log(input.value);
+        if (input.value==='') {
+          return;
+        } else {
+          let comentario: ComentarioModel = {
+            cid:"",
+            comentario:input.value,
+            uidComentario: this.usuario.uid,
+            apellidoComentario: this.usuario.apellido,
+            nombreComentario: this.usuario.nombre,
+            fotoComentario: this.usuario.foto,
+            fechaComentario: (new Date).toString()
+          }
+          this.publicacionService.comentarPost(publicacion,comentario).subscribe( resp => {
+            comentario.cid=resp.toString();
+            this.publicaciones[i].comentarios.unshift(comentario);
+            //this.publicacionService.obtenerComentariosPublicacion(publicacion).subscribe();
+          });
+          return;
+        }          
+      }
+    }
 
   }
 
@@ -240,12 +275,6 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
       uidMegusta:''
     },
     comentarios: {
-      uidComentario:'',
-      nombreComentario:'',
-      apellidoComentario:'',
-      fotoComentario:'',
-      comentario:'',
-      fechaComentario:''
     },
     nombre:'',
     apellido:'',
@@ -255,7 +284,7 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
 
   async publicar() {
 
-
+    debugger;
     // this.publicacion.uid = this.cookies.get('UID');
     // this.publicacion.fecha = (new Date).toString();
     // this.publicacion.nombre = this.cookies.get('Nombre');
@@ -267,8 +296,6 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
     this.publicacion.nombre = this.usuario.nombre;
     this.publicacion.apellido = this.usuario.apellido
     this.publicacion.fotoPerfil = this.usuario.foto;
-
-
 
     if (this.publicacion.texto==='' && this.publicacion.foto==='') {
       const alert = await this.alertCtrl.create({
@@ -284,13 +311,21 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
   
       await alert.present();
       return;
+    } else {
+
+      this.publicacionService.guardarPost(this.publicacion).subscribe(resp => {
+        debugger;
+        console.log(resp);
+  
+        //this.publicaciones.push(this.publicacion)
+        this.verificarPath();
+        this.hayFoto = false;
+        this.publicacion.texto='';
+        this.publicacion.foto = '';
+        return;
+      });
+
     }
-    this.publicacionService.guardarPost(this.publicacion).subscribe(resp => {
-      this.verificarPath();
-      this.hayFoto = false;
-    });
-    this.publicacion.texto='';
-    this.publicacion.foto = '';
   }
 
   subirFoto() {
@@ -339,6 +374,11 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
   doRefresh( event){
     this.verificarPath();
     event.target.complete();
+  }
+
+
+  borrarComentario(j, comentario, i, publicacion) {
+    
   }
 
 }
