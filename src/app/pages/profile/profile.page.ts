@@ -3,8 +3,9 @@ import { PopoverController } from '@ionic/angular';
 import { PopProfileSettingsComponent } from '../../components/pop-profile-settings/pop-profile-settings.component';
 import { UsuarioService } from '../../services/usuario-social.service';
 import { UsuarioPloggerService } from 'src/app/services/usuario-plogger.service';
-import { CookieService } from 'ngx-cookie-service';
-import { HttpClient } from '@angular/common/http';
+//import { CookieService } from 'ngx-cookie-service';
+import { DataShareService } from 'src/app/services/data-share.service';
+import { PerfilUsuarioModel } from 'src/app/models/perfil-usuario.model';
 
 @Component({
   selector: 'app-profile',
@@ -17,13 +18,16 @@ export class ProfilePage implements OnInit {
   nombre: string;
   cantPosts:string;
 
+  usuario:PerfilUsuarioModel={};
+
   constructor(private popoverCtrl: PopoverController,
               public us: UsuarioService, 
               public usPlogger: UsuarioPloggerService,
-              private cookies: CookieService) { }
+              //private cookies: CookieService,
+              private dataShare: DataShareService) { }
 
   ngOnInit() {
-   
+    this.dataShare.currentUser.subscribe( usuario => this.usuario = usuario);
   }
 
   ionViewWillEnter(){
@@ -46,13 +50,17 @@ export class ProfilePage implements OnInit {
   } 
 
   getNombre () {
-    let nombre = this.cookies.get('Nombre');
-    let apellido = this.cookies.get('Apellido');
+    //let nombre = this.cookies.get('Nombre');
+    //let apellido = this.cookies.get('Apellido');
+
+    let nombre = this.usuario.nombre;
+    let apellido = this.usuario.apellido;
     this.nombre=nombre.concat(' ').concat(apellido);
   }
 
   getFoto(){
-    let currentUid = this.cookies.get('UID')
+    //let currentUid = this.cookies.get('UID')
+    let currentUid = this.usuario.uid;
     // console.log('UID');
     // console.log(currentUid);
     this.usPlogger.obtenerUsuarioFoto().subscribe(resp => {

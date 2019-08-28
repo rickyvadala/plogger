@@ -1,4 +1,5 @@
 export class PerfilUsuarioModel {
+    key?:string;
     uid?: string;
     nombre?: string;
     apellido?: string;

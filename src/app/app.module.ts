@@ -20,7 +20,7 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 
 //cookies
-import { CookieService } from 'ngx-cookie-service';
+//import { CookieService } from 'ngx-cookie-service';
 
 // images
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
@@ -41,7 +41,7 @@ import { File } from '@ionic-native/file/ngx';
     FormsModule
   ],
   providers: [
-    CookieService,
+    //CookieService,
     StatusBar,
     SplashScreen,
     ImagePicker,

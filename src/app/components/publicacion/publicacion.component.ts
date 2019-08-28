@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewChecked, Output, EventEmitter} from '@angul
 import { PopoverController, AlertController } from '@ionic/angular';
 import { PopPublicacionSettingsComponent } from '../pop-publicacion-settings/pop-publicacion-settings.component';
 import { PublicacionesService } from 'src/app/services/publicaciones.service';
-import { CookieService } from 'ngx-cookie-service';
+//import { CookieService } from 'ngx-cookie-service';
 import { Subscription } from 'rxjs';
 import { PublicacionModel } from 'src/app/models/publicacion.model';
 
@@ -14,6 +14,7 @@ import { File } from '@ionic-native/file/ngx';
 
 import { storage } from 'firebase';
 import { DataShareService } from 'src/app/services/data-share.service';
+import { PerfilUsuarioModel } from 'src/app/models/perfil-usuario.model';
 
 
 @Component({
@@ -47,11 +48,13 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
   cantPosts:number;
   flagComentarios:boolean=false;
 
+  usuario:PerfilUsuarioModel={};
+
   @Output() mensajeEvent = new EventEmitter<string>();
 
   constructor(private popoverCtrl: PopoverController,
               private publicacionService:PublicacionesService,
-              private cookies: CookieService,
+              //private cookies: CookieService,
               private alertCtrl: AlertController,
               public imagePicker: ImagePicker,
               public file: File,
@@ -61,13 +64,17 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
               ) { }
   ngOnInit() {
     this.dataShare.currentMessage.subscribe( mensaje => this.popClick = mensaje);
+    this.dataShare.currentUser.subscribe( usuario => {
+      this.usuario = usuario
+    });
+
     this.verificarPath();
   }
 
   ngAfterViewChecked(): void {
     //Called after every check of the component's view. Applies to components only.
-    //Add 'implements AfterViewChecked' to the class.
-    this.uid=this.cookies.get('UID');
+    //Add 'implements AfterViewChecked' to the class.   
+    
   }
   
   ionViewWillEnter(){
@@ -97,7 +104,6 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
     if (this.textoEditar==="") {
       return;
     }
-    debugger;
     this.publicacionService.editarPost(publicacion, this.textoEditar).subscribe( resp => {
       this.cancelarEdicion(i);
       this.publicaciones[i].texto = this.textoEditar;
@@ -129,7 +135,8 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
   
 
   cargarPublicacionesPerfil(){ 
-    let UID=this.cookies.get('UID');
+    //let UID=this.cookies.get('UID');
+    let UID = this.usuario.uid;
 
     this.suscripcion=this.publicacionService.obtenerPublicacionesPerfil(UID)
     .subscribe(resp => {
@@ -248,11 +255,19 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
 
   async publicar() {
 
-    this.publicacion.uid = this.cookies.get('UID');
+
+    // this.publicacion.uid = this.cookies.get('UID');
+    // this.publicacion.fecha = (new Date).toString();
+    // this.publicacion.nombre = this.cookies.get('Nombre');
+    // this.publicacion.apellido = this.cookies.get('Apellido');
+    // this.publicacion.fotoPerfil = this.cookies.get('Foto');
+
+    this.publicacion.uid = this.usuario.uid;
     this.publicacion.fecha = (new Date).toString();
-    this.publicacion.nombre = this.cookies.get('Nombre');
-    this.publicacion.apellido = this.cookies.get('Apellido');
-    this.publicacion.fotoPerfil = this.cookies.get('Foto');
+    this.publicacion.nombre = this.usuario.nombre;
+    this.publicacion.apellido = this.usuario.apellido
+    this.publicacion.fotoPerfil = this.usuario.foto;
+
 
 
     if (this.publicacion.texto==='' && this.publicacion.foto==='') {

@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UsuarioPloggerModel } from '../models/usuario-plogger.model';
 import { map } from 'rxjs/operators';
 import { GuardService } from './guard.service';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { PerfilUsuarioModel } from '../models/perfil-usuario.model';
-import { CookieService } from 'ngx-cookie-service';
-import { PublicacionModel } from '../models/publicacion.model';
+//import { CookieService } from 'ngx-cookie-service';
 import * as firebase from 'firebase';
+import { DataShareService } from './data-share.service';
 
 
 
@@ -24,11 +24,16 @@ export class UsuarioPloggerService {
 
   private urlABM = 'https://plogger-437eb.firebaseio.com';
 
+  private usuario:PerfilUsuarioModel={};
+
   constructor( private http: HttpClient, 
               public guard: GuardService, 
               public  afAuth: AngularFireAuth,
-              private cookies: CookieService ) {
+              //private cookies: CookieService,
+              private dataShare: DataShareService ) {
     this.guard.leerToken();
+    this.dataShare.currentUser.subscribe( usuario => this.usuario = usuario);
+
   }
 
   login( usuario: UsuarioPloggerModel ) {
@@ -55,6 +60,7 @@ export class UsuarioPloggerService {
               //Se crea el objeto usuario con mail y nroUsuario
               let nroUsuario = arrayKeys[index];
               let objUsuario: PerfilUsuarioModel = {
+                key:nroUsuario,
                 uid: UID,
                 nombre: array[index].nombre,
                 apellido: array[index].apellido,
@@ -65,7 +71,8 @@ export class UsuarioPloggerService {
                 mail: mail
               }
               //Llamo al metodo para guardar cookies
-              this.setCookies (objUsuario, nroUsuario);
+              this.dataShare.changeUser(objUsuario);
+              //this.setCookies (objUsuario, nroUsuario);
               return;
             }
           }
@@ -88,10 +95,17 @@ export class UsuarioPloggerService {
         // tslint:disable-next-line: no-string-literal
         this.guard.guardarToken( resp['idToken'] );
 
+        let uid = resp.localId;
         let mail = usuario.email;
+        let usr:PerfilUsuarioModel = {
+          uid: uid,
+          mail:mail
+        }
 
-        this.cookies.set('UID', resp.localId);
-        this.cookies.set('Mail', mail);
+        this.dataShare.changeUser(usr);
+
+        //this.cookies.set('UID', resp.localId);
+        //this.cookies.set('Mail', mail);
 
         return resp;
       })
@@ -110,41 +124,43 @@ export class UsuarioPloggerService {
     .pipe(
       map( (resp: any) => {
         console.log(resp);
-        let nroUsuario = resp.name;
-        this.setCookies(user,nroUsuario)
-
+        let usuario:PerfilUsuarioModel = user;
+        usuario.key = resp.name;
+        //this.setCookies(user,nroUsuario)
+        this.dataShare.changeUser(usuario);
       })
     );
   }
 
 
   editarUsuario (usr) {
-    const userCookie = this.cookies.get('Usuario');
+    //const userCookie = this.cookies.get('Usuario');
+
     const usrTemp = {
       ...usr
     };
-    return this.http.put(`${this.urlABM}/perfil/${userCookie}.json`, usrTemp ).subscribe();
+    return this.http.put(`${this.urlABM}/perfil/${this.usuario.key}.json`, usrTemp ).subscribe();
   }
 
 
-  setCookies (objUsuario, nroUsuario) {
-      //Guardo toda la data del usuario en las cookies
-      this.cookies.set('Usuario', nroUsuario);
-      this.cookies.set('UID', objUsuario.uid);
-      this.cookies.set('TipoInicio', 'p');
-      this.cookies.set('Nombre', objUsuario.nombre);
-      this.cookies.set('Apellido', objUsuario.apellido);
-      this.cookies.set('Sexo', objUsuario.sexo);
-      this.cookies.set('FechaNac', objUsuario.fechaNac);
-      this.cookies.set('Foto', objUsuario.foto);
-      this.cookies.set('Mail', objUsuario.mail);
-  }
+  // setCookies (objUsuario, nroUsuario) {
+  //     //Guardo toda la data del usuario en las cookies
+  //     this.cookies.set('Usuario', nroUsuario);
+  //     this.cookies.set('UID', objUsuario.uid);
+  //     this.cookies.set('TipoInicio', 'p');
+  //     this.cookies.set('Nombre', objUsuario.nombre);
+  //     this.cookies.set('Apellido', objUsuario.apellido);
+  //     this.cookies.set('Sexo', objUsuario.sexo);
+  //     this.cookies.set('FechaNac', objUsuario.fechaNac);
+  //     this.cookies.set('Foto', objUsuario.foto);
+  //     this.cookies.set('Mail', objUsuario.mail);
+  // }
 
   obtenerUsuarioFoto() {
      return this.http.get(`${this.urlABM}/perfil.json`);
 
   }
 
-  }
+}
 
 

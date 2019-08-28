@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from "rxjs";
-import { UsuarioPloggerModel } from '../models/usuario-plogger.model';
+import { PerfilUsuarioModel } from '../models/perfil-usuario.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataShareService {
 
-  private usr:UsuarioPloggerModel;
-  private userSource = new BehaviorSubject<UsuarioPloggerModel>(this.usr);
+  private usr:PerfilUsuarioModel;
+  private userSource = new BehaviorSubject<PerfilUsuarioModel>(this.usr);
   currentUser = this.userSource.asObservable();
 
   private messageSource = new BehaviorSubject<string>("Mensaje Default");
@@ -20,7 +20,7 @@ export class DataShareService {
     this.messageSource.next(message);
   }
 
-  changeUser(user: UsuarioPloggerModel) {
+  changeUser(user: PerfilUsuarioModel) {
     this.userSource.next(user);
   }
 }

@@ -1,12 +1,13 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import * as firebase from 'firebase/app';
 import { Router } from '@angular/router';
 import { GuardService } from './guard.service';
-import { CookieService } from 'ngx-cookie-service';
+//import { CookieService } from 'ngx-cookie-service';
 import { PerfilUsuarioModel } from '../models/perfil-usuario.model';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { DataShareService } from './data-share.service';
  
 
 
@@ -24,21 +25,28 @@ export class UsuarioService {
   constructor(  private afAuth: AngularFireAuth,
                 private router: Router,
                 private guard: GuardService,
-                private cookies: CookieService,
-                private http: HttpClient) {
+                //private cookies: CookieService,
+                private http: HttpClient,
+                private dataShare: DataShareService) {
 
     this.guard.leerToken();
+    this.dataShare.currentUser.subscribe( usuario => this.usuario = usuario);
+
 
   }
 
+  
    login(proveedor: string) {
      if (proveedor==="google") {
         this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
         this.usuario.tipoInicio = "g";
+        //this.dataShare.changeUser(this.usuario);
 
      } else {
         this.afAuth.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider());
         this.usuario.tipoInicio = "f";
+        //this.dataShare.changeUser(this.usuario);
+
     }
         this.afAuth.authState.subscribe( user => {      
       console.log( 'Estado del usuario: ', user );
@@ -73,6 +81,8 @@ export class UsuarioService {
           if (array[index].uid === this.usuario.uid) {
             //Se crea el objeto usuario con mail y nroUsuario
             let nroUsuario = arrayKeys[index];
+
+            this.usuario.key = nroUsuario;
             this.usuario.nombre = array[index].nombre;
             this.usuario.apellido = array[index].apellido;
             this.usuario.uid = array[index].uid;
@@ -83,7 +93,9 @@ export class UsuarioService {
             console.log("Perfil existente", this.usuario);
 
             //Llamo al metodo para guardar cookies
-            this.setCookies (this.usuario, nroUsuario);
+            //this.setCookies (this.usuario, nroUsuario);
+
+            this.dataShare.changeUser(this.usuario);
             bandera = true;
             return;
           }
@@ -101,6 +113,7 @@ export class UsuarioService {
 
 
     });
+    console.log(this.usuario);
 
    }
 
@@ -124,23 +137,26 @@ export class UsuarioService {
       map( (resp: any) => {
         console.log(resp);
         let nroUsuario = resp.name;
-        this.setCookies(user,nroUsuario)
+        this.usuario=resp;
+        this.usuario.key=nroUsuario;
+        this.dataShare.changeUser(this.usuario)
+        //this.setCookies(user,nroUsuario)
 
       })
     );
   }
 
-  setCookies (objUsuario, nroUsuario) {
-    //Guardo toda la data del usuario en las cookies
-    this.cookies.set('Usuario', nroUsuario);
-    this.cookies.set('UID', objUsuario.uid);
-    this.cookies.set('TipoInicio', objUsuario.tipoInicio);
-    this.cookies.set('Nombre', objUsuario.nombre);
-    this.cookies.set('Apellido', objUsuario.apellido);
-    this.cookies.set('Sexo', objUsuario.sexo);
-    this.cookies.set('FechaNac', objUsuario.fechaNac);
-    this.cookies.set('Foto', objUsuario.foto);
-    this.cookies.set('Mail', objUsuario.mail);
-}
+//   setCookies (objUsuario, nroUsuario) {
+//     //Guardo toda la data del usuario en las cookies
+//     this.cookies.set('Usuario', nroUsuario);
+//     this.cookies.set('UID', objUsuario.uid);
+//     this.cookies.set('TipoInicio', objUsuario.tipoInicio);
+//     this.cookies.set('Nombre', objUsuario.nombre);
+//     this.cookies.set('Apellido', objUsuario.apellido);
+//     this.cookies.set('Sexo', objUsuario.sexo);
+//     this.cookies.set('FechaNac', objUsuario.fechaNac);
+//     this.cookies.set('Foto', objUsuario.foto);
+//     this.cookies.set('Mail', objUsuario.mail);
+// }
 }
 

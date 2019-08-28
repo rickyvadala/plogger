@@ -1,17 +1,23 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { PublicacionModel } from '../models/publicacion.model';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { CookieService } from 'ngx-cookie-service';
+//import { CookieService } from 'ngx-cookie-service';
+import { DataShareService } from './data-share.service';
+import { PerfilUsuarioModel } from '../models/perfil-usuario.model';
 @Injectable({
   providedIn: 'root'
 })
-export class PublicacionesService {
+export class PublicacionesService{
   private urlABM = 'https://plogger-437eb.firebaseio.com';
+  usuario:PerfilUsuarioModel={};
 
   constructor(private http:HttpClient,
-              private cookies:CookieService
-              ) { }
+              //private cookies:CookieService,
+              private dataShare: DataShareService
+              ) { 
+                this.dataShare.currentUser.subscribe( usuario => this.usuario = usuario);
+              }
 
   /* 
   Para que estemos en la misma:
@@ -56,7 +62,9 @@ export class PublicacionesService {
 
   private crearArregloPerfil(resp){
     const publicaciones: PublicacionModel[] = [];
-    const uid = this.cookies.get('UID');
+    //const uid = this.cookies.get('UID');
+    debugger;
+    let uid = this.usuario.uid;
 
     if (resp===null||resp===undefined) {return [];}
 
@@ -82,7 +90,7 @@ export class PublicacionesService {
     //const comentarios:any[] = [];
 
     if (resp===null||resp===undefined) {return [];}
-              const arrayKeys: any[] = Object.keys(resp);
+    //const arrayKeys: any[] = Object.keys(resp);
 
 
     Object.keys(resp).forEach(key =>{
