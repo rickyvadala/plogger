@@ -77,13 +77,13 @@ export class PublicacionesService{
         const comentarios: ComentarioModel[] = [];
         var x = resp[key].comentarios;
         console.log(x);
-        debugger;
+        // // debugger;
         if (x === undefined || x === null) {
           publicacion.comentarios = [];
         }
         else {
           Object.keys(resp[key].comentarios).forEach(keyComentario =>{
-            debugger;
+            // // debugger;
             let comentario: ComentarioModel = resp[key].comentarios[keyComentario];
             comentario.cid = keyComentario;
             comentarios.unshift(comentario);
@@ -94,7 +94,7 @@ export class PublicacionesService{
         publicaciones.unshift(publicacion);
       }
     });
-    return publicaciones;
+    return publicaciones; 
   }
 
   obtenerPublicacionesHome(){
@@ -109,7 +109,7 @@ export class PublicacionesService{
     //const arrayKeys: any[] = Object.keys(resp);
 
     console.log(resp);
-    debugger;
+    // // debugger;
     //Armo el vector iterable para las publicaciones
     const publicaciones: PublicacionModel[] = [];
     Object.keys(resp).forEach(key =>{
@@ -120,13 +120,13 @@ export class PublicacionesService{
         const comentarios: ComentarioModel[] = [];
         var x = resp[key].comentarios;
         console.log(x);
-        debugger;
+        // // debugger;
         if (x === undefined || x === null) {
           publicacion.comentarios = [];
         }
         else {
           Object.keys(resp[key].comentarios).forEach(keyComentario =>{
-            debugger;
+            // // debugger;
             let comentario: ComentarioModel = resp[key].comentarios[keyComentario];
             comentario.cid = keyComentario;
             comentarios.unshift(comentario);
@@ -138,7 +138,7 @@ export class PublicacionesService{
         publicaciones.unshift(publicacion);
     });
     console.log(publicaciones);
-    debugger;
+    // // debugger;
     return publicaciones;
   }
 

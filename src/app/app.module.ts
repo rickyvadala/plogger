@@ -25,6 +25,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 // images
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { File } from '@ionic-native/file/ngx';
+import { Camera } from '@ionic-native/camera/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -46,6 +47,7 @@ import { File } from '@ionic-native/file/ngx';
     SplashScreen,
     ImagePicker,
     File,
+    Camera,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

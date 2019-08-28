@@ -9,8 +9,7 @@ import { PublicacionModel } from 'src/app/models/publicacion.model';
 import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker/ngx';
 import { File } from '@ionic-native/file/ngx';
 
-// import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-// import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 
 import { storage } from 'firebase';
 import { DataShareService } from 'src/app/services/data-share.service';
@@ -61,8 +60,7 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
               public imagePicker: ImagePicker,
               public file: File,
               private dataShare: DataShareService,
-              // public camera: Camera,
-              // private sanitizer: DomSanitizer
+              public camera: Camera
               ) { }
   ngOnInit() {
     this.dataShare.currentMessage.subscribe( mensaje => this.popClick = mensaje);
@@ -154,7 +152,7 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
     this.suscripcion=this.publicacionService.obtenerPublicacionesHome()
     .subscribe(resp => {
       console.log(resp)
-      this.publicaciones = resp;
+      this.publicaciones = resp; 
       }  
     );  
   }
@@ -231,7 +229,7 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
     for (let index = 0; index < elem.length; index++) {
       const element = elem[index].closest('app-'+ubicacion);
       if (element !== null && element.tagName.toLowerCase()==='app-'+ubicacion) {
-        debugger;
+        // debugger;
         let input = elem[index] as HTMLInputElement;
         console.log(input.value);
         if (input.value==='') {
@@ -284,7 +282,7 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
 
   async publicar() {
 
-    debugger;
+    // debugger;
     // this.publicacion.uid = this.cookies.get('UID');
     // this.publicacion.fecha = (new Date).toString();
     // this.publicacion.nombre = this.cookies.get('Nombre');
@@ -314,7 +312,7 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
     } else {
 
       this.publicacionService.guardarPost(this.publicacion).subscribe(resp => {
-        debugger;
+        // debugger;
         console.log(resp);
   
         //this.publicaciones.push(this.publicacion)
@@ -367,9 +365,45 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
 
   }
 
-  sacarFoto() {
+
+  
+  async sacarFoto() {
+
+    let result1;
+    this.imageResponse = [];
+    try{
+
+    const options: CameraOptions = { 
+      quality: 70,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE
+    };
+
+    await this.camera.getPicture(options).then((result) => {
+      this.imageResponse.push('data:image/jpeg;base64,' + result);
+      this.imageURL = this.imageResponse[0];
+      this.hayFoto = true;
+          result1 = result
+    });
+
+
+    let rnd = ( Math.random() * (9999999999)).toString();
+    let img = 'pictures/publicaciones/foto' + rnd  ;
+
+    const pictures = storage().ref(img);
+    pictures.putString(this.imageURL, 'data_url', );
+
+    this.publicacion.foto = this.imageURL;
+
+  } catch (e) {
+    console.log(e); 
 
   }
+
+}
+
+
 
   doRefresh( event){
     this.verificarPath();
