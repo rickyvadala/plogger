@@ -5,13 +5,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { EventsPage } from './events.page';
-import { ComponentsModule } from 'src/app/components/components.module';
+import { ModalEventPage } from './modal-event.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: EventsPage
+    component: ModalEventPage
   }
 ];
 
@@ -20,9 +19,8 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    ComponentsModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [EventsPage]
+  declarations: [ModalEventPage]
 })
-export class EventsPageModule {}
+export class ModalEventPageModule {}
