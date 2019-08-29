@@ -2,6 +2,8 @@ export class PublicacionModel {
     pid?:string;
     //uid es el uid del usuario que hizo la publicacion
     uid?: string;
+    compartidoDeUid?:string;
+    compartidoNomApe?:string;
     texto?: string;
     /*vamos a ver sobre la marcha si usamos texto y video como atributos separados o multimedia como un atributo,
     cosa que se pueda subir o foto o video y no las dos */

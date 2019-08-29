@@ -242,14 +242,26 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
   }
 
   compartir(i,publicacion:PublicacionModel) {
-    debugger;
-    this.publicacionService.compartirPost(publicacion).subscribe();
+    //Me como este viaje para no referenciar al objeto compartido cuando hago los cambios    
+    var repost = new PublicacionModel;
+    this.publicaciones.unshift(repost);
+    this.publicaciones[0].apellido=this.publicaciones[i+1].apellido;
+    this.publicaciones[0].fotoPerfil=this.publicaciones[i+1].fotoPerfil;
+    this.publicaciones[0].nombre=this.publicaciones[i+1].nombre;
+    this.publicaciones[0].video=this.publicaciones[i+1].video;
+    this.publicaciones[0].foto=this.publicaciones[i+1].foto;
+    this.publicaciones[0].texto=this.publicaciones[i+1].texto;
+    this.publicaciones[0].fecha=(new Date).toString();
+    this.publicaciones[0].compartidoDeUid=this.publicaciones[i+1].uid;
+    this.publicaciones[0].compartidoNomApe=this.usuario.nombre+" "+this.usuario.apellido;
+    this.publicaciones[0].uid=this.usuario.uid;
+
+    this.publicacionService.compartirPost(this.publicaciones[0]).subscribe();
   }
 
 
   likeOrDislike(i){
     var x = this.publicaciones[i].like;
-    debugger;
     if (x === undefined) {
       this.flagLike=true;
       return true;
@@ -267,13 +279,11 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
   }
 
   like(i,publicacion:PublicacionModel) {
-    debugger;
     this.publicacionService.likePost(publicacion).subscribe( resp => {
       if (this.publicaciones[i].like===undefined) {
         this.publicaciones[i].like=[this.usuario.uid];
       } else {
         this.publicaciones[i].like.unshift(this.usuario.uid);
-
       }
       return;
     });
@@ -408,7 +418,6 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
           result1 = result
     });
 
-
     let rnd = ( Math.random() * (9999999999)).toString();
     let img = 'pictures/publicaciones/foto' + rnd  ;
 
@@ -422,17 +431,15 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
   }
 }
 
-
-
   doRefresh( event){
     this.verificarPath();
+    console.log(this.publicaciones);
     event.target.complete();
   }
 
   borrarComentario(j, comentario, i, publicacion) {
     this.publicacionService.borrarComentarioPost(publicacion, comentario).subscribe( resp => {
       this.publicaciones[i].comentarios.splice(j,1);
-
     });
     
   }

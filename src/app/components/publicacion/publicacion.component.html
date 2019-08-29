@@ -29,7 +29,7 @@
             <img *ngIf="item.fotoPerfil" [src]="item.fotoPerfil" />
         </ion-avatar>
         <ion-card-header color="spot">
-
+            <ion-card-subtitle *ngIf="item.compartidoDeUid!==undefined">Repost: {{item.compartidoNomApe}}</ion-card-subtitle>
             <ion-card-title>{{item.nombre}} {{item.apellido}}</ion-card-title>
         </ion-card-header>
         <ion-icon *ngIf="item.uid===usuario.uid" slot="end" name="more" color="dark" (click)="mostrarPop($event,i,item)"></ion-icon>
@@ -53,7 +53,7 @@
         <ion-button *ngIf="likeOrDislike(i)" slot="start" (click)="like(i,item)" color="light">
             <ion-icon name="heart" color="danger"></ion-icon>
         </ion-button>
-        <ion-button *ngIf="!likeOrDislike(i)" slot="start" (click)="dislike(i,item)" color="danger">
+        <ion-button *ngIf="!flagLike" slot="start" (click)="dislike(i,item)" color="danger">
             <ion-icon name="heart" color="light"></ion-icon>
         </ion-button>
         <ion-button [attr.id]="i.toString()" (click)="comentar(i,item)" color="light">

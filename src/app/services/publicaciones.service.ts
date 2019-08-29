@@ -128,8 +128,7 @@ export class PublicacionesService{
   }
 
   compartirPost(publicacion:PublicacionModel){
-    var data = {uid:this.usuario.uid}
-    return this.http.put(`${ this.urlABM }/publicacion/${ publicacion.pid }/compartido.json`,JSON.stringify(data)); 
+    return this.http.post(`${this.urlABM}/publicacion.json`, publicacion);
   }
 
   likePost(publicacion:PublicacionModel){
