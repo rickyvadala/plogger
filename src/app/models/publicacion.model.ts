@@ -8,11 +8,8 @@ export class PublicacionModel {
     foto?: string;
     video?: string;
     fecha?: string;
-    //MG no se toca
-    meGusta?: {
-        uidMegusta:string;
+    like?: {
     };
-    //comentarios EN ESTE SPRINT NO SE TOCA (los megusta tampoco)
     comentarios?:{
     };
     //Le agrego nombre apellido y foto del que publico para no tener que hacer otro get por para saber esta data

@@ -49,6 +49,8 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
   cantPosts:number;
   flagComentarios:boolean=false;
 
+  flagLike:boolean;
+
   usuario:PerfilUsuarioModel={};
 
   @Output() mensajeEvent = new EventEmitter<string>();
@@ -140,7 +142,6 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
 
     this.suscripcion=this.publicacionService.obtenerPublicacionesPerfil(UID)
     .subscribe(resp => {
-      console.log(resp)
       this.publicaciones = resp;
       this.cantPosts = resp.length;
       this.enviarMensaje();
@@ -151,7 +152,6 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
   cargarPublicacionesHome(){
     this.suscripcion=this.publicacionService.obtenerPublicacionesHome()
     .subscribe(resp => {
-      console.log(resp)
       this.publicaciones = resp; 
       }  
     );  
@@ -165,17 +165,13 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
       componentProps: {
         publicacion:publicacion
       }
-      
     });
-
     await popover.present();
     popover.onDidDismiss().then( resp => {
-    console.log(this.popClick);
      if (this.popClick==="borrar") {
       this.publicaciones.splice(i,1);
      }
      if (this.popClick==="editar") {
-
        let elem = document.getElementsByClassName("c"+i) as HTMLCollectionOf<HTMLElement>;
        var x = window.location.href;
        var ubicacion = x.substring(x.lastIndexOf('/') + 1);
@@ -195,12 +191,6 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
     });
   }
 
-
-
-  meGusta(){
-
-  }
-
   comentar(i,publicacion:PublicacionModel){
     let elem = document.getElementsByClassName("i"+i) as HTMLCollectionOf<HTMLElement>;
     var x = window.location.href;
@@ -210,9 +200,6 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
       if (element !== null && element.tagName.toLowerCase()==='app-'+ubicacion) {
         if (elem[index].style.display==='' || elem[index].style.display==='none') {
           elem[index].style.display = "block";
-          // this.publicacionService.obtenerComentariosPublicacion(publicacion).subscribe( resp => {
-          //   this.comentarios = resp;
-          // });
           return;
         } else {
           elem[index].style.display = "none";
@@ -230,7 +217,6 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
       const element = elem[index].closest('app-'+ubicacion);
       if (element !== null && element.tagName.toLowerCase()==='app-'+ubicacion) {
         let input = elem[index] as HTMLInputElement;
-        console.log(input.value);
         if (input.value==='') {
           return;
         } else {
@@ -255,8 +241,54 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
 
   }
 
-  compartir() {
+  compartir(i,publicacion:PublicacionModel) {
+    debugger;
+    this.publicacionService.compartirPost(publicacion).subscribe();
+  }
 
+
+  likeOrDislike(i){
+    var x = this.publicaciones[i].like;
+    debugger;
+    if (x === undefined) {
+      this.flagLike=true;
+      return true;
+    } 
+    else {
+      for (let index = 0; index < x.length; index++) {
+        if (x[index] === this.usuario.uid) {
+          this.flagLike=false;
+          return false;
+        }        
+      }
+      this.flagLike=true;
+      return true;
+    }
+  }
+
+  like(i,publicacion:PublicacionModel) {
+    debugger;
+    this.publicacionService.likePost(publicacion).subscribe( resp => {
+      if (this.publicaciones[i].like===undefined) {
+        this.publicaciones[i].like=[this.usuario.uid];
+      } else {
+        this.publicaciones[i].like.unshift(this.usuario.uid);
+
+      }
+      return;
+    });
+
+  }
+
+  dislike(i,publicacion:PublicacionModel) {
+    this.publicacionService.dislikePost(publicacion).subscribe( resp => {
+      for (let index = 0; index < this.publicaciones[i].like.length; index++) {
+        if (this.publicaciones[i].like[index]===this.usuario.uid) {
+          this.publicaciones[i].like.splice(index,1);
+          return;
+        }        
+      }
+    });
   }
 
 
@@ -268,8 +300,7 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
     fecha:'',
     foto: '',
     video:'',
-    meGusta: {
-      uidMegusta:''
+    like: {
     },
     comentarios: {
     },
@@ -347,12 +378,6 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
       pictures.putString(this.imageURL, 'data_url');
 
       this.publicacion.foto = this.imageURL;
-      console.log(this.publicacion);
-      
-
-      
-      console.log('imageUrl');
-      console.log(this.imageURL);
 
     }, (err) => {
       alert(err);
@@ -394,9 +419,7 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
 
   } catch (e) {
     console.log(e); 
-
   }
-
 }
 
 
@@ -405,7 +428,6 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
     this.verificarPath();
     event.target.complete();
   }
-
 
   borrarComentario(j, comentario, i, publicacion) {
     this.publicacionService.borrarComentarioPost(publicacion, comentario).subscribe( resp => {

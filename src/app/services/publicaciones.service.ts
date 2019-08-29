@@ -127,4 +127,45 @@ export class PublicacionesService{
      return this.http.delete(`${ this.urlABM }/publicacion/${ publicacion.pid }/comentarios/${ comentario.cid }.json`); 
   }
 
+  compartirPost(publicacion:PublicacionModel){
+    var data = {uid:this.usuario.uid}
+    return this.http.put(`${ this.urlABM }/publicacion/${ publicacion.pid }/compartido.json`,JSON.stringify(data)); 
+  }
+
+  likePost(publicacion:PublicacionModel){
+    // Obtiene los like
+    return this.http.get(`${ this.urlABM }/publicacion/${ publicacion.pid }/like.json`)
+    .pipe(map((x:any) => {
+      let likeArray: any[]; 
+      if (x!==null) {
+        //aca viene cuando la publicacion ya tiene likes
+        for (let index = 0; index < x.length; index++) {
+          if (x[index]===this.usuario.uid) {
+            return;
+          }
+        }
+        likeArray = x;
+        likeArray.push(this.usuario.uid);
+        return this.http.put(`${ this.urlABM }/publicacion/${ publicacion.pid }/like.json`,likeArray).subscribe();
+      } else {
+        //aca viene cuando es el primer like de una publicacion
+        likeArray = [this.usuario.uid]; 
+        return this.http.put(`${ this.urlABM }/publicacion/${ publicacion.pid }/like.json`,likeArray).subscribe();    
+      }
+    }));
+  }
+
+  dislikePost(publicacion: PublicacionModel){
+    // Obtiene los like
+    return this.http.get(`${ this.urlABM }/publicacion/${ publicacion.pid }/like.json`)
+    .pipe(map((x:any) => {
+      if (x!==null) {
+        for (let index = 0; index < x.length; index++) {
+          if (x[index]===this.usuario.uid) {
+            return this.http.delete(`${ this.urlABM }/publicacion/${ publicacion.pid }/like/${ index }.json`).subscribe();
+          }
+        }
+      }
+    }));
+  }
 }

@@ -50,13 +50,16 @@
 
     <ion-item color="spot">
 
-        <ion-button slot="start" (click)="meGusta()" color="light">
+        <ion-button *ngIf="likeOrDislike(i)" slot="start" (click)="like(i,item)" color="light">
             <ion-icon name="heart" color="danger"></ion-icon>
+        </ion-button>
+        <ion-button *ngIf="!likeOrDislike(i)" slot="start" (click)="dislike(i,item)" color="danger">
+            <ion-icon name="heart" color="light"></ion-icon>
         </ion-button>
         <ion-button [attr.id]="i.toString()" (click)="comentar(i,item)" color="light">
             <ion-icon name="chatbubbles" color="dark"></ion-icon>
         </ion-button>
-        <ion-button (click)="compartir()" slot="end" color="light">
+        <ion-button (click)="compartir(i,item)" slot="end" color="light">
             <ion-icon name="share" color="dark"></ion-icon>
         </ion-button>
     </ion-item>
