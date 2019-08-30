@@ -1,4 +1,7 @@
-<ion-card *ngFor="let event of eventos" class="eventos animated fadeIn">
+<ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" style="z-index: 999999;">
+    <ion-refresher-content></ion-refresher-content>
+</ion-refresher>
+<ion-card *ngFor="let event of eventos">
     <ion-card-header color="spot">
         <ion-card-title> {{ event.name }} </ion-card-title>
         <ion-card-subtitle> {{ event.ubication }} - {{ event.startDate }}</ion-card-subtitle>
