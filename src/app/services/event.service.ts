@@ -2,16 +2,22 @@ import { Injectable } from '@angular/core';
 import { EventoModel } from '../models/evento.model';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { DataShareService } from './data-share.service';
+import { PerfilUsuarioModel } from '../models/perfil-usuario.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventService {
+
   private urlABM = 'https://plogger-437eb.firebaseio.com';
+  usuario: PerfilUsuarioModel={};
 
   constructor(private http: HttpClient,
-             // private eventModel: EventoModel
-              ) { }
+              private dataShare: DataShareService) { 
+  
+     this.dataShare.currentUser.subscribe( usuario => this.usuario = usuario);
+              }
               
 //postea el evento 
 guardarEvento(evento: EventoModel) {
@@ -40,6 +46,29 @@ private crearArregloEventos(resp){
 
 borrarEvento(evento: EventoModel) {
   return this.http.delete(`${ this.urlABM }/evento/${evento.id}`);
+}
+
+obtenerMisEventos(){
+  return this.http.get(`${ this.urlABM }/evento.json`)
+  .pipe(
+    map( resp=>this.crearArregloMisEventos(resp) )
+  );
+}
+
+private crearArregloMisEventos(resp){
+const eventos: EventoModel[] = [];
+let uid = this.usuario.uid;
+
+if (resp===null||resp===undefined) {return [];}
+
+Object.keys(resp).forEach(key =>{
+  if (resp[key].uid===uid) {
+    const evento: EventoModel = resp[key];
+    evento.id = key;
+    eventos.unshift(evento);
+  }
+});
+return eventos; 
 }
 
 }

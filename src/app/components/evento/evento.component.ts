@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { EventService } from 'src/app/services/event.service';
 import { EventoModel } from 'src/app/models/evento.model';
 import { Subscription } from 'rxjs';
@@ -10,26 +10,36 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./evento.component.scss'],
 })
 export class EventoComponent implements OnInit {
+
   eventos : any [] = [];
   private subscripcion: Subscription;
 
-  constructor(private eventService: EventService) { }
+  misEventos: string;
+
+  constructor(private eventService: EventService ) {
+   }
 
   ngOnInit() {
-    this.cargarEventos();
-    
   }
 
   ionViewWillEnter() {
-    this.cargarEventos();
+    // this.cargarEventos();
   }
 
   cargarEventos() {
   this.subscripcion =  this.eventService.obtenerEventos()
     .subscribe(respuesta => {
+      console.log('resp todos los eventos',respuesta );
+
       this.eventos = respuesta;
-      console.log('eventos: ',this.eventos);
     })
+  }
+
+  eventosMios() {
+    this.eventService.obtenerMisEventos().subscribe(resp => {
+      console.log('resp',resp);
+      this.eventos = resp;
+    });
   }
 
   doRefresh( event){

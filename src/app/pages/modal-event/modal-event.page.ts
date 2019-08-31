@@ -49,21 +49,9 @@ export class ModalEventPage implements OnInit {
   }
 
   ngOnInit() {
-    console.log('usuario ',this.usuario);
-
   }
   
   onSubmitTemplate(form: NgForm) {
-    console.log(form.value);
-    // const event: EventoModel = {
-    //   name: form.value.name,
-    //   description: form.value.description,
-    //   ubication: form.value.ubication,
-    //   startDate: form.value.startDate,
-    //   endDate: form.value.endDate,
-    //   starTime: form.value.starTime,
-    //   endTime: form.value.endTime
-    // }
     this.event.name = form.value.name;
     this.event.description= form.value.description,
     this.event.ubication= form.value.ubication,
