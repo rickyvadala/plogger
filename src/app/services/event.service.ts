@@ -38,4 +38,8 @@ private crearArregloEventos(resp){
   return eventos;
 }
 
+borrarEvento(evento: EventoModel) {
+  return this.http.delete(`${ this.urlABM }/evento/${evento.id}`);
+}
+
 }

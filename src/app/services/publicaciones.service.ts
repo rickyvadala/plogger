@@ -13,6 +13,8 @@ export class PublicacionesService{
   private urlABM = 'https://plogger-437eb.firebaseio.com';
   usuario:PerfilUsuarioModel={};
 
+  uidOther: string;
+
   constructor(private http:HttpClient,
               //private cookies:CookieService,
               private dataShare: DataShareService
@@ -167,4 +169,46 @@ export class PublicacionesService{
       }
     }));
   }
+
+  obtenerPublicacionesPerfilOther(UID:string){
+    this.uidOther = UID;
+    return this.http.get(`${ this.urlABM }/publicacion.json`)
+    .pipe(
+      map( resp=>this.crearArregloPerfilOther(resp) )
+    );
+}
+
+private crearArregloPerfilOther(resp){
+  const publicaciones: PublicacionModel[] = [];
+  //const uid = this.cookies.get('UID');
+  let uid = this.uidOther;
+
+  if (resp===null||resp===undefined) {return [];}
+
+  Object.keys(resp).forEach(key =>{
+    if (resp[key].uid===uid) {
+      const publicacion: PublicacionModel = resp[key];
+      publicacion.pid = key;
+
+      //Armo el vector iterable para los comentarios de las publicaciones
+      const comentarios: ComentarioModel[] = [];
+      var x = resp[key].comentarios;
+      console.log(x);
+      if (x === undefined || x === null) {
+        publicacion.comentarios = [];
+      }
+      else {
+        Object.keys(resp[key].comentarios).forEach(keyComentario =>{
+          let comentario: ComentarioModel = resp[key].comentarios[keyComentario];
+          comentario.cid = keyComentario.toString();
+          comentarios.unshift(comentario);
+        });
+      }
+      publicacion.comentarios = comentarios;
+      //Aca termina la parte de comentarios
+      publicaciones.unshift(publicacion);
+    }
+  });
+  return publicaciones; 
+}
 }

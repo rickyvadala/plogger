@@ -18,7 +18,9 @@ const routes: Routes = [
   { path: 'profile', loadChildren: './pages/profile/profile.module#ProfilePageModule', canActivate: [AuthGuard]},
   { path: 'events', loadChildren: './pages/events/events.module#EventsPageModule', canActivate: [AuthGuard]},
   { path: 'cuenta', loadChildren: './pages/cuenta/cuenta.module#CuentaPageModule',canActivate: [AuthGuard] },
-  { path: 'event', loadChildren: './pages/modal-event/modal-event.module#ModalEventPageModule',canActivate: [AuthGuard] }
+  { path: 'event', loadChildren: './pages/modal-event/modal-event.module#ModalEventPageModule',canActivate: [AuthGuard] },
+  { path: 'profile/:id', loadChildren: './pages/profile-other/profile-other.module#ProfileOtherPageModule', canActivate: [AuthGuard] }
+
 
 
 ];

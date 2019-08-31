@@ -1,10 +1,8 @@
 <ion-header>
     <ion-toolbar mode="ios" color="plogger">
         <ion-title>{{ nombre }}</ion-title>
-        <ion-buttons slot="end">
-            <ion-button (click)="mostrarPop($event)">
-                <ion-icon name="settings" color="dark"></ion-icon>
-            </ion-button>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
         </ion-buttons>
     </ion-toolbar>
 
@@ -50,14 +48,15 @@
                     </ion-col>
                 </ion-row>
             </ion-col>
-            <!-- <ion-col size="12">
+            <ion-col size="12">
                 <ion-button class="center btnSeguir" color="plogger" mode="ios">
                     <ion-icon slot="start" name="add"></ion-icon>
                     Seguir
                 </ion-button>
-            </ion-col> -->
+            </ion-col>
         </ion-row>
     </ion-grid>
 
-    <app-publicacion (mensajeEvent)="recibirMensaje($event)"></app-publicacion>
+    <app-publicacion-others [profileOtherUid]="profileOtherUid"></app-publicacion-others>
+
 </ion-content>

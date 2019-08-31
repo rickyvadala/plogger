@@ -161,6 +161,24 @@ export class UsuarioPloggerService {
 
   }
 
+  obtenerPerfiles(){
+    return this.http.get(`${ this.urlABM }/perfil.json`)
+    .pipe(
+      map( resp=>this.crearArregloPerfiles(resp) )
+    );
+  }
+  
+  private crearArregloPerfiles(resp){
+    if (resp===null||resp===undefined) {return [];}
+    //Armo el vector iterable para las publicaciones
+    const perfiles: PerfilUsuarioModel[] = [];
+    Object.keys(resp).forEach(key =>{
+        let perfil: PerfilUsuarioModel = resp[key];
+        perfiles.unshift(perfil);
+    });
+    return perfiles;
+  }
+
 }
 
 
