@@ -43,7 +43,6 @@ export class EventoComponent implements OnInit {
   }
 
   doRefresh( event){
-   this.cargarEventos();
     event.target.complete();
   }
 
