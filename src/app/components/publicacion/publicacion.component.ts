@@ -246,7 +246,7 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
   compartir(i,publicacion:PublicacionModel) {
     //Me como este viaje para no referenciar al objeto compartido cuando hago los cambios    
     var repost = new PublicacionModel;
-    //this.publicaciones.unshift(repost);
+    this.publicaciones.unshift(repost);
     this.publicaciones[0].apellido=this.publicaciones[i+1].apellido;
     this.publicaciones[0].fotoPerfil=this.publicaciones[i+1].fotoPerfil;
     this.publicaciones[0].nombre=this.publicaciones[i+1].nombre;
