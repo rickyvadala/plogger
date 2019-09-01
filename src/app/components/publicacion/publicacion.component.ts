@@ -15,6 +15,7 @@ import { storage } from 'firebase';
 import { DataShareService } from 'src/app/services/data-share.service';
 import { PerfilUsuarioModel } from 'src/app/models/perfil-usuario.model';
 import { ComentarioModel } from 'src/app/models/comentario.model';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -62,7 +63,8 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
               public imagePicker: ImagePicker,
               public file: File,
               private dataShare: DataShareService,
-              public camera: Camera
+              public camera: Camera,
+              public router: Router
               ) { }
   ngOnInit() {
     this.dataShare.currentMessage.subscribe( mensaje => this.popClick = mensaje);
@@ -444,6 +446,12 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
       this.publicaciones[i].comentarios.splice(j,1);
     });
     
+  }
+
+  goToProfileOther(i) {
+    let otherProfileUid = this.publicaciones[i].uid;
+    if(otherProfileUid == this.usuario.uid){ return; }
+    this.router.navigate(['/profile', otherProfileUid]).then();
   }
 
 }

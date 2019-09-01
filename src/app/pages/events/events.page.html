@@ -6,4 +6,18 @@
 
 <ion-content>
 
+    <ion-segment (ionChange)="segmentChanged($event)" color="spot">
+        <ion-segment-button value="eventos">
+            <ion-icon name="globe"></ion-icon>
+            <ion-label>Eventos</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="miseventos">
+            <ion-icon name="ribbon"></ion-icon>
+            <ion-label>Mis eventos</ion-label>
+        </ion-segment-button>
+    </ion-segment>
+
+    <ion-button expand="full" fill="outline" mode="ios" color="spot" (click)="newEvent()">Crear evento</ion-button>
+    <img *ngIf="imagen" src="../../../assets/img/eventos.jpeg">
+    <app-evento #evento> </app-evento>
 </ion-content>

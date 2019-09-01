@@ -8,6 +8,8 @@ import { PublicacionComponent } from "./publicacion/publicacion.component";
 //Estos modals ya no hacen falta, los dejo por las dudas
 import { PopPublicacionSettingsComponent } from './pop-publicacion-settings/pop-publicacion-settings.component';
 import { FormsModule } from '@angular/forms';
+import { EventoComponent } from './evento/evento.component';
+import { PublicacionOthersComponent } from './publicacion-others/publicacion-others.component';
 
 @NgModule({
   entryComponents: [
@@ -16,12 +18,16 @@ import { FormsModule } from '@angular/forms';
   declarations: [
     PopProfileSettingsComponent,
     PopPublicacionSettingsComponent,
-    PublicacionComponent
+    PublicacionComponent,
+    EventoComponent,
+    PublicacionOthersComponent
   ],
   exports: [
     PopProfileSettingsComponent,
     PopPublicacionSettingsComponent,
-    PublicacionComponent
+    PublicacionComponent,
+    EventoComponent,
+    PublicacionOthersComponent
   ],
   imports: [
     CommonModule,

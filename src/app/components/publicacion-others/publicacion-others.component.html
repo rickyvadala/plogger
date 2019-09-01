@@ -2,50 +2,19 @@
     <ion-refresher-content></ion-refresher-content>
 </ion-refresher>
 
-
-<ion-item class="itemPublicar">
-    <ion-button (click)="subirFoto()" color="dark">
-        <ion-icon name="images"></ion-icon>
-    </ion-button>
-    <ion-button (click)="sacarFoto()" color="dark">
-        <ion-icon name="camera"></ion-icon>
-    </ion-button>
-    <ion-textarea class="margin" placeholder="Publicar" [(ngModel)]="publicacion.texto"></ion-textarea>
-    <ion-button (click)="publicar()" color="plogger">
-        <ion-icon name="checkmark-circle" color="dark"></ion-icon>
-    </ion-button>
-</ion-item>
-<ion-list *ngIf="hayFoto">
-    <ion-item>
-        <img src="{{imageResponse}}" />
-    </ion-item>
-</ion-list>
-
-
-
 <ion-card *ngFor="let item of publicaciones; let i = index;" class="publicaciones animated fadeIn">
     <ion-item mode="ios" color="spot">
         <ion-avatar class="item-avatar">
-            <img (click)="goToProfileOther(i)" *ngIf="item.fotoPerfil" [src]="item.fotoPerfil" />
+            <img *ngIf="item.fotoPerfil" [src]="item.fotoPerfil" />
         </ion-avatar>
         <ion-card-header color="spot">
             <ion-card-subtitle *ngIf="item.compartidoDeUid!==undefined">Repost: {{item.compartidoNomApe}}</ion-card-subtitle>
-            <ion-card-title (click)="goToProfileOther(i)">{{item.nombre}} {{item.apellido}}</ion-card-title>
+            <ion-card-title>{{item.nombre}} {{item.apellido}}</ion-card-title>
         </ion-card-header>
-        <ion-icon *ngIf="item.uid===usuario.uid" slot="end" name="more" color="dark" (click)="mostrarPop($event,i,item)"></ion-icon>
     </ion-item>
     <img *ngIf="item.foto" [src]="item.foto" />
     <ion-card-content *ngIf="item.texto">
         <ion-label>{{item.texto}}</ion-label>
-        <ion-item [attr.class]="'itemPublicar editarItem c'+i">
-            <ion-textarea type="text" placeholder="{{item.texto}}" [(ngModel)]="textoEditar"></ion-textarea>
-            <ion-button (click)="confirmarEdicion(i, item)" color="spot">
-                <ion-icon name="checkmark-circle" color="dark"></ion-icon>
-            </ion-button>
-            <ion-button (click)="cancelarEdicion(i)" color="danger">
-                <ion-icon name="close-circle" color="light"></ion-icon>
-            </ion-button>
-        </ion-item>
     </ion-card-content>
 
     <ion-item color="spot">
