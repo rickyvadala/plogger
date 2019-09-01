@@ -9,7 +9,7 @@ import { UsuarioPloggerService } from '../../services/usuario-plogger.service';
 })
 export class ProfileOtherPage implements OnInit {
 
-  nombre = 'Profile other';
+  nombre = '';
   foto = '../../assets/img/default-user.png';
   cantPosts = 2;
   profileOtherUid: string;  
