@@ -2,7 +2,6 @@ import { Injectable, OnInit } from '@angular/core';
 import { PublicacionModel } from '../models/publicacion.model';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-//import { CookieService } from 'ngx-cookie-service';
 import { DataShareService } from './data-share.service';
 import { PerfilUsuarioModel } from '../models/perfil-usuario.model';
 import { ComentarioModel } from '../models/comentario.model';
@@ -16,7 +15,6 @@ export class PublicacionesService{
   uidOther: string;
 
   constructor(private http:HttpClient,
-              //private cookies:CookieService,
               private dataShare: DataShareService
               ) { 
                 this.dataShare.currentUser.subscribe( usuario => this.usuario = usuario);
@@ -44,7 +42,6 @@ export class PublicacionesService{
 
   private crearArregloPerfil(resp){
     const publicaciones: PublicacionModel[] = [];
-    //const uid = this.cookies.get('UID');
     let uid = this.usuario.uid;
 
     if (resp===null||resp===undefined) {return [];}
@@ -180,7 +177,6 @@ export class PublicacionesService{
 
 private crearArregloPerfilOther(resp){
   const publicaciones: PublicacionModel[] = [];
-  //const uid = this.cookies.get('UID');
   let uid = this.uidOther;
 
   if (resp===null||resp===undefined) {return [];}

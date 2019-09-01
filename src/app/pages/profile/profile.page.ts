@@ -3,7 +3,6 @@ import { PopoverController } from '@ionic/angular';
 import { PopProfileSettingsComponent } from '../../components/pop-profile-settings/pop-profile-settings.component';
 import { UsuarioService } from '../../services/usuario-social.service';
 import { UsuarioPloggerService } from 'src/app/services/usuario-plogger.service';
-//import { CookieService } from 'ngx-cookie-service';
 import { DataShareService } from 'src/app/services/data-share.service';
 import { PerfilUsuarioModel } from 'src/app/models/perfil-usuario.model';
 
@@ -23,7 +22,6 @@ export class ProfilePage implements OnInit {
   constructor(private popoverCtrl: PopoverController,
               public us: UsuarioService, 
               public usPlogger: UsuarioPloggerService,
-              //private cookies: CookieService,
               private dataShare: DataShareService) { }
 
   ngOnInit() {
@@ -50,8 +48,6 @@ export class ProfilePage implements OnInit {
   } 
 
   getNombre () {
-    //let nombre = this.cookies.get('Nombre');
-    //let apellido = this.cookies.get('Apellido');
 
     let nombre = this.usuario.nombre;
     let apellido = this.usuario.apellido;
@@ -59,10 +55,7 @@ export class ProfilePage implements OnInit {
   }
 
   getFoto(){
-    //let currentUid = this.cookies.get('UID')
     let currentUid = this.usuario.uid;
-    // console.log('UID');
-    // console.log(currentUid);
     this.usPlogger.obtenerUsuarioFoto().subscribe(resp => {
       let fotoUsr = '';
       const array: any[] = Object.values(resp);

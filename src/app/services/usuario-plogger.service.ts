@@ -5,7 +5,6 @@ import { map } from 'rxjs/operators';
 import { GuardService } from './guard.service';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { PerfilUsuarioModel } from '../models/perfil-usuario.model';
-//import { CookieService } from 'ngx-cookie-service';
 import * as firebase from 'firebase';
 import { DataShareService } from './data-share.service';
 
@@ -29,7 +28,6 @@ export class UsuarioPloggerService {
   constructor( private http: HttpClient, 
               public guard: GuardService, 
               public  afAuth: AngularFireAuth,
-              //private cookies: CookieService,
               private dataShare: DataShareService ) {
     this.guard.leerToken();
     this.dataShare.currentUser.subscribe( usuario => this.usuario = usuario);
@@ -70,9 +68,7 @@ export class UsuarioPloggerService {
                 tipoInicio: 'p',
                 mail: mail
               }
-              //Llamo al metodo para guardar cookies
               this.dataShare.changeUser(objUsuario);
-              //this.setCookies (objUsuario, nroUsuario);
               return;
             }
           }
@@ -103,10 +99,6 @@ export class UsuarioPloggerService {
         }
 
         this.dataShare.changeUser(usr);
-
-        //this.cookies.set('UID', resp.localId);
-        //this.cookies.set('Mail', mail);
-
         return resp;
       })
     );
@@ -126,7 +118,6 @@ export class UsuarioPloggerService {
         console.log(resp);
         let usuario:PerfilUsuarioModel = user;
         usuario.key = resp.name;
-        //this.setCookies(user,nroUsuario)
         this.dataShare.changeUser(usuario);
       })
     );
@@ -134,27 +125,11 @@ export class UsuarioPloggerService {
 
 
   editarUsuario (usr) {
-    //const userCookie = this.cookies.get('Usuario');
-
     const usrTemp = {
       ...usr
     };
     return this.http.put(`${this.urlABM}/perfil/${this.usuario.key}.json`, usrTemp ).subscribe();
   }
-
-
-  // setCookies (objUsuario, nroUsuario) {
-  //     //Guardo toda la data del usuario en las cookies
-  //     this.cookies.set('Usuario', nroUsuario);
-  //     this.cookies.set('UID', objUsuario.uid);
-  //     this.cookies.set('TipoInicio', 'p');
-  //     this.cookies.set('Nombre', objUsuario.nombre);
-  //     this.cookies.set('Apellido', objUsuario.apellido);
-  //     this.cookies.set('Sexo', objUsuario.sexo);
-  //     this.cookies.set('FechaNac', objUsuario.fechaNac);
-  //     this.cookies.set('Foto', objUsuario.foto);
-  //     this.cookies.set('Mail', objUsuario.mail);
-  // }
 
   obtenerUsuarioFoto() {
      return this.http.get(`${this.urlABM}/perfil.json`);

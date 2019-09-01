@@ -9,8 +9,6 @@ This project was generated with:
 
 $ npm install
 
-$ npm install ngx-cookie-service --save
-
 $ ionic cordova plugin add cordova-plugin-file
 
 $ npm install @ionic-native/file

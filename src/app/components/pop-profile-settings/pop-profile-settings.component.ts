@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PopoverController, ModalController } from '@ionic/angular';
 import { UsuarioService } from '../../services/usuario-social.service';
-// import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 import { DataShareService } from 'src/app/services/data-share.service';
 import { PerfilUsuarioModel } from 'src/app/models/perfil-usuario.model';
@@ -17,7 +16,6 @@ export class PopProfileSettingsComponent implements OnInit {
   
   constructor(private popoverCtrl: PopoverController,
               public us: UsuarioService,
-              //private cookies: CookieService,
               private router: Router,
               private dataShare: DataShareService ) { }
 
@@ -29,10 +27,6 @@ export class PopProfileSettingsComponent implements OnInit {
   cerrarSesion() {
     // click para logout con redes sociales
     this.us.logout();
-
-    //Borrar cookies cool buena onda bff
-    //console.log(this.cookies.getAll());  
-    //this.cookies.deleteAll();
 
     this.dataShare.changeUser(null);
     

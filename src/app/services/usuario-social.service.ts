@@ -3,7 +3,6 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import * as firebase from 'firebase/app';
 import { Router } from '@angular/router';
 import { GuardService } from './guard.service';
-//import { CookieService } from 'ngx-cookie-service';
 import { PerfilUsuarioModel } from '../models/perfil-usuario.model';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
@@ -25,7 +24,6 @@ export class UsuarioService {
   constructor(  private afAuth: AngularFireAuth,
                 private router: Router,
                 private guard: GuardService,
-                //private cookies: CookieService,
                 private http: HttpClient,
                 private dataShare: DataShareService) {
 
@@ -40,13 +38,9 @@ export class UsuarioService {
      if (proveedor==="google") {
         this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
         this.usuario.tipoInicio = "g";
-        //this.dataShare.changeUser(this.usuario);
-
      } else {
         this.afAuth.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider());
         this.usuario.tipoInicio = "f";
-        //this.dataShare.changeUser(this.usuario);
-
     }
         this.afAuth.authState.subscribe( user => {      
       console.log( 'Estado del usuario: ', user );
@@ -91,9 +85,6 @@ export class UsuarioService {
             this.usuario.sexo =array[index].sexo;
             this.usuario.fechaNac = array[index].fechaNac;
             console.log("Perfil existente", this.usuario);
-
-            //Llamo al metodo para guardar cookies
-            //this.setCookies (this.usuario, nroUsuario);
 
             this.dataShare.changeUser(this.usuario);
             bandera = true;
@@ -140,23 +131,10 @@ export class UsuarioService {
         this.usuario=resp;
         this.usuario.key=nroUsuario;
         this.dataShare.changeUser(this.usuario)
-        //this.setCookies(user,nroUsuario)
-
       })
     );
   }
 
-//   setCookies (objUsuario, nroUsuario) {
-//     //Guardo toda la data del usuario en las cookies
-//     this.cookies.set('Usuario', nroUsuario);
-//     this.cookies.set('UID', objUsuario.uid);
-//     this.cookies.set('TipoInicio', objUsuario.tipoInicio);
-//     this.cookies.set('Nombre', objUsuario.nombre);
-//     this.cookies.set('Apellido', objUsuario.apellido);
-//     this.cookies.set('Sexo', objUsuario.sexo);
-//     this.cookies.set('FechaNac', objUsuario.fechaNac);
-//     this.cookies.set('Foto', objUsuario.foto);
-//     this.cookies.set('Mail', objUsuario.mail);
-// }
+
 }
 

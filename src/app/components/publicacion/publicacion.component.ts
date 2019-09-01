@@ -2,7 +2,6 @@ import { Component, OnInit, AfterViewChecked, Output, EventEmitter} from '@angul
 import { PopoverController, AlertController } from '@ionic/angular';
 import { PopPublicacionSettingsComponent } from '../pop-publicacion-settings/pop-publicacion-settings.component';
 import { PublicacionesService } from 'src/app/services/publicaciones.service';
-//import { CookieService } from 'ngx-cookie-service';
 import { Subscription } from 'rxjs';
 import { PublicacionModel } from 'src/app/models/publicacion.model';
 
@@ -58,7 +57,6 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
 
   constructor(private popoverCtrl: PopoverController,
               private publicacionService:PublicacionesService,
-              //private cookies: CookieService,
               private alertCtrl: AlertController,
               public imagePicker: ImagePicker,
               public file: File,
@@ -139,7 +137,6 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
   
 
   cargarPublicacionesPerfil(){ 
-    //let UID=this.cookies.get('UID');
     let UID = this.usuario.uid;
 
     this.suscripcion=this.publicacionService.obtenerPublicacionesPerfil(UID)
@@ -325,12 +322,6 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
   }
 
   async publicar() {
-
-    // this.publicacion.uid = this.cookies.get('UID');
-    // this.publicacion.fecha = (new Date).toString();
-    // this.publicacion.nombre = this.cookies.get('Nombre');
-    // this.publicacion.apellido = this.cookies.get('Apellido');
-    // this.publicacion.fotoPerfil = this.cookies.get('Foto');
 
     this.publicacion.uid = this.usuario.uid;
     this.publicacion.fecha = (new Date).toString();
