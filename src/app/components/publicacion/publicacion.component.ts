@@ -445,7 +445,7 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
       this.router.navigate(['/tabs/profile']);
       return;
      }
-    this.router.navigate(['/profile', otherProfileUid]).then();
+    this.router.navigate(['/tabs/profile', otherProfileUid]).then();
   }
 
 }
