@@ -441,11 +441,14 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
 
   goToProfileOther(i) {
     let otherProfileUid = this.publicaciones[i].uid;
-    if(otherProfileUid == this.usuario.uid){ 
+    console.log(otherProfileUid);
+    if(otherProfileUid === this.usuario.uid){ 
       this.router.navigate(['/tabs/profile']);
-      return;
+      // return;
+     } else {
+      this.router.navigate(['/profile', otherProfileUid]);
      }
-    this.router.navigate(['/tabs/profile', otherProfileUid]).then();
+    
   }
 
 }

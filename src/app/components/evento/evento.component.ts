@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { EventService } from 'src/app/services/event.service';
 import { EventoModel } from 'src/app/models/evento.model';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -16,7 +17,8 @@ export class EventoComponent implements OnInit {
 
   misEventos: string;
 
-  constructor(private eventService: EventService ) {
+  constructor(private eventService: EventService,
+              public router: Router ) {
    }
 
   ngOnInit() {
@@ -46,8 +48,8 @@ export class EventoComponent implements OnInit {
     event.target.complete();
   }
 
-
-
-
+  goToEvent() {
+    this.router.navigate(['/event', 12345678]).then();
+  }
 
 }

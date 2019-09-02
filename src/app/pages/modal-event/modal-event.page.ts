@@ -23,9 +23,7 @@ export class ModalEventPage implements OnInit {
     description: '',
     ubication: '',
     startDate: '',
-    starTime: '',
-    endDate: '',
-    endTime: ''
+    endDate: ''
   }
 
   usuario: PerfilUsuarioModel = {};
@@ -57,8 +55,6 @@ export class ModalEventPage implements OnInit {
     this.event.ubication= form.value.ubication,
     this.event.startDate= form.value.startDate,
     this.event.endDate= form.value.endDate,
-    this.event.starTime= form.value.starTime,
-    this.event.endTime= form.value.endTime
     //Usuario que crea el evento
     this.event.uid = this.usuario.uid;
     this.event.foto = this.imageURL;

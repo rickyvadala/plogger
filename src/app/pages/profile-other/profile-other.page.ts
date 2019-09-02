@@ -11,7 +11,7 @@ export class ProfileOtherPage implements OnInit {
 
   nombre = '';
   foto = '../../assets/img/default-user.png';
-  cantPosts = 2;
+  cantPosts = null;
   profileOtherUid: string;  
 
   constructor( public route: ActivatedRoute,
@@ -33,6 +33,10 @@ export class ProfileOtherPage implements OnInit {
       this.foto = profileOther[0].foto;
     })
 
+  }
+
+  recibirMensaje($event) {
+    this.cantPosts = $event
   }
 
 }

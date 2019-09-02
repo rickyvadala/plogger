@@ -30,6 +30,10 @@ const routes: Routes = [
       {
         path: 'profile/:id',
         loadChildren: '../profile-other/profile-other.module#ProfileOtherPageModule'
+      },
+      {
+        path: 'event/:id',
+        loadChildren: '../event/event.module#EventPageModule'
       }
     ]
   }

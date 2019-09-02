@@ -5,8 +5,6 @@ export class EventoModel {
     description: string;
     ubication: string;
     startDate: string;
-    starTime: string;
     endDate: string;
-    endTime: string;
     foto?: string;
 }
