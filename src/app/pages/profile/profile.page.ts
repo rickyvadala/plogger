@@ -29,7 +29,6 @@ export class ProfilePage implements OnInit {
   }
 
   ionViewWillEnter(){
-    debugger;
     this.getNombre();
     this.getFoto();
   }

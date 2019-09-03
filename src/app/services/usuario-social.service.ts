@@ -35,8 +35,6 @@ export class UsuarioService {
 
   
    login(proveedor: string) {
-    debugger;
-
      if (proveedor==="google") {
         this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
         this.usuario.tipoInicio = "g";
@@ -95,7 +93,6 @@ export class UsuarioService {
         }
         if (bandera === false) {
           this.crearPerfil(this.usuario).subscribe( user => {
-            debugger;
             console.log("Crea nuevo perfil",user);
           });
         }
