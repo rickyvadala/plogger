@@ -1,12 +1,12 @@
 <ion-header>
-    <ion-toolbar mode="ios" color="plogger">
+    <ion-toolbar mode="ios" color="petroleo">
         <ion-title>Eventos</ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
-    <ion-segment (ionChange)="segmentChanged($event)" color="spot">
+    <ion-segment mode="md" (ionChange)="segmentChanged($event)" color="gris1">
         <ion-segment-button value="eventos">
             <ion-icon mode="md" name="globe"></ion-icon>
             <ion-label>Eventos</ion-label>
@@ -17,7 +17,7 @@
         </ion-segment-button>
     </ion-segment>
 
-    <ion-button expand="full" fill="outline" mode="ios" color="spot" (click)="newEvent()">Crear evento</ion-button>
+    <ion-button expand="full" fill="outline" mode="ios" color="gris1" (click)="newEvent()">Crear evento</ion-button>
     <img *ngIf="imagen" src="../../../assets/img/eventos.jpeg">
     <app-evento #evento> </app-evento>
 </ion-content>

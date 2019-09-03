@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { DataShareService } from './data-share.service';
 import { PerfilUsuarioModel } from '../models/perfil-usuario.model';
+import { PublicacionModel } from '../models/publicacion.model';
 
 @Injectable({
   providedIn: 'root'
@@ -36,8 +37,28 @@ private crearArregloEventos(resp){
   //Armo el vector iterable para las publicaciones
   const eventos: EventoModel[] = [];
   Object.keys(resp).forEach(key =>{
+    
       let evento: EventoModel = resp[key];
       evento.id = key;
+
+      // arreglo publicaciones en evento
+
+    const publicaciones: PublicacionModel[] = [];
+    var x = resp[key].publicaciones;
+    if (x === undefined || x === null) {
+      evento.publicaciones = [];
+    }
+    else {
+      Object.keys(resp[key].publicaciones).forEach(keyPublicacion =>{
+        
+        let publicacion: PublicacionModel = resp[key].publicaciones[keyPublicacion];
+        publicacion.pid = keyPublicacion.toString();
+        publicaciones.unshift(publicacion);
+      });
+    }
+    evento.publicaciones = publicaciones;
+
+// aca termina
 
       eventos.unshift(evento);
   });
@@ -65,10 +86,71 @@ Object.keys(resp).forEach(key =>{
   if (resp[key].uid===uid) {
     const evento: EventoModel = resp[key];
     evento.id = key;
+
+    // arreglo publicaciones en evento
+
+    const publicaciones: PublicacionModel[] = [];
+        var x = resp[key].publicaciones;
+        if (x === undefined || x === null) {
+          evento.publicaciones = [];
+        }
+        else {
+          Object.keys(resp[key].publicaciones).forEach(keyPublicacion =>{
+            
+            let publicacion: PublicacionModel = resp[key].publicaciones[keyPublicacion];
+            publicacion.pid = keyPublicacion.toString();
+            publicaciones.unshift(publicacion);
+          });
+        }
+        evento.publicaciones = publicaciones;
+
+    // aca termina
     eventos.unshift(evento);
   }
 });
 return eventos; 
+}
+
+publicarEnEvento(eid: string, publicacion:PublicacionModel) {
+
+  return this.http.post(`${this.urlABM}/evento/${eid}/publicaciones.json`, publicacion);
+}
+
+likePost(eid: string, publicacion:PublicacionModel){
+  // Obtiene los like
+  return this.http.get(`${this.urlABM}/evento/${eid}/publicaciones/${ publicacion.pid }/like.json`)
+  .pipe(map((x:any) => {
+    let likeArray: any[]; 
+    if (x!==null) {
+      //aca viene cuando la publicacion ya tiene likes
+      for (let index = 0; index < x.length; index++) {
+        if (x[index]===this.usuario.uid) {
+          return;
+        }
+      }
+      likeArray = x;
+      likeArray.push(this.usuario.uid);
+      return this.http.put(`${this.urlABM}/evento/${eid}/publicaciones/${ publicacion.pid }/like.json`,likeArray).subscribe();
+    } else {
+      //aca viene cuando es el primer like de una publicacion
+      likeArray = [this.usuario.uid]; 
+      return this.http.put(`${this.urlABM}/evento/${eid}/publicaciones/${ publicacion.pid }/like.json`,likeArray).subscribe();    
+    }
+  }));
+}
+
+dislikePost(eid:string, publicacion: PublicacionModel){
+  // Obtiene los like
+  return this.http.get(`${this.urlABM}/evento/${eid}/publicaciones/${ publicacion.pid }/like.json`)
+  .pipe(map((x:any) => {
+    if (x!==null) {
+      for (let index = 0; index < x.length; index++) {
+        if (x[index]===this.usuario.uid) {
+          return this.http.delete(`${this.urlABM}/evento/${eid}/publicaciones/${ publicacion.pid }/like/${ index }.json`).subscribe();
+        }
+      }
+    }
+  }));
 }
 
 }

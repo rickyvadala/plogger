@@ -1,3 +1,4 @@
+import { PublicacionModel } from './publicacion.model';
 export class EventoModel {
     id?: string;
     uid?: string;
@@ -7,4 +8,5 @@ export class EventoModel {
     startDate: string;
     endDate: string;
     foto?: string;
+    publicaciones?: PublicacionModel[];
 }

@@ -31,15 +31,12 @@ export class EventoComponent implements OnInit {
   cargarEventos() {
   this.subscripcion =  this.eventService.obtenerEventos()
     .subscribe(respuesta => {
-      console.log('resp todos los eventos',respuesta );
-
       this.eventos = respuesta;
     })
   }
 
   eventosMios() {
     this.eventService.obtenerMisEventos().subscribe(resp => {
-      console.log('resp',resp);
       this.eventos = resp;
     });
   }
@@ -48,8 +45,10 @@ export class EventoComponent implements OnInit {
     event.target.complete();
   }
 
-  goToEvent() {
-    this.router.navigate(['/event', 12345678]).then();
+  goToEvent(i) {
+    let eid = this.eventos[i].id;
+    this.router.navigate([`/event/${eid}`],  {state:  this.eventos[i]} );
+    // this.router.navigate(['/event', eid],).then();
   }
 
 }

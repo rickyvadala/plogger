@@ -10,6 +10,7 @@ import { PopPublicacionSettingsComponent } from './pop-publicacion-settings/pop-
 import { FormsModule } from '@angular/forms';
 import { EventoComponent } from './evento/evento.component';
 import { PublicacionOthersComponent } from './publicacion-others/publicacion-others.component';
+import { PublicacionEventoComponent } from './publicacion-evento/publicacion-evento.component';
 
 @NgModule({
   entryComponents: [
@@ -20,14 +21,16 @@ import { PublicacionOthersComponent } from './publicacion-others/publicacion-oth
     PopPublicacionSettingsComponent,
     PublicacionComponent,
     EventoComponent,
-    PublicacionOthersComponent
+    PublicacionOthersComponent,
+    PublicacionEventoComponent
   ],
   exports: [
     PopProfileSettingsComponent,
     PopPublicacionSettingsComponent,
     PublicacionComponent,
     EventoComponent,
-    PublicacionOthersComponent
+    PublicacionOthersComponent,
+    PublicacionEventoComponent
   ],
   imports: [
     CommonModule,

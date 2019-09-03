@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, ViewChild, AfterViewInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { EventService } from 'src/app/services/event.service';
 import { EventoComponent } from '../../components/evento/evento.component';
 
@@ -12,11 +12,15 @@ export class EventsPage implements OnInit, AfterViewInit {
 
   misEventos;
   imagen = true;
+  eid: string;
   @ViewChild('evento') evento: EventoComponent;
   
 
   constructor(private router: Router,
-              private eventService: EventService) { }
+              private eventService: EventService) { 
+
+   
+              }
 
   ngOnInit() {
   this.eventService.obtenerEventos().subscribe(resp => { });

@@ -1,0 +1,103 @@
+<!-- <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" style="z-index: 999999;">
+    <ion-refresher-content></ion-refresher-content>
+</ion-refresher> -->
+
+
+<ion-item class="itemPublicar">
+    <ion-button (click)="subirFoto()" color="dark">
+        <ion-icon name="images"></ion-icon>
+    </ion-button>
+    <ion-button (click)="sacarFoto()" color="dark">
+        <ion-icon name="camera"></ion-icon>
+    </ion-button>
+    <ion-textarea class="margin" placeholder="Publicar" [(ngModel)]="publicacion.texto"></ion-textarea>
+    <ion-button (click)="publicar()" color="petroleo">
+        <ion-icon name="checkmark-circle" color="dark"></ion-icon>
+    </ion-button>
+</ion-item>
+<ion-list *ngIf="hayFoto">
+    <ion-item>
+        <img src="{{imageResponse}}" />
+    </ion-item>
+</ion-list>
+
+<ion-card *ngFor="let item of publicaciones; let i = index;" class="publicaciones animated fadeIn">
+    <ion-item mode="ios" color="spot">
+        <ion-avatar class="item-avatar">
+            <img *ngIf="item.fotoPerfil" [src]="item.fotoPerfil" />
+        </ion-avatar>
+        <ion-card-header color="spot">
+            <!-- <ion-card-subtitle *ngIf="item.compartidoDeUid!==undefined">Repost: {{item.compartidoNomApe}}</ion-card-subtitle> -->
+            <ion-card-title (click)="goToProfileOther(i)">{{item.nombre}} {{item.apellido}}</ion-card-title>
+        </ion-card-header>
+        <!-- <ion-icon *ngIf="item.uid===usuario.uid" slot="end" name="more" color="dark" (click)="mostrarPop($event,i,item)"></ion-icon> -->
+    </ion-item>
+    <img (click)="goToProfileOther(i)" *ngIf="item.foto" [src]="item.foto" />
+    <ion-card-content *ngIf="item.texto">
+        <ion-label>{{item.texto}}</ion-label>
+        <!-- <ion-item [attr.class]="'itemPublicar editarItem c'+i">
+            <ion-textarea type="text" placeholder="{{item.texto}}" [(ngModel)]="textoEditar"></ion-textarea>
+            <ion-button (click)="confirmarEdicion(i, item)" color="spot">
+                <ion-icon name="checkmark-circle" color="dark"></ion-icon>
+            </ion-button>
+            <ion-button (click)="cancelarEdicion(i)" color="danger">
+                <ion-icon name="close-circle" color="light"></ion-icon>
+            </ion-button>
+        </ion-item> -->
+    </ion-card-content>
+
+    <ion-item color="spot">
+
+        <ion-button *ngIf="likeOrDislike(i)" slot="start" (click)="like(i,item)" color="light">
+            <ion-icon name="heart" color="danger"></ion-icon>
+        </ion-button>
+        <ion-button *ngIf="!flagLike" slot="start" (click)="dislike(i,item)" color="danger">
+            <ion-icon name="heart" color="light"></ion-icon>
+        </ion-button>
+        <ion-button [attr.id]="i.toString()" (click)="comentar(i,item)" color="light">
+            <ion-icon name="chatbubbles" color="dark"></ion-icon>
+        </ion-button>
+        <ion-button (click)="compartir(i,item)" slot="end" color="light">
+            <ion-icon name="share" color="dark"></ion-icon>
+        </ion-button>
+    </ion-item>
+    <!-- <div [attr.class]="'comentariosItem i'+i.toString()">
+
+        <ion-item>
+            <ion-input type="text" placeholder="Comentar" [attr.class]="'inputComentar'+i.toString()"></ion-input>
+            <ion-button (click)="confirmarComentario(i,item)" color="spot">
+                <ion-icon name="checkmark-circle" color="dark"></ion-icon>
+            </ion-button>
+        </ion-item>
+        <ion-list *ngFor="let comentario of item.comentarios; let j = index;">
+
+            <ion-grid fixed class="gridComments">
+                <ion-row>
+                    <ion-col size="2">
+                        <ion-avatar class="item-avatar-comentario">
+                            <img [src]="comentario.fotoComentario" />
+                        </ion-avatar>
+                    </ion-col>
+                    <ion-col size="5">
+                        <ion-card-header style="padding: 0; margin: 0;">
+                            <ion-card-title class="lblNombreComentario">{{comentario.nombreComentario}} {{comentario.apellidoComentario}}</ion-card-title>
+                        </ion-card-header>
+                    </ion-col>
+                    <ion-col size="5">
+                        <ion-label style="float: right;">{{comentario.fechaComentario | date:'short'}}</ion-label>
+                    </ion-col>
+                </ion-row>
+
+            </ion-grid>
+            <ion-item>
+                <ion-label>{{comentario.comentario}}</ion-label>
+                <ion-button *ngIf="usuario.uid===comentario.uidComentario" (click)="borrarComentario(j,comentario,i,item)" color="danger">
+                    <ion-icon style="margin:0; padding: 0;" slot="end" name="trash" color="light"></ion-icon>
+                </ion-button>
+            </ion-item>
+
+
+        </ion-list>
+    </div> -->
+
+</ion-card>

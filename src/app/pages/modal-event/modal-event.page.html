@@ -9,7 +9,7 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content padding color="plogger">
+<ion-content padding color="petroleo">
 
     <h4 class="mb-20">Crear evento</h4>
     <form #formulario="ngForm" (ngSubmit)="onSubmitTemplate( formulario )">
@@ -23,18 +23,18 @@
                 <ion-textarea name="description" [(ngModel)]="event.description" type="text" required></ion-textarea>
             </ion-item>
             <ion-item>
-                <ion-label>Comienzo </ion-label>
+                <ion-label>Fecha de inicio</ion-label>
             </ion-item>
             <ion-item>
-                <ion-datetime name="startDate" [(ngModel)]="event.startDate" display-format="DD MM YYYY HH:mm" placeholder="Fecha" cancelText="Cancelar" doneText="Ok" required>
+                <ion-datetime name="startDate" [(ngModel)]="event.startDate" display-format="DD MM YYYY HH:mm" placeholder="Seleccionar" cancelText="Cancelar" doneText="Ok" required>
                     Fecha
                 </ion-datetime>
             </ion-item>
             <ion-item>
-                <ion-label>Fin </ion-label>
+                <ion-label>Fecha de finalizacion </ion-label>
             </ion-item>
             <ion-item>
-                <ion-datetime name="endDate" [(ngModel)]="event.endDate" display-format="DD MM YYYY HH:mm" placeholder="Fin" cancelText="Cancelar" doneText="Ok" required>
+                <ion-datetime name="endDate" [(ngModel)]="event.endDate" display-format="DD MM YYYY HH:mm" placeholder="Seleccionar" cancelText="Cancelar" doneText="Ok" required>
                     Fecha
                 </ion-datetime>
             </ion-item>
