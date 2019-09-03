@@ -59,9 +59,7 @@ export class UsuarioService {
       this.usuario.foto = user.photoURL;
       this.usuario.sexo ="p";
       this.usuario.fechaNac ="";
-      this.router.navigate(['/tabs']);
       this.guard.guardarToken(user.refreshToken);
-
 
 
 
@@ -85,6 +83,8 @@ export class UsuarioService {
             this.usuario.sexo =array[index].sexo;
             this.usuario.fechaNac = array[index].fechaNac;
             console.log("Perfil existente", this.usuario);
+            this.router.navigate(['/tabs']);
+
 
             this.dataShare.changeUser(this.usuario);
             bandera = true;
@@ -105,7 +105,6 @@ export class UsuarioService {
 
     });
     console.log(this.usuario);
-
    }
 
    logout() {
@@ -128,9 +127,10 @@ export class UsuarioService {
       map( (resp: any) => {
         console.log(resp);
         let nroUsuario = resp.name;
-        this.usuario=resp;
         this.usuario.key=nroUsuario;
-        this.dataShare.changeUser(this.usuario)
+        this.dataShare.changeUser(this.usuario);
+        this.router.navigate(['/tabs']);
+
       })
     );
   }
