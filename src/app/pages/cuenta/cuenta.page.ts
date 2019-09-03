@@ -45,27 +45,34 @@ export class CuentaPage implements OnInit {
   }
 
   volver() {
-    this.router.navigate(['/tabs/profile']);
+    this.router.navigate(['/tabs/home']);
   }
 
     cambioFecha(event) {
-    console.log('ionChange', event);
     console.log('Date', new Date(event.detail.value));
   }
 
   onSubmitTemplate(form: NgForm) {
-    
+ 
     //Creo el usuario que va a pisar la base de datos
     const usuario: PerfilUsuarioModel = {
       apellido: form.value.apellido,
       fechaNac: form.value.fecha,
-      foto: this.imageURL,
+      //foto: this.imageURL,
       nombre: form.value.nombre,
       sexo: form.value.sexo,
       tipoInicio: this.usuario.tipoInicio,
       uid: this.usuario.uid,
       mail:this.usuario.mail
     }
+    // Solucion de que se borra la foto actual si no subis una
+    if (this.imageURL===undefined) {
+      usuario.foto=this.usuario.foto;
+    } else {
+      usuario.foto=this.imageURL;
+      this.usuario.foto = this.imageURL;
+    }   
+
     //Llamo al metodo que hace el PUT y le mando el usuario
     this.authPlogger.editarUsuario( usuario );
 
@@ -73,13 +80,10 @@ export class CuentaPage implements OnInit {
     this.usuario.nombre = form.value.nombre;
     this.usuario.fechaNac = form.value.fecha;
     this.usuario.sexo = form.value.sexo;
-    this.usuario.foto = this.imageURL;
 
     this.dataShare.changeUser(this.usuario);
     
-    
     this.volver();
-
   }
 
   async cambiarContrasena() {
