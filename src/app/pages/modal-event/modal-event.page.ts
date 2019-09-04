@@ -33,9 +33,11 @@ export class ModalEventPage implements OnInit {
   nombreImg: string;
   hayFoto= false;
   imagStorage: string;
+  fechasInvalidas = true;
 
-
-
+  editar = false;
+  
+  eventEditar: any;
   constructor(private router: Router,
               private eventServices: EventService,
               private dataShare: DataShareService,
@@ -43,32 +45,63 @@ export class ModalEventPage implements OnInit {
               public imagePicker: ImagePicker,
               public file: File) { 
 
-  this.dataShare.currentUser.subscribe( usuario => this.usuario = usuario)
+  this.dataShare.currentUser.subscribe( usuario => this.usuario = usuario);
+  this.eventEditar = this.router.getCurrentNavigation().extras.state;
+
+  if (this.eventEditar){
+    this.editar = true;
+    this.event.id = this.eventEditar.id;
+    this.event.name = this.eventEditar.name;
+    this.event.description = this.eventEditar.description;
+    this.event.startDate = this.eventEditar.startDate;
+    this.event.endDate = this.eventEditar.endDate;
+    this.event.foto = this.eventEditar.foto;
+    this.event.ubication = this.eventEditar.ubication;
+    this.event.uid = this.eventEditar.uid;
+  }
+  
   }
 
   ngOnInit() {
   }
   
   onSubmitTemplate(form: NgForm) {
-    this.event.name = form.value.name;
-    this.event.description= form.value.description,
-    this.event.ubication= form.value.ubication,
-    this.event.startDate= form.value.startDate,
-    this.event.endDate= form.value.endDate,
-    //Usuario que crea el evento
-    this.event.uid = this.usuario.uid;
-    this.event.foto = this.imageURL;
 
-    this.eventServices.guardarEvento(this.event)
-        .subscribe(resp => {
-          console.log(resp);
-          if (resp !== null) {
-            this.eventoCreadoAlert();
-            this.volver();
-          } else {
-            this.errorCrearEventoAlert();
-          }
-        });
+    if(this.editar) {
+      this.eventServices.editarEvento(this.event).subscribe(resp => {
+        if(resp !== null) {
+            this.eventoEditadoAlert();
+        }
+      });
+
+    } else {
+      
+      this.event.name = form.value.name;
+      this.event.description= form.value.description,
+      this.event.ubication= form.value.ubication,
+      this.event.startDate= form.value.startDate,
+      this.event.endDate= form.value.endDate,
+      //Usuario que crea el evento
+      this.event.uid = this.usuario.uid;
+      this.event.foto = this.imageURL;
+  
+     if( this.validarFechas(this.event.endDate, this.event.startDate)){
+      this.eventServices.guardarEvento(this.event)
+      .subscribe(resp => {
+        console.log(resp);
+        if (resp !== null) {
+          this.eventoCreadoAlert();
+          this.volver();
+        } else {
+          this.errorCrearEventoAlert();
+        }
+      });
+  
+     } else {
+       return;
+     }
+
+    } 
 
   }
 
@@ -117,7 +150,7 @@ export class ModalEventPage implements OnInit {
       buttons: [
         {
           text: 'Continuar',
-          handler: (blah) => {console.log('Button ok');}
+          handler: (blah) => {}
         }
       ]
     });
@@ -131,7 +164,49 @@ export class ModalEventPage implements OnInit {
       buttons: [
         {
           text: 'Ok',
-          handler: (blah) => {console.log('Button ok');}
+          handler: (blah) => { }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  async fechaInvalidaAlert() {
+    const alert = await this.alertCtrl.create({
+      header: 'Fecha Inválida',
+      message: 'La fecha de finalización debe ser posterior a la fecha de inicio del evento',
+      buttons: [
+        {
+          text: 'Ok',
+          handler: (blah) => {}
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  validarFechas(endDate, startDate) {
+    let inicio = new Date(startDate);
+    let fin = new Date(endDate);
+    if (fin < inicio) {
+      this.fechaInvalidaAlert();
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  async eventoEditadoAlert() {
+    const alert = await this.alertCtrl.create({
+      header: 'Evento editado con éxito!',
+      buttons: [
+        {
+          text: 'Ok',
+          handler: (blah) => {
+            // this.router.navigate([`/event/${this.event.id}`], {state:  this.event});
+            this.router.navigate(['/tabs/events']);
+            
+          }
         }
       ]
     });

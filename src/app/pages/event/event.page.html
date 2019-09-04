@@ -1,27 +1,37 @@
 <ion-header>
     <ion-toolbar color="petroleo">
         <ion-title>Evento</ion-title>
+
         <ion-buttons slot="start">
             <ion-back-button></ion-back-button>
+        </ion-buttons>
+
+        <ion-buttons slot="end" *ngIf="miEvento">
+            <ion-button (click)="mostrarPop($event)">
+                <ion-icon name="settings" color="light"></ion-icon>
+            </ion-button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-
+<ion-content padding="padding">
     <ion-card mode="ios" class="evento">
         <ion-card-header>
-            <ion-card-subtitle>{{inicio | date: 'dd/MM/yyyy HH:mm'}}</ion-card-subtitle>
+            <ion-card-subtitle>
+                {{inicio | date: 'dd/MM/yyyy HH:mm'}}
+            </ion-card-subtitle>
+
             <ion-card-title>{{ name }}</ion-card-title>
+
             <ion-card-subtitle>{{ location }}</ion-card-subtitle>
         </ion-card-header>
 
         <ion-card-content>
             {{ description }}
+
             <ion-img *ngIf="foto" [src]="foto"></ion-img>
         </ion-card-content>
     </ion-card>
 
     <app-publicacion-evento [eid]="eid"></app-publicacion-evento>
-
 </ion-content>

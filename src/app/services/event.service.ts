@@ -65,8 +65,15 @@ private crearArregloEventos(resp){
   return eventos;
 }
 
-borrarEvento(evento: EventoModel) {
-  return this.http.delete(`${ this.urlABM }/evento/${evento.id}`);
+borrarEvento(eventoId: string) {
+  return this.http.delete(`${ this.urlABM }/evento/${eventoId}.json`);
+}
+
+editarEvento(evento: EventoModel) {
+  var data = {
+   ...evento
+  };
+  return this.http.put(`${ this.urlABM }/evento/${evento.id}.json`, data);
 }
 
 obtenerMisEventos(){

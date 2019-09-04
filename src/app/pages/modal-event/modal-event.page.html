@@ -5,16 +5,18 @@
                 <ion-icon slot="icon-only" name="close"></ion-icon>
             </ion-button>
         </ion-buttons>
-        <ion-title>Nuevo Evento</ion-title>
+        <ion-title *ngIf="!editar">Nuevo Evento</ion-title>
+        <ion-title *ngIf="editar">{{event.name}}</ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content padding color="petroleo">
 
-    <h4 class="mb-20">Crear evento</h4>
+    <h4 *ngIf="!editar" class="mb-20">Crear evento</h4>
+    <h4 *ngIf="editar" class="mb-20">Editar evento</h4>
     <form #formulario="ngForm" (ngSubmit)="onSubmitTemplate( formulario )">
         <ion-list class="mb-20" color="plogger">
-            <ion-item>
+            <ion-item *ngIf="!editar">
                 <ion-label position="floating">Nombre</ion-label>
                 <ion-input name="name" [(ngModel)]="event.name" type="text" required></ion-input>
             </ion-item>
@@ -26,7 +28,7 @@
                 <ion-label>Fecha de inicio</ion-label>
             </ion-item>
             <ion-item>
-                <ion-datetime name="startDate" [(ngModel)]="event.startDate" display-format="DD MM YYYY HH:mm" placeholder="Seleccionar" cancelText="Cancelar" doneText="Ok" required>
+                <ion-datetime #startDate name="startDate" [(ngModel)]="event.startDate" display-format="DD MM YYYY HH:mm" placeholder="Seleccionar" cancelText="Cancelar" doneText="Ok" required>
                     Fecha
                 </ion-datetime>
             </ion-item>

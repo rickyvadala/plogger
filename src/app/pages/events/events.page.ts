@@ -18,8 +18,6 @@ export class EventsPage implements OnInit, AfterViewInit {
 
   constructor(private router: Router,
               private eventService: EventService) { 
-
-   
               }
 
   ngOnInit() {
