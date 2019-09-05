@@ -29,6 +29,7 @@ ion-card-title {
 
 ion-card-content {
     background-color: white;
+    padding-bottom: 0;
 }
 
 .comentariosItem {
@@ -59,4 +60,8 @@ ion-grid {
 
 ion-list {
     padding: 2px 0;
+}
+
+ion-label.mg {
+    font-size: 13px;
 }

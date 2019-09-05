@@ -288,8 +288,9 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
       }
       return;
     });
-
   }
+
+
 
   dislike(i,publicacion:PublicacionModel) {
     this.publicacionService.dislikePost(publicacion).subscribe( resp => {
@@ -448,7 +449,15 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
      } else {
       this.router.navigate(['/profile', otherProfileUid]);
      }
-    
+  }
+
+  mostrarLikes(i,item:PublicacionModel) {
+    if (this.publicaciones[i].like===undefined || this.publicaciones[i].like.length===0) {
+      return false;
+    } else {
+      return true;
+
+    }
   }
 
 }
