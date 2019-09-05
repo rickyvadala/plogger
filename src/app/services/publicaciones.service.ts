@@ -207,4 +207,30 @@ private crearArregloPerfilOther(resp){
   });
   return publicaciones; 
 }
+
+  getUserOfLikes(likes:any[]) {
+    return this.http.get(`${ this.urlABM }/perfil.json`)
+    .pipe(
+      map( resp=>this.crearArregloLikes(resp,likes) )
+    );  }
+    
+    private crearArregloLikes(resp,likes){
+      const likesArray: any[] = [];
+      if (resp===null||resp===undefined) {return [];}
+      Object.keys(resp).forEach(key =>{
+        for (let index = 0; index < likes.length; index++) {
+          if (resp[key].uid===likes[index]) {
+            let objeto = {
+              nombre: resp[key].nombre,
+              apellido: resp[key].apellido,
+              foto: resp[key].foto,
+              uid: resp[key].uid
+            }
+            likesArray.unshift(objeto);
+          }
+        }
+      });
+      return likesArray; 
+    }
+
 }

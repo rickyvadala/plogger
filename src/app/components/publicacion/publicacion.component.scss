@@ -29,7 +29,7 @@ ion-card-title {
 
 ion-card-content {
     background-color: white;
-    padding-bottom: 0;
+    //padding-bottom: 0;
 }
 
 .comentariosItem {
@@ -62,6 +62,12 @@ ion-list {
     padding: 2px 0;
 }
 
-ion-label.mg {
-    font-size: 13px;
+.icon {
+    vertical-align: middle;
+    font-size: 17.5px;
+}
+
+.text {
+    font-size: 12px;
+    vertical-align: bottom;
 }

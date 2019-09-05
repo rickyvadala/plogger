@@ -35,20 +35,22 @@
         <ion-icon *ngIf="item.uid===usuario.uid" slot="end" name="more" color="dark" (click)="mostrarPop($event,i,item)"></ion-icon>
     </ion-item>
     <img *ngIf="item.foto" [src]="item.foto" />
-    <ion-card-content *ngIf="item.texto">
-        <ion-label class="lblContent">{{item.texto}}</ion-label>
-        <ion-item [attr.class]="'itemPublicar editarItem c'+i">
-            <ion-textarea type="text" placeholder="{{item.texto}}" [(ngModel)]="textoEditar"></ion-textarea>
-            <ion-button (click)="confirmarEdicion(i, item)" color="spot">
-                <ion-icon name="checkmark-circle" color="dark"></ion-icon>
-            </ion-button>
-            <ion-button (click)="cancelarEdicion(i)" color="danger">
-                <ion-icon name="close-circle" color="light"></ion-icon>
-            </ion-button>
-        </ion-item><br>
-        <div class="btnMostrarLikes" *ngIf="mostrarLikes(i,item)" slot="start" (click)="verLikes(i,item)">
-            <ion-icon class="verMg" name="heart" color="danger"></ion-icon>
-            <ion-label class="mg">&nbsp;{{publicaciones[i].like.length}}</ion-label>
+    <ion-card-content *ngIf="item.texto || mostrarLikes(i)">
+        <div *ngIf="item.texto">
+            <ion-label class="lblContent">{{item.texto}}</ion-label>
+            <ion-item [attr.class]="'itemPublicar editarItem c'+i">
+                <ion-textarea type="text" placeholder="{{item.texto}}" [(ngModel)]="textoEditar"></ion-textarea>
+                <ion-button (click)="confirmarEdicion(i, item)" color="spot">
+                    <ion-icon name="checkmark-circle" color="dark"></ion-icon>
+                </ion-button>
+                <ion-button (click)="cancelarEdicion(i)" color="danger">
+                    <ion-icon name="close-circle" color="light"></ion-icon>
+                </ion-button>
+            </ion-item><br>
+        </div>
+        <div class="btnMostrarLikes" *ngIf="mostrarLikes(i,item)" slot="start" (click)="verLikes(i)">
+            <ion-icon class="icon" name="heart" color="danger"></ion-icon>
+            <ion-label class="text">&nbsp;{{publicaciones[i].like.length}}</ion-label>
         </div>
     </ion-card-content>
 

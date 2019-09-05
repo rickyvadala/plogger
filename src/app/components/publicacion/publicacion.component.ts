@@ -15,6 +15,7 @@ import { DataShareService } from 'src/app/services/data-share.service';
 import { PerfilUsuarioModel } from 'src/app/models/perfil-usuario.model';
 import { ComentarioModel } from 'src/app/models/comentario.model';
 import { Router } from '@angular/router';
+import { PopLikesComponent } from '../pop-likes/pop-likes.component';
 
 
 @Component({
@@ -451,13 +452,24 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
      }
   }
 
-  mostrarLikes(i,item:PublicacionModel) {
+  mostrarLikes(i) {
     if (this.publicaciones[i].like===undefined || this.publicaciones[i].like.length===0) {
       return false;
     } else {
       return true;
-
     }
+  }
+
+  async verLikes(i,evento){
+    let likes = this.publicaciones[i].like;
+    const popover = await this.popoverCtrl.create({
+      component: PopLikesComponent,
+      mode: 'ios',
+      componentProps: {
+        likes:likes
+      }
+    });
+    await popover.present();
   }
 
 }
