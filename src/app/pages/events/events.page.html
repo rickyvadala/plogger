@@ -4,7 +4,11 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content padding>
+    <ion-auto-complete [template]="name" [showResultsFirst]="false" [(model)]="selected" (itemSelected)="itemSelected($event)" [multi]="false" [dataProvider]="searchService" [disabled]="false" [removeButtonColor]="'dark'" [options]="{ placeholder : ' ', debounce : '1000' }">
+
+    </ion-auto-complete>
+
 
     <ion-segment mode="md" (ionChange)="segmentChanged($event)" color="gris1">
         <ion-segment-button value="eventos">
@@ -19,5 +23,22 @@
 
     <ion-button expand="full" fill="outline" mode="ios" color="gris1" (click)="newEvent()">Crear evento</ion-button>
     <img *ngIf="imagen" src="../../../assets/img/eventos.jpeg">
+
+
+
     <app-evento #evento> </app-evento>
+
+
+
+    <ng-template #name let-attrs="attrs">
+        <ion-item>
+            <ion-avatar slot="start">
+                <img *ngIf="attrs.data.foto" [src]="attrs.data.foto">
+            </ion-avatar>
+            <ion-text>
+                {{attrs.data.name }}
+            </ion-text>
+        </ion-item>
+    </ng-template>
+
 </ion-content>

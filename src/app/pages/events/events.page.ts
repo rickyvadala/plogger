@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter, ViewChild, AfterViewInit } fro
 import { Router, ActivatedRoute } from '@angular/router';
 import { EventService } from 'src/app/services/event.service';
 import { EventoComponent } from '../../components/evento/evento.component';
+import { SearchEventService } from '../../services/search-event.service';
 
 @Component({
   selector: 'app-events',
@@ -10,6 +11,8 @@ import { EventoComponent } from '../../components/evento/evento.component';
 })
 export class EventsPage implements OnInit, AfterViewInit {
 
+  public selected: string = '';
+
   misEventos;
   imagen = true;
   eid: string;
@@ -17,7 +20,8 @@ export class EventsPage implements OnInit, AfterViewInit {
   
 
   constructor(private router: Router,
-              private eventService: EventService) { 
+              private eventService: EventService,
+              public searchService: SearchEventService) { 
               }
 
   ngOnInit() {
@@ -40,6 +44,10 @@ export class EventsPage implements OnInit, AfterViewInit {
     } else {
       this.evento.cargarEventos();
     }
+  }
+
+  itemSelected(item: any) {
+    this.router.navigate(['/event', item.id], {state:  item});
   }
   
 

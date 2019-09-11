@@ -2,17 +2,32 @@
     <ion-toolbar mode="ios" color="plogger">
         <ion-title>Inicio</ion-title>
         <ion-buttons slot="end">
-            <ion-button>
+            <!-- <ion-button>
                 <ion-icon name="search" color="dark"></ion-icon>
-            </ion-button>
+            </ion-button> -->
+
             <ion-button>
                 <ion-icon name="notifications" color="dark"></ion-icon>
             </ion-button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
+<ng-template #name let-attrs="attrs">
+    <ion-item>
+        <ion-avatar slot="start">
+            <img [src]="attrs.data.foto">
+        </ion-avatar>
+        <ion-text>
+            {{attrs.data.nombreSearch }}
+        </ion-text>
+    </ion-item>
+</ng-template>
 
 <ion-content padding>
+
+    <ion-auto-complete [template]="name" [showResultsFirst]="false" [(model)]="selected" (itemSelected)="itemSelected($event)" [multi]="false" [dataProvider]="searchService" [disabled]="false" [removeButtonColor]="'dark'" [options]="{ placeholder : ' ', debounce : '1000' }">
+
+    </ion-auto-complete>
 
     <app-publicacion></app-publicacion>
 

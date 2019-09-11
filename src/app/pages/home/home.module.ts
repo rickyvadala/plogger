@@ -8,6 +8,8 @@ import { IonicModule } from '@ionic/angular';
 import { HomePage } from './home.page';
 import { ComponentsModule } from 'src/app/components/components.module';
 
+import { AutoCompleteModule } from 'ionic4-auto-complete';
+
 const routes: Routes = [
   {
     path: '',
@@ -21,7 +23,8 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
-    ComponentsModule
+    ComponentsModule,
+    AutoCompleteModule
   ],
   declarations: [HomePage]
 })

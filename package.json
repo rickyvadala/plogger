@@ -36,6 +36,7 @@
     "cordova-plugin-telerik-imagepicker": "^2.3.3",
     "core-js": "^2.5.4",
     "firebase": "^6.4.0",
+    "ionic4-auto-complete": "^1.9.0",
     "ngx-cookie-service": "^2.2.0",
     "rxjs": "~6.5.1",
     "tslib": "^1.9.0",
