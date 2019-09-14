@@ -49,9 +49,20 @@
                 <ion-label *ngIf="nombreImg">{{ nombreImg }}</ion-label>
             </ion-item>
             <ion-item>
-                <ion-label position="floating">Ubicación</ion-label>
-                <ion-input name="ubication" [(ngModel)]="event.ubication" placeholder="Introduzca dirección de evento" type="text" required></ion-input>
+                <!-- <ion-input name="ubication" [(ngModel)]="event.ubication" placeholder="Introduzca dirección de evento" type="text" required></ion-input> -->
+                <!--  ubicacion del evento -->
+                <form [formGroup]="directionFormGeo" (ngSubmit)="obtenerDireccionEvento(directionFormGeo.value)">
+                    <ion-item>
+                        <ion-label position="floating">Ubicación</ion-label>
+                        <ion-input formControlName="destination" placeholder="Ingrese ubicación"></ion-input>
+                    </ion-item>
 
+                    <ion-button expand="full" type="submit" color="dark" [disabled]="!directionFormGeo.valid">Mostrar ubicación
+                        <ion-icon name="navigate"> </ion-icon>
+                    </ion-button>
+                </form>
+
+                <!--  -->
             </ion-item>
             <ion-item>
                 <!-- Google Maps -->
@@ -82,5 +93,6 @@
         <div #mapElement class="map"></div>
     </ion-content>
 
+    <!-- <div #mapElement class="map"></div> -->
 
 </ion-content>

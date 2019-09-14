@@ -27,9 +27,10 @@
         </ion-card-header>
 
         <ion-card-content>
-
-            <ion-card-subtitle *ngIf="recorridoDesde"> Recorrido, desde: {{ recorridoDesde}} </ion-card-subtitle>
-            <ion-card-subtitle *ngIf="recorridoHasta"> Hasta: {{ recorridoHasta}} </ion-card-subtitle>
+            <ion-card-subtitle>Recorrido </ion-card-subtitle>
+            <ion-card-subtitle *ngIf="recorridoDesde"> {{ recorridoDesde}} </ion-card-subtitle>
+            <ion-card-subtitle *ngIf="recorridoHasta"> {{ recorridoHasta}} </ion-card-subtitle>
+            <ion-card-subtitle> Descripción: </ion-card-subtitle>
 
             {{ description }}
 

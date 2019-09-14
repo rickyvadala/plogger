@@ -8,6 +8,8 @@ import { IonicModule } from '@ionic/angular';
 import { ModalEventPage } from './modal-event.page';
 
 import { ReactiveFormsModule } from '@angular/forms';
+import {Geolocation} from '@ionic-native/geolocation/ngx';
+
 
 const routes: Routes = [
   {
@@ -24,6 +26,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [ModalEventPage]
+  declarations: [ModalEventPage],
+  providers: [ Geolocation ]
 })
 export class ModalEventPageModule {}

@@ -10,6 +10,8 @@ import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker/ngx'
 import { File } from '@ionic-native/file/ngx';
 import { storage } from 'firebase';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Geolocation} from '@ionic-native/geolocation/ngx';
+
 
 import {
   GoogleMaps,
@@ -32,11 +34,21 @@ declare var google;
 })
 export class ModalEventPage implements OnInit, AfterViewInit {
 
-  //Esto es de googleMaps
+  //Esto es de googleMaps recorrido
   @ViewChild('mapElement') mapNativeElement: ElementRef;
   directionsService = new google.maps.DirectionsService;
   directionsDisplay = new google.maps.DirectionsRenderer;
   directionForm: FormGroup;
+
+  //Google maps Geolocali
+  @ViewChild('mapElement') mapNativeElementGeo: ElementRef;
+  directionsServiceGeo = new google.maps.DirectionsService;
+  directionsDisplayGeo = new google.maps.DirectionsRenderer;
+  directionFormGeo: FormGroup;
+  currentLocation: any = {
+    lat: 0,
+    lng: 0
+  };
 
    event: EventoModel = {
     name: '',
@@ -65,10 +77,12 @@ export class ModalEventPage implements OnInit, AfterViewInit {
               private alertCtrl: AlertController,
               public imagePicker: ImagePicker,
               public file: File,
-              private fb: FormBuilder) { 
+              private fb: FormBuilder,
+              private geolocation: Geolocation) { 
   
   
   this.createDirectionForm();
+  this.crearDireccionEvento();
 
   this.dataShare.currentUser.subscribe( usuario => this.usuario = usuario);
   this.eventEditar = this.router.getCurrentNavigation().extras.state;
@@ -93,7 +107,7 @@ export class ModalEventPage implements OnInit, AfterViewInit {
 
   }
 
-
+//recorrido
   createDirectionForm() {
     this.directionForm = this.fb.group({
       source: ['', Validators.required],
@@ -103,25 +117,61 @@ export class ModalEventPage implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+
+    //recorrido
     const map = new google.maps.Map(this.mapNativeElement.nativeElement, {
       zoom: 7,
       center: {lat: -31.4134998, lng: -64.1810532}
     });
     this.directionsDisplay.setMap(map);
+
+    //geolocaliza
+    this.geolocation.getCurrentPosition().then((resp) => {
+      this.currentLocation.lat = resp.coords.latitude;
+      this.currentLocation.lng = resp.coords.longitude;
+    });
+    const mapGeo = new google.maps.Map(this.mapNativeElementGeo.nativeElement, {
+      zoom: 7,
+      center: {lat: -31.4134998, lng: -64.1810532}
+    });
+    this.directionsDisplayGeo.setMap(mapGeo);
   }
 
+  //recorrido
   calculateAndDisplayRoute(formValues) {
     const that = this;
-    this.directionsService.route({
+    this.directionsServiceGeo.route({
       origin: formValues.source,
       destination: formValues.destination,
       travelMode: 'DRIVING'
     }, (response, status) => {
       if (status === 'OK') {
-        that.directionsDisplay.setDirections(response);
+        that.directionsDisplayGeo.setDirections(response);
         this.showMap = true;
       } else {
         window.alert('Dirección no existente, por favor intente nuevamente.');
+      }
+    });
+  }
+//ubicacion evento
+  crearDireccionEvento () {
+    this.directionFormGeo = this.fb.group({
+      destination: ['', Validators.required]
+    });
+  }
+//ubicacion evento
+  obtenerDireccionEvento (formValuesGeo) {
+    const that = this;
+    this.directionsService.route({
+      origin: formValuesGeo.destination,
+      destination: formValuesGeo.destination,
+      travelMode: 'DRIVING'
+    }, (response, status) => {
+      if (status === 'OK') {
+        that.directionsDisplayGeo.setDirections(response);
+        this.showMap = true;
+      } else {
+        window.alert('Directions request failed due to ' + status);
       }
     });
   }
@@ -139,7 +189,7 @@ export class ModalEventPage implements OnInit, AfterViewInit {
       
       this.event.name = form.value.name;
       this.event.description= form.value.description,
-      this.event.ubication= form.value.ubication,
+      this.event.ubication= this.directionFormGeo.value.destination,
       this.event.startDate= form.value.startDate,
       this.event.endDate= form.value.endDate,
       //Usuario que crea el evento
