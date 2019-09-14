@@ -9,4 +9,6 @@ export class EventoModel {
     endDate: string;
     foto?: string;
     publicaciones?: PublicacionModel[];
+    recorridoDesde?: string;
+    recorridoHasta?: string;
 }

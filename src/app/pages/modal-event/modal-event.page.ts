@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { EventoModel } from 'src/app/models/evento.model';
@@ -9,6 +9,20 @@ import { PerfilUsuarioModel } from 'src/app/models/perfil-usuario.model';
 import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { storage } from 'firebase';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+
+import {
+  GoogleMaps,
+  GoogleMap,
+  GoogleMapsEvent,
+  GoogleMapOptions,
+  CameraPosition,
+  MarkerOptions,
+  Marker,
+  Environment
+} from '@ionic-native/google-maps';
+
+declare var google;
 
 
 @Component({
@@ -16,7 +30,13 @@ import { storage } from 'firebase';
   templateUrl: './modal-event.page.html',
   styleUrls: ['./modal-event.page.scss'],
 })
-export class ModalEventPage implements OnInit {
+export class ModalEventPage implements OnInit, AfterViewInit {
+
+  //Esto es de googleMaps
+  @ViewChild('mapElement') mapNativeElement: ElementRef;
+  directionsService = new google.maps.DirectionsService;
+  directionsDisplay = new google.maps.DirectionsRenderer;
+  directionForm: FormGroup;
 
    event: EventoModel = {
     name: '',
@@ -36,6 +56,7 @@ export class ModalEventPage implements OnInit {
   fechasInvalidas = true;
 
   editar = false;
+  showMap = false;
   
   eventEditar: any;
   constructor(private router: Router,
@@ -43,7 +64,11 @@ export class ModalEventPage implements OnInit {
               private dataShare: DataShareService,
               private alertCtrl: AlertController,
               public imagePicker: ImagePicker,
-              public file: File) { 
+              public file: File,
+              private fb: FormBuilder) { 
+  
+  
+  this.createDirectionForm();
 
   this.dataShare.currentUser.subscribe( usuario => this.usuario = usuario);
   this.eventEditar = this.router.getCurrentNavigation().extras.state;
@@ -62,7 +87,43 @@ export class ModalEventPage implements OnInit {
   
   }
 
+  map: GoogleMap;
+
   ngOnInit() {
+
+  }
+
+
+  createDirectionForm() {
+    this.directionForm = this.fb.group({
+      source: ['', Validators.required],
+      destination: ['', Validators.required]
+    });
+  
+  }
+
+  ngAfterViewInit(): void {
+    const map = new google.maps.Map(this.mapNativeElement.nativeElement, {
+      zoom: 7,
+      center: {lat: -31.4134998, lng: -64.1810532}
+    });
+    this.directionsDisplay.setMap(map);
+  }
+
+  calculateAndDisplayRoute(formValues) {
+    const that = this;
+    this.directionsService.route({
+      origin: formValues.source,
+      destination: formValues.destination,
+      travelMode: 'DRIVING'
+    }, (response, status) => {
+      if (status === 'OK') {
+        that.directionsDisplay.setDirections(response);
+        this.showMap = true;
+      } else {
+        window.alert('Dirección no existente, por favor intente nuevamente.');
+      }
+    });
   }
   
   onSubmitTemplate(form: NgForm) {
@@ -84,6 +145,8 @@ export class ModalEventPage implements OnInit {
       //Usuario que crea el evento
       this.event.uid = this.usuario.uid;
       this.event.foto = this.imageURL;
+      this.event.recorridoDesde = this.directionForm.value.source;
+      this.event.recorridoHasta = this.directionForm.value.destination;
   
      if( this.validarFechas(this.event.endDate, this.event.startDate)){
       this.eventServices.guardarEvento(this.event)
@@ -212,5 +275,7 @@ export class ModalEventPage implements OnInit {
     });
     await alert.present();
   }
+
+
 
 }

@@ -18,11 +18,11 @@
         <ion-list class="mb-20" color="plogger">
             <ion-item *ngIf="!editar">
                 <ion-label position="floating">Nombre</ion-label>
-                <ion-input name="name" [(ngModel)]="event.name" type="text" required></ion-input>
+                <ion-input name="name" placeholder="Nombre del evento" [(ngModel)]="event.name" type="text" required></ion-input>
             </ion-item>
             <ion-item>
                 <ion-label position="floating">Descripción</ion-label>
-                <ion-textarea name="description" [(ngModel)]="event.description" type="text" required></ion-textarea>
+                <ion-textarea name="description" placeholder="Descripción del evento" [(ngModel)]="event.description" type="text" required></ion-textarea>
             </ion-item>
             <ion-item>
                 <ion-label>Fecha de inicio</ion-label>
@@ -41,20 +41,46 @@
                 </ion-datetime>
             </ion-item>
             <ion-item>
-                <ion-label position="floating">Ubicación</ion-label>
-                <ion-input name="ubication" [(ngModel)]="event.ubication" type="text" required></ion-input>
-            </ion-item>
-            <ion-item>
                 <ion-chip>
-                    <ion-label (click)="subirFotoEvento()">Seleccionar foto para evento</ion-label>
+                    <ion-label (click)="subirFotoEvento()"> Seleccionar foto para el evento
+                        <ion-icon name="images"></ion-icon>
+                    </ion-label>
                 </ion-chip>
                 <ion-label *ngIf="nombreImg">{{ nombreImg }}</ion-label>
             </ion-item>
+            <ion-item>
+                <ion-label position="floating">Ubicación</ion-label>
+                <ion-input name="ubication" [(ngModel)]="event.ubication" placeholder="Introduzca dirección de evento" type="text" required></ion-input>
+
+            </ion-item>
+            <ion-item>
+                <!-- Google Maps -->
+                <form [formGroup]="directionForm" (ngSubmit)="calculateAndDisplayRoute(directionForm.value)">
+                    <ion-item>
+                        <ion-label position="floating">Recorrido </ion-label>
+                        <ion-input formControlName="source" placeholder="Dirección de inicio"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <!-- <ion-label position="floating">Hasta</ion-label> -->
+                        <ion-input formControlName="destination" placeholder="Dirección de finalización"></ion-input>
+                    </ion-item>
+                    <ion-button class="animated" expand="full" slot="end" size="small" type="submit" color="dark" [disabled]="directionForm.invalid"> Mostrar Recorrido
+                        <ion-icon name="navigate"> </ion-icon>
+                    </ion-button>
+                </form>
+            </ion-item>
+
+
         </ion-list>
         <ion-button color="dark" expand="full" type="submit" [disabled]="formulario.invalid">
-            <ion-icon slot="start" name="create"></ion-icon>Guardar
+            <ion-icon slot="start" name="create"> </ion-icon>Guardar
         </ion-button>
         <br>
     </form>
+    <!-- Mostramos el mapa-->
+    <ion-content [ngClass]="{'hiddenMap': !showMap}">
+        <div #mapElement class="map"></div>
+    </ion-content>
+
 
 </ion-content>

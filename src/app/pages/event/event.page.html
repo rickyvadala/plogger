@@ -27,11 +27,17 @@
         </ion-card-header>
 
         <ion-card-content>
+
+            <ion-card-subtitle *ngIf="recorridoDesde"> Recorrido, desde: {{ recorridoDesde}} </ion-card-subtitle>
+            <ion-card-subtitle *ngIf="recorridoHasta"> Hasta: {{ recorridoHasta}} </ion-card-subtitle>
+
             {{ description }}
 
             <ion-img *ngIf="foto" [src]="foto"></ion-img>
         </ion-card-content>
     </ion-card>
+    <!-- Mapa Google -->
+    <div #mapElement class="mapEvent evento"></div>
 
     <app-publicacion-evento [eid]="eid"></app-publicacion-evento>
 </ion-content>

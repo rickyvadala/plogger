@@ -1,9 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PopoverController, AlertController } from '@ionic/angular';
 import { PopEventoSettingsComponent } from 'src/app/components/pop-evento-settings/pop-evento-settings.component';
 import { DataShareService } from '../../services/data-share.service';
 import { EventService } from '../../services/event.service';
+
+import {
+  GoogleMaps,
+  GoogleMap,
+  GoogleMapsEvent,
+  GoogleMapOptions,
+  CameraPosition,
+  MarkerOptions,
+  Marker,
+  Environment
+} from '@ionic-native/google-maps';
+
+declare var google;
 
 @Component({
   selector: 'app-event',
@@ -21,19 +34,29 @@ export class EventPage implements OnInit {
   foto: string;
   location: string;
   uid: string;
-
+  recorridoDesde: string;
+  recorridoHasta: string;
+ 
   usuarioUid: any;
 
   miEvento = false;
 
   popClick: string;
-  
+  map: GoogleMap;
+
+   //Esto es de googleMaps
+   @ViewChild('mapElement') mapNativeElement: ElementRef;
+   directionsService = new google.maps.DirectionsService;
+   directionsDisplay = new google.maps.DirectionsRenderer;
+
   constructor(private popoverCtrl: PopoverController, 
               public route: ActivatedRoute,
               public router: Router, 
               private dataShare: DataShareService,
               private eventService: EventService,
-              public alertCtrl: AlertController) {
+              public alertCtrl: AlertController,
+              ) {
+  
 
     this.dataShare.currentUser.subscribe( usuario => this.usuarioUid = usuario.uid );
     this.dataShare.currentMessage.subscribe(mensaje => this.popClick = mensaje);
@@ -55,9 +78,12 @@ export class EventPage implements OnInit {
     this.location = this.evento.ubication;
     this.foto = this.evento.foto;
     this.uid = this.evento.uid;
+    this.recorridoDesde = this.evento.recorridoDesde;
+    this.recorridoHasta = this.evento.recorridoHasta;
    }
 
   ngOnInit() {
+    this.mostrarMapa();
   }
 
   async mostrarPop(event) {
@@ -105,6 +131,28 @@ export class EventPage implements OnInit {
   }
 
 
+  ngAfterViewInit(): void {
+    const map = new google.maps.Map(this.mapNativeElement.nativeElement, {
+      zoom: 7,
+      center: {lat: -31.4134998, lng: -64.1810532}
+    });
+    this.directionsDisplay.setMap(map);
+  }
+
+  mostrarMapa() {
+    const that = this;
+    this.directionsService.route({
+      origin: this.recorridoDesde,
+      destination: this.recorridoHasta,
+      travelMode: 'DRIVING'
+    }, (response, status) => {
+      if (status === 'OK') {
+        that.directionsDisplay.setDirections(response);
+      } else {
+        window.alert('Dirección no existente, por favor intente nuevamente.');
+      }
+    });
+  }
 
 
 }
