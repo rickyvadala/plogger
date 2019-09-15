@@ -5,6 +5,7 @@ import { UsuarioService } from '../../services/usuario-social.service';
 import { UsuarioPloggerService } from 'src/app/services/usuario-plogger.service';
 import { DataShareService } from 'src/app/services/data-share.service';
 import { PerfilUsuarioModel } from 'src/app/models/perfil-usuario.model';
+import { PopFollowComponent } from 'src/app/components/pop-follow/pop-follow.component';
 
 @Component({
   selector: 'app-profile',
@@ -16,6 +17,8 @@ export class ProfilePage implements OnInit {
   foto: string;
   nombre: string;
   cantPosts:string;
+  cantSeguidores = null;
+  cantSeguidos = null;
 
   usuario:PerfilUsuarioModel={};
 
@@ -26,6 +29,16 @@ export class ProfilePage implements OnInit {
 
   ngOnInit() {
     this.dataShare.currentUser.subscribe( usuario => this.usuario = usuario);
+    if (this.usuario.seguidores===undefined) {
+      this.cantSeguidores=0;
+    } else {
+      this.cantSeguidores=this.usuario.seguidores.length;
+    }
+    if (this.usuario.seguidos===undefined) {
+      this.cantSeguidos=0;
+    } else {
+      this.cantSeguidos=this.usuario.seguidos.length;
+    }
   }
 
   ionViewWillEnter(){
@@ -61,11 +74,25 @@ export class ProfilePage implements OnInit {
       const array: any[] = Object.values(resp);
       const ab = array.filter(a => a.uid === currentUid);
       fotoUsr = ab[0].foto;
-      this.foto = fotoUsr;
-  
-      // console.log('fotoUsr', fotoUsr);
-  
-  })
+      this.foto = fotoUsr;  
+    })
+  }
+
+  async verFollows(param:string){
+    let data:any;
+    if (param==='Seguidores') {
+      data = this.usuario.seguidores;
+    } else {
+      data = this.usuario.seguidos;
+    }
+    const popover = await this.popoverCtrl.create({
+      component: PopFollowComponent,
+      mode: 'ios',
+      componentProps: {
+        data:data
+      }
+    });
+    await popover.present();
   }
 
 }

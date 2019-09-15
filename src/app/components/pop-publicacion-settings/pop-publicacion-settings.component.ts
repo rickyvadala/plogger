@@ -14,9 +14,6 @@ export class PopPublicacionSettingsComponent implements OnInit {
   passedPublicacion:PublicacionModel;
   popClick:string;
 
-
-
-
   constructor(private popoverCtrl: PopoverController,
               private alertCtrl: AlertController,
               private navParams: NavParams,

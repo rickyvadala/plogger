@@ -42,19 +42,18 @@ export class PublicacionesService{
 
   private crearArregloPerfil(resp){
     const publicaciones: PublicacionModel[] = [];
-    let key = this.usuario.key;
+    let uid = this.usuario.key;
 
     if (resp===null||resp===undefined) {return [];}
 
     Object.keys(resp).forEach(key =>{
-      if (key===key) {
+      if (resp[key].uid===uid) {
         const publicacion: PublicacionModel = resp[key];
         publicacion.pid = key;
 
         //Armo el vector iterable para los comentarios de las publicaciones
         const comentarios: ComentarioModel[] = [];
         var x = resp[key].comentarios;
-        console.log(x);
         if (x === undefined || x === null) {
           publicacion.comentarios = [];
         }
@@ -189,7 +188,6 @@ private crearArregloPerfilOther(resp){
       //Armo el vector iterable para los comentarios de las publicaciones
       const comentarios: ComentarioModel[] = [];
       var x = resp[key].comentarios;
-      console.log(x);
       if (x === undefined || x === null) {
         publicacion.comentarios = [];
       }
@@ -224,7 +222,7 @@ private crearArregloPerfilOther(resp){
               nombre: resp[key].nombre,
               apellido: resp[key].apellido,
               foto: resp[key].foto,
-              uid: resp[key].uid
+              uid: key
             }
             likesArray.unshift(objeto);
           }

@@ -30,32 +30,26 @@
                     </ion-col>
                 </ion-row>
             </ion-col>
-            <ion-col size="3" class="profileStats">
+            <ion-col size="3" class="profileStats" (click)="verFollows('Seguidores')">
                 <ion-row>
                     <ion-col size="12">
-                        <ion-label>1532</ion-label>
+                        <ion-label>{{this.cantSeguidores}}</ion-label>
                     </ion-col>
                     <ion-col size="12" class="subtitle">
                         <ion-label>Seguidores</ion-label>
                     </ion-col>
                 </ion-row>
             </ion-col>
-            <ion-col size="3" class="profileStats">
+            <ion-col size="3" class="profileStats" (click)="verFollows('Seguidos')">
                 <ion-row>
                     <ion-col size="12">
-                        <ion-label>899</ion-label>
+                        <ion-label>{{this.cantSeguidos}}</ion-label>
                     </ion-col>
                     <ion-col size="12" class="subtitle">
                         <ion-label>Seguidos</ion-label>
                     </ion-col>
                 </ion-row>
             </ion-col>
-            <!-- <ion-col size="12">
-                <ion-button class="center btnSeguir" color="plogger" mode="ios">
-                    <ion-icon slot="start" name="add"></ion-icon>
-                    Seguir
-                </ion-button>
-            </ion-col> -->
         </ion-row>
     </ion-grid>
 

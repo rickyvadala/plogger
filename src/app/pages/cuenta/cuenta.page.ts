@@ -63,7 +63,9 @@ export class CuentaPage implements OnInit {
       sexo: form.value.sexo,
       tipoInicio: this.usuario.tipoInicio,
       uid: this.usuario.uid,
-      mail:this.usuario.mail
+      mail:this.usuario.mail,
+      seguidores: this.usuario.seguidores,
+      seguidos: this.usuario.seguidos
     }
     // Solucion de que se borra la foto actual si no subis una
     if (this.imageURL===undefined) {
@@ -139,14 +141,8 @@ export class CuentaPage implements OnInit {
 
       const pictures = storage().ref(img);
       pictures.putString(this.imageURL, 'data_url');
-
-      console.log('imageUrl');
-      console.log(this.imageURL);
-
     }, (err) => {
       alert(err);
     });  
-
-
   }
 }

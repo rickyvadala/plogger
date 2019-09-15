@@ -101,5 +101,30 @@ export class FollowService {
     }));
   }
 
+  getUserOfData(users:any[]) {
+    return this.http.get(`${ this.urlABM }/perfil.json`)
+    .pipe(
+      map( resp=>this.crearArregloData(resp,users))
+    );  
+  }
+    
+    private crearArregloData(resp,users){
+      const usersArray: any[] = [];
+      if (resp===null||resp===undefined) {return [];}
+      Object.keys(resp).forEach(key =>{
+        for (let index = 0; index < users.length; index++) {
+          if (key===users[index]) {
+            let objeto = {
+              nombre: resp[key].nombre,
+              apellido: resp[key].apellido,
+              foto: resp[key].foto,
+              uid: key
+            }
+            usersArray.unshift(objeto);
+          }
+        }
+      });
+      return usersArray; 
+    }
 
 }

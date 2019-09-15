@@ -117,7 +117,6 @@ export class UsuarioPloggerService {
     return this.http.post(`${this.urlABM}/perfil.json`, user)
     .pipe(
       map( (resp: any) => {
-        console.log(resp);
         let usuario:PerfilUsuarioModel = user;
         usuario.key = resp.name;
         this.dataShare.changeUser(usuario);

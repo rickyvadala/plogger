@@ -15,6 +15,10 @@
     <img *ngIf="item.foto" [src]="item.foto" />
     <ion-card-content *ngIf="item.texto">
         <ion-label>{{item.texto}}</ion-label>
+        <div class="btnMostrarLikes" *ngIf="mostrarLikes(i,item)" slot="start" (click)="verLikes(i)">
+            <ion-icon class="icon" name="heart" color="danger"></ion-icon>
+            <ion-label class="text">&nbsp;{{publicaciones[i].like.length}}</ion-label>
+        </div>
     </ion-card-content>
 
     <ion-item color="spot">

@@ -5,7 +5,8 @@ import { PublicacionModel } from 'src/app/models/publicacion.model';
 import { ComentarioModel } from 'src/app/models/comentario.model';
 import { DataShareService } from '../../services/data-share.service';
 import { PerfilUsuarioModel } from '../../models/perfil-usuario.model';
-
+import { PopLikesComponent } from '../pop-likes/pop-likes.component';
+import { PopoverController } from '@ionic/angular';
 
 @Component({
   selector: 'app-publicacion-others',
@@ -25,7 +26,8 @@ export class PublicacionOthersComponent implements OnInit {
   @Output() mensajeEvent = new EventEmitter<string>();
 
   constructor(private publicacionService: PublicacionesService,
-                      private dataShare: DataShareService) {
+                      private dataShare: DataShareService,
+                      private popoverCtrl:PopoverController) {
     this.dataShare.currentUser.subscribe( usuario => {
       this.usuario = usuario
     });
@@ -194,5 +196,25 @@ export class PublicacionOthersComponent implements OnInit {
     this.publicacionService.borrarComentarioPost(publicacion, comentario).subscribe( resp => {
       this.publicaciones[i].comentarios.splice(j,1);
     });
+  }
+
+  mostrarLikes(i) {
+    if (this.publicaciones[i].like===undefined || this.publicaciones[i].like.length===0) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  async verLikes(i){
+    let likes = this.publicaciones[i].like;
+    const popover = await this.popoverCtrl.create({
+      component: PopLikesComponent,
+      mode: 'ios',
+      componentProps: {
+        likes:likes
+      }
+    });
+    await popover.present();
   }
 }

@@ -28,7 +28,7 @@
                     </ion-col>
                 </ion-row>
             </ion-col>
-            <ion-col size="3" class="profileStats">
+            <ion-col size="3" class="profileStats" (click)="verFollows('Seguidores')">
                 <ion-row>
                     <ion-col size="12">
                         <ion-label>{{this.cantSeguidores}}</ion-label>
@@ -38,7 +38,7 @@
                     </ion-col>
                 </ion-row>
             </ion-col>
-            <ion-col size="3" class="profileStats">
+            <ion-col size="3" class="profileStats" (click)="verFollows('Seguidos')">
                 <ion-row>
                     <ion-col size="12">
                         <ion-label>{{this.cantSeguidos}}</ion-label>

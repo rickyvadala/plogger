@@ -132,7 +132,6 @@ export class UsuarioService {
         this.usuario.key=nroUsuario;
         this.dataShare.changeUser(this.usuario);
         this.router.navigate(['/tabs']);
-
       })
     );
   }

@@ -13,12 +13,14 @@ import { PublicacionOthersComponent } from './publicacion-others/publicacion-oth
 import { PublicacionEventoComponent } from './publicacion-evento/publicacion-evento.component';
 import { PopEventoSettingsComponent } from './pop-evento-settings/pop-evento-settings.component';
 import { PopLikesComponent } from './pop-likes/pop-likes.component';
+import { PopFollowComponent } from './pop-follow/pop-follow.component';
 
 @NgModule({
   entryComponents: [
     PopPublicacionSettingsComponent,
     PopEventoSettingsComponent,
-    PopLikesComponent
+    PopLikesComponent,
+    PopFollowComponent
   ],
   declarations: [
     PopProfileSettingsComponent,
@@ -28,7 +30,8 @@ import { PopLikesComponent } from './pop-likes/pop-likes.component';
     PublicacionOthersComponent,
     PublicacionEventoComponent,
     PopEventoSettingsComponent,
-    PopLikesComponent
+    PopLikesComponent,
+    PopFollowComponent
   ],
   exports: [
     PopProfileSettingsComponent,
@@ -38,7 +41,8 @@ import { PopLikesComponent } from './pop-likes/pop-likes.component';
     PublicacionOthersComponent,
     PublicacionEventoComponent,
     PopEventoSettingsComponent,
-    PopLikesComponent
+    PopLikesComponent,
+    PopFollowComponent
   ],
   imports: [
     CommonModule,

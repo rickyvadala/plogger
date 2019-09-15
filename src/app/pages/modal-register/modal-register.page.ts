@@ -104,11 +104,8 @@ export class ModalRegisterPage implements OnInit {
         tipoInicio: 'p',
         mail: mail
       };
-      console.log(usr);
       this.authPlogger.crearPerfil(usr)
-      .subscribe(resp => {
-        console.log(resp);
-      });
+      .subscribe();
 
       this.registroCorrecto();
       this.modalCtrl.dismiss();

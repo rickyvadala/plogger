@@ -461,7 +461,7 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  async verLikes(i,evento){
+  async verLikes(i){
     let likes = this.publicaciones[i].like;
     const popover = await this.popoverCtrl.create({
       component: PopLikesComponent,

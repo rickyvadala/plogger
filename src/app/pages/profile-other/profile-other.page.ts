@@ -4,6 +4,8 @@ import { UsuarioPloggerService } from '../../services/usuario-plogger.service';
 import { DataShareService } from 'src/app/services/data-share.service';
 import { PerfilUsuarioModel } from 'src/app/models/perfil-usuario.model';
 import { FollowService } from 'src/app/services/follow.service';
+import { PopFollowComponent } from 'src/app/components/pop-follow/pop-follow.component';
+import { PopoverController } from '@ionic/angular';
 
 @Component({
   selector: 'app-profile-other',
@@ -22,12 +24,13 @@ export class ProfileOtherPage implements OnInit {
   profileOtherUid: string;  
   flagFollow:boolean;
   usuario:PerfilUsuarioModel;
+  profileOther:any[];
 
   constructor(private route: ActivatedRoute,
               private usuarioService: UsuarioPloggerService,
-              private router: Router,
               private dataShare: DataShareService,
-              private followService: FollowService ) {
+              private followService: FollowService,
+              private popoverCtrl:PopoverController ) {
     this.profileOtherUid = this.route.snapshot.params['id'];
   }
 
@@ -40,22 +43,22 @@ export class ProfileOtherPage implements OnInit {
 
   getProfileOther() {
     this.usuarioService.obtenerPerfiles().subscribe(profiles => {
-      let profileOther = profiles.filter(prof => prof.key == this.profileOtherUid);
-      let nombre = profileOther[0].nombre;
-      let apellido = profileOther[0].apellido;
+      this.profileOther = profiles.filter(prof => prof.key == this.profileOtherUid);
+      let nombre = this.profileOther[0].nombre;
+      let apellido = this.profileOther[0].apellido;
       this.nombre = nombre.concat(' ').concat(apellido);
-      this.foto = profileOther[0].foto;
+      this.foto = this.profileOther[0].foto;
       //Cantidad de seguidos
-      if (profileOther[0].seguidos === undefined) {
+      if (this.profileOther[0].seguidos === undefined) {
         this.cantSeguidos = 0;
       } else {
-        this.cantSeguidos = profileOther[0].seguidos.length;
+        this.cantSeguidos = this.profileOther[0].seguidos.length;
       }
       //Cantidad de seguidores
-      if (profileOther[0].seguidores === undefined) {
+      if (this.profileOther[0].seguidores === undefined) {
         this.cantSeguidores = 0;
       } else {
-        this.cantSeguidores = profileOther[0].seguidores.length;
+        this.cantSeguidores = this.profileOther[0].seguidores.length;
       }
     });
   }
@@ -66,7 +69,6 @@ export class ProfileOtherPage implements OnInit {
 
 
   followOrUnfollow(){
-    debugger
     var seguidos = this.usuario.seguidos
     if (seguidos === undefined) {
       this.flagFollow=true;
@@ -106,7 +108,23 @@ export class ProfileOtherPage implements OnInit {
         }        
       }
     });
-    
+  }
+
+  async verFollows(param:string){
+    let data:any;
+    if (param==='Seguidores') {
+      data = this.profileOther[0].seguidores;
+    } else {
+      data = this.profileOther[0].seguidos;
+    }
+    const popover = await this.popoverCtrl.create({
+      component: PopFollowComponent,
+      mode: 'ios',
+      componentProps: {
+        data:data
+      }
+    });
+    await popover.present();
   }
 
 }
