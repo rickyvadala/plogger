@@ -77,11 +77,13 @@ export class PublicacionOthersComponent implements OnInit {
 //falta arreglar metodo comentar 
   comentar(i, publicacion:PublicacionModel){
     let elem = document.getElementsByClassName("i"+i) as HTMLCollectionOf<HTMLElement>;
+    console.log(elem)
     var x = window.location.href;
     var ubicacion = x.substring(x.lastIndexOf('/') + 1);
     for (let index = 0; index < elem.length; index++) {
-      const element = elem[index].closest('app-'+ubicacion);
-      if (element !== null && element.tagName.toLowerCase()==='app-profile-other') {
+      const elementHome = elem[index].closest('app-home');
+      const elementProfile = elem[index].closest('app-profile');
+      if (!elementHome && !elementProfile ) {
         if (elem[index].style.display==='' || elem[index].style.display==='none') {
           elem[index].style.display = "block";
           return;
@@ -99,8 +101,9 @@ export class PublicacionOthersComponent implements OnInit {
     var x = window.location.href;
     var ubicacion = x.substring(x.lastIndexOf('/') + 1);
     for (let index = 0; index < elem.length; index++) {
-      const element = elem[index].closest('app-'+ubicacion);
-      if (element !== null && element.tagName.toLowerCase()==='app-'+ubicacion) {
+      const elementHome = elem[index].closest('app-home');
+      const elementProfile = elem[index].closest('app-profile');
+      if (!elementHome && !elementProfile ) {
         let input = elem[index] as HTMLInputElement;
         if (input.value==='') {
           return;
