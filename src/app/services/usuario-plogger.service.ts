@@ -66,7 +66,9 @@ export class UsuarioPloggerService {
                 sexo: array[index].sexo,
                 foto: array[index].foto,
                 tipoInicio: 'p',
-                mail: mail
+                mail: mail,
+                seguidos: array[index].seguidos,
+                seguidores: array[index].seguidores
               }
               this.dataShare.changeUser(objUsuario);
               return;
@@ -149,6 +151,7 @@ export class UsuarioPloggerService {
     const perfiles: PerfilUsuarioModel[] = [];
     Object.keys(resp).forEach(key =>{
         let perfil: PerfilUsuarioModel = resp[key];
+        perfil.key=key;
         perfiles.unshift(perfil);
     });
     return perfiles;

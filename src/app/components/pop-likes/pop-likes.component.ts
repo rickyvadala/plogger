@@ -41,9 +41,8 @@ export class PopLikesComponent implements OnInit {
     this.popoverCtrl.dismiss();
     let otherProfileUid = i;
     console.log(otherProfileUid);
-    if(otherProfileUid === this.usuario.uid){ 
+    if (otherProfileUid === this.usuario.key) {
       this.router.navigate(['/tabs/profile']);
-      // return;
      } else {
       this.router.navigate(['/profile', otherProfileUid]);
      }

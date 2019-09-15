@@ -21,6 +21,10 @@ $ ionic cordova plugin add cordova-plugin-camera
 
 $ npm install @ionic-native/camera
 
+$ npm install ionic4-auto-complete --save
+
+$
+
 -> To add node packages that are in the .gitignore
 
 ## Git commands

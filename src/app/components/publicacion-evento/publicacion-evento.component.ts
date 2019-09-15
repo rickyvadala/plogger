@@ -295,7 +295,7 @@ export class PublicacionEventoComponent implements OnInit {
 
   async publicar() {
 
-    this.publicacion.uid = this.usuario.uid;
+    this.publicacion.uid = this.usuario.key;
     this.publicacion.fecha = (new Date).toString();
     this.publicacion.nombre = this.usuario.nombre;
     this.publicacion.apellido = this.usuario.apellido

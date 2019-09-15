@@ -82,6 +82,8 @@ export class UsuarioService {
             this.usuario.foto = array[index].foto;
             this.usuario.sexo =array[index].sexo;
             this.usuario.fechaNac = array[index].fechaNac;
+            this.usuario.seguidos = array[index].seguidos;
+            this.usuario.seguidores = array[index].seguidores;
             console.log("Perfil existente", this.usuario);
             this.router.navigate(['/tabs']);
 

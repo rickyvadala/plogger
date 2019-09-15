@@ -254,7 +254,7 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
     this.publicaciones[0].fecha=(new Date).toString();
     this.publicaciones[0].compartidoDeUid=this.publicaciones[i+1].uid;
     this.publicaciones[0].compartidoNomApe=this.usuario.nombre+" "+this.usuario.apellido;
-    this.publicaciones[0].uid=this.usuario.uid;
+    this.publicaciones[0].uid=this.usuario.key;
 
     this.publicacionService.compartirPost(this.publicaciones[0]).subscribe( resp => {
       this.verificarPath();
@@ -324,8 +324,9 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
   }
 
   async publicar() {
+    console.log(this.usuario.key)
 
-    this.publicacion.uid = this.usuario.uid;
+    this.publicacion.uid = this.usuario.key;
     this.publicacion.fecha = (new Date).toString();
     this.publicacion.nombre = this.usuario.nombre;
     this.publicacion.apellido = this.usuario.apellido
@@ -444,7 +445,7 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
   goToProfileOther(i) {
     let otherProfileUid = this.publicaciones[i].uid;
     console.log(otherProfileUid);
-    if(otherProfileUid === this.usuario.uid){ 
+    if(otherProfileUid === this.usuario.key){ 
       this.router.navigate(['/tabs/profile']);
       // return;
      } else {

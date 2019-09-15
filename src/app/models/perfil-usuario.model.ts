@@ -8,5 +8,7 @@ export class PerfilUsuarioModel {
     foto?: string;
     tipoInicio?: string;
     mail?:string;
+    seguidores?: any[];
+    seguidos?: any[];
 }
 

@@ -42,12 +42,12 @@ export class PublicacionesService{
 
   private crearArregloPerfil(resp){
     const publicaciones: PublicacionModel[] = [];
-    let uid = this.usuario.uid;
+    let key = this.usuario.key;
 
     if (resp===null||resp===undefined) {return [];}
 
     Object.keys(resp).forEach(key =>{
-      if (resp[key].uid===uid) {
+      if (key===key) {
         const publicacion: PublicacionModel = resp[key];
         publicacion.pid = key;
 
