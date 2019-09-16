@@ -31,6 +31,7 @@ export class SearchService implements AutoCompleteService {
     const perfiles:any[] = [];
     Object.keys(resp).forEach(key =>{
         let perfil: any = resp[key];
+        perfil.uid = key;
        perfil.nombreSearch= perfil.nombre + ' ' + perfil.apellido;
         perfiles.unshift(perfil);
     });

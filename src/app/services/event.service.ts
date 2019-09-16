@@ -6,10 +6,11 @@ import { DataShareService } from './data-share.service';
 import { PerfilUsuarioModel } from '../models/perfil-usuario.model';
 import { PublicacionModel } from '../models/publicacion.model';
 
+
 @Injectable({
   providedIn: 'root'
 })
-export class EventService {
+export class EventService  {
 
   private urlABM = 'https://plogger-437eb.firebaseio.com';
   usuario: PerfilUsuarioModel={};
@@ -20,6 +21,7 @@ export class EventService {
      this.dataShare.currentUser.subscribe( usuario => this.usuario = usuario);
               }
               
+
 //postea el evento 
 guardarEvento(evento: EventoModel) {
   return this.http.post(`${this.urlABM}/evento.json`, evento);

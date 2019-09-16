@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { EventoModel } from 'src/app/models/evento.model';
 import { EventService } from 'src/app/services/event.service';
+import { TypeEventService } from 'src/app/services/type-event.service';
 import { DataShareService } from 'src/app/services/data-share.service';
 import { AlertController } from '@ionic/angular';
 import { PerfilUsuarioModel } from 'src/app/models/perfil-usuario.model';
@@ -10,19 +11,10 @@ import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker/ngx'
 import { File } from '@ionic-native/file/ngx';
 import { storage } from 'firebase';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+//Google Maps
 import {Geolocation} from '@ionic-native/geolocation/ngx';
+import { GoogleMap } from '@ionic-native/google-maps';
 
-
-import {
-  GoogleMaps,
-  GoogleMap,
-  GoogleMapsEvent,
-  GoogleMapOptions,
-  CameraPosition,
-  MarkerOptions,
-  Marker,
-  Environment
-} from '@ionic-native/google-maps';
 
 declare var google;
 
@@ -52,6 +44,7 @@ export class ModalEventPage implements OnInit, AfterViewInit {
 
    event: EventoModel = {
     name: '',
+    type: [],
     description: '',
     ubication: '',
     startDate: '',
@@ -69,6 +62,12 @@ export class ModalEventPage implements OnInit, AfterViewInit {
 
   editar = false;
   showMap = false;
+
+  public selected: string[] = [];
+  
+  tipoEvento:  string[] = [];
+  recorrido = false; 
+
   
   eventEditar: any;
   constructor(private router: Router,
@@ -78,7 +77,8 @@ export class ModalEventPage implements OnInit, AfterViewInit {
               public imagePicker: ImagePicker,
               public file: File,
               private fb: FormBuilder,
-              private geolocation: Geolocation) { 
+              private geolocation: Geolocation,
+              public typeEventService: TypeEventService ) { 
   
   
   this.createDirectionForm();
@@ -197,6 +197,7 @@ export class ModalEventPage implements OnInit, AfterViewInit {
       this.event.foto = this.imageURL;
       this.event.recorridoDesde = this.directionForm.value.source;
       this.event.recorridoHasta = this.directionForm.value.destination;
+      this.event.type = this.tipoEvento;
   
      if( this.validarFechas(this.event.endDate, this.event.startDate)){
       this.eventServices.guardarEvento(this.event)
@@ -326,6 +327,16 @@ export class ModalEventPage implements OnInit, AfterViewInit {
     await alert.present();
   }
 
+  //Tipo de evento seleccionado
+  itemSelected (event) {
+  this.tipoEvento.push(event.descripcion);
+  for (let i = 0; i < this.tipoEvento.length; i++) {
+    const element = this.tipoEvento[i];
+    if (this.tipoEvento[i] === 'Running' || this.tipoEvento[i] === 'Recolección de basura' || this.tipoEvento[i] === 'Reforestación') {
+      this.recorrido = true;
+    }
+  }
+  }
 
 
 }

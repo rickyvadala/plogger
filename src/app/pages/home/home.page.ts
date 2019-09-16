@@ -13,7 +13,7 @@ export class HomePage implements OnInit {
 
   public options: AutoCompleteOptions;
 
-  public selected: string = '';
+  public selected: string[] = [];
 
   constructor( public searchService: SearchService,
                 public router: Router) {     

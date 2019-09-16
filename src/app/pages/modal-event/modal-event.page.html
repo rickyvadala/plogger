@@ -10,81 +10,102 @@
     </ion-toolbar>
 </ion-header>
 
+<ng-template #name let-attrs="attrs">
+    <ion-badge slot="center" class="tipoEvento" color="{{attrs.data.color}}">
+        {{ attrs.data.descripcion }}
+    </ion-badge>
+</ng-template>
+
+
 <ion-content padding color="petroleo">
 
-    <h4 *ngIf="!editar" class="mb-20">Crear evento</h4>
-    <h4 *ngIf="editar" class="mb-20">Editar evento</h4>
+
+
+
     <form #formulario="ngForm" (ngSubmit)="onSubmitTemplate( formulario )">
-        <ion-list class="mb-20" color="plogger">
-            <ion-item *ngIf="!editar">
-                <ion-label position="floating">Nombre</ion-label>
-                <ion-input name="name" placeholder="Nombre del evento" [(ngModel)]="event.name" type="text" required></ion-input>
-            </ion-item>
-            <ion-item>
-                <ion-label position="floating">Descripción</ion-label>
-                <ion-textarea name="description" placeholder="Descripción del evento" [(ngModel)]="event.description" type="text" required></ion-textarea>
-            </ion-item>
-            <ion-item>
-                <ion-label>Fecha de inicio</ion-label>
-            </ion-item>
-            <ion-item>
-                <ion-datetime #startDate name="startDate" [(ngModel)]="event.startDate" display-format="DD MMM YYYY HH:mm" placeholder="Seleccionar" cancelText="Cancelar" doneText="Ok" required>
-                    Fecha
-                </ion-datetime>
-            </ion-item>
-            <ion-item>
-                <ion-label>Fecha de finalizacion </ion-label>
-            </ion-item>
-            <ion-item>
-                <ion-datetime name="endDate" [(ngModel)]="event.endDate" display-format="DD MMM YYYY HH:mm" placeholder="Seleccionar" cancelText="Cancelar" doneText="Ok" required>
-                    Fecha
-                </ion-datetime>
-            </ion-item>
-            <ion-item>
+        <!-- <h4 *ngIf="!editar" class="mb-20">Crear evento</h4>
+        <h4 *ngIf="editar" class="mb-20">Editar evento</h4> -->
+        <!-- Tipo evento -->
+        <ion-card>
+            <ion-card-content>
                 <ion-chip>
-                    <ion-label (click)="subirFotoEvento()"> Seleccionar foto para el evento
+                    <ion-label (click)="subirFotoEvento()"> AGREGAR FOTO
                         <ion-icon name="images"></ion-icon>
                     </ion-label>
                 </ion-chip>
                 <ion-label *ngIf="nombreImg">{{ nombreImg }}</ion-label>
+            </ion-card-content>
+        </ion-card>
+
+        <ion-auto-complete [template]="name" [showResultsFirst]="false" [(model)]="selected" (itemSelected)="itemSelected($event)" [multi]="true" [dataProvider]="typeEventService" [disabled]="false" [removeButtonColor]="'dark'" [options]="{ placeholder : 'Seleccionar tipo de evento' }">
+        </ion-auto-complete>
+
+        <ion-list class="mb-20" color="plogger">
+            <!-- Nombre evento -->
+            <ion-item *ngIf="!editar">
+                <ion-input class="nameEvento" name="name" placeholder="Nombre del evento" [(ngModel)]="event.name" type="text" required></ion-input>
+            </ion-item>
+            <!-- Fecha -->
+            <ion-item>
+                <ion-icon name="time"></ion-icon>
+                <ion-datetime #startDate name="startDate" [(ngModel)]="event.startDate" display-format="DD MMM YYYY HH:mm" placeholder="Fecha de inicio" cancelText="Cancelar" doneText="Ok" required>
+                    Fecha
+                </ion-datetime>
             </ion-item>
             <ion-item>
-                <!-- <ion-input name="ubication" [(ngModel)]="event.ubication" placeholder="Introduzca dirección de evento" type="text" required></ion-input> -->
+                <ion-icon name="time" class="ocultar"></ion-icon>
+                <ion-datetime name="endDate" [(ngModel)]="event.endDate" display-format="DD MMM YYYY HH:mm" placeholder="Fecha de finalización" cancelText="Cancelar" doneText="Ok" required>
+                    Fecha
+                </ion-datetime>
+            </ion-item>
+            <ion-item>
+                <!-- Descripcion -->
+                <ion-icon name="create"></ion-icon>
+                <ion-textarea name="description" placeholder="Detalles" [(ngModel)]="event.description" type="text" required></ion-textarea>
+            </ion-item>
+            <!-- <ion-item>
+                <ion-chip>
+                    <ion-label (click)="subirFotoEvento()"> Seleccionar foto para evento
+                        <ion-icon name="images"></ion-icon>
+                    </ion-label>
+                </ion-chip>
+                <ion-label *ngIf="nombreImg">{{ nombreImg }}</ion-label>
+            </ion-item> -->
+            <ion-item>
                 <!--  ubicacion del evento -->
                 <form [formGroup]="directionFormGeo" (ngSubmit)="obtenerDireccionEvento(directionFormGeo.value)">
                     <ion-item>
-                        <ion-label position="floating">Ubicación</ion-label>
-                        <ion-input formControlName="destination" placeholder="Ingrese ubicación"></ion-input>
+                        <ion-icon name="navigate"></ion-icon>
+                        <ion-input formControlName="destination" placeholder="Ubicación"></ion-input>
                     </ion-item>
-
-                    <ion-button expand="full" type="submit" color="dark" [disabled]="!directionFormGeo.valid">Mostrar ubicación
-                        <ion-icon name="navigate"> </ion-icon>
+                    <ion-button slot="end" type="submit" color="dark" [disabled]="!directionFormGeo.valid">Mostrar mapa
+                        <ion-icon name="pin"></ion-icon>
                     </ion-button>
                 </form>
 
                 <!--  -->
             </ion-item>
-            <ion-item>
-                <!-- Google Maps -->
-                <form [formGroup]="directionForm" (ngSubmit)="calculateAndDisplayRoute(directionForm.value)">
-                    <ion-item>
-                        <ion-label position="floating">Recorrido </ion-label>
-                        <ion-input formControlName="source" placeholder="Dirección de inicio"></ion-input>
-                    </ion-item>
-                    <ion-item>
-                        <!-- <ion-label position="floating">Hasta</ion-label> -->
-                        <ion-input formControlName="destination" placeholder="Dirección de finalización"></ion-input>
-                    </ion-item>
-                    <ion-button class="animated" expand="full" slot="end" size="small" type="submit" color="dark" [disabled]="directionForm.invalid"> Mostrar Recorrido
-                        <ion-icon name="navigate"> </ion-icon>
-                    </ion-button>
-                </form>
-            </ion-item>
+
+            <!-- Google Maps -->
+            <form [formGroup]="directionForm" (ngSubmit)="calculateAndDisplayRoute(directionForm.value)">
+                <ion-item *ngIf="recorrido">
+                    <ion-icon name="walk"></ion-icon>
+                    <ion-input formControlName="source" placeholder="Recorrido desde"></ion-input>
+                </ion-item>
+                <ion-item *ngIf="recorrido">
+                    <ion-icon name="walk" class="ocultar"></ion-icon>
+                    <ion-input formControlName="destination" placeholder="Recorrido hasta"></ion-input>
+                </ion-item>
+                <ion-button slot="end" *ngIf="recorrido" size="small" type="submit" color="dark" [disabled]="!directionForm.valid">Mostrar mapa
+                    <ion-icon name="pin"></ion-icon>
+                </ion-button>
+            </form>
+
 
 
         </ion-list>
         <ion-button color="dark" expand="full" type="submit" [disabled]="formulario.invalid">
-            <ion-icon slot="start" name="create"> </ion-icon>Guardar
+            <ion-icon slot="start" name="create"> </ion-icon>Crear
         </ion-button>
         <br>
     </form>
