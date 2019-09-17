@@ -30,6 +30,9 @@
             <ion-card-subtitle>Recorrido </ion-card-subtitle>
             <ion-card-subtitle *ngIf="recorridoDesde"> {{ recorridoDesde}} </ion-card-subtitle>
             <ion-card-subtitle *ngIf="recorridoHasta"> {{ recorridoHasta}} </ion-card-subtitle>
+            <ion-label *ngFor="let desc of typeDescripcion">
+                [{{ desc }}]
+            </ion-label>
             <ion-card-subtitle> Descripción: </ion-card-subtitle>
 
             {{ description }}

@@ -18,14 +18,14 @@ export class TypeEventService implements AutoCompleteService {
   constructor( private http: HttpClient ) { }
 
 
-  obtenerEventos(){
+  obtenerTipoEventos(){
     return this.http.get('https://plogger-437eb.firebaseio.com/tipoEvento.json')
     .pipe(
-      map( resp=>this.crearArregloEventos(resp) )
+      map( resp=>this.crearArregloTipoEventos(resp) )
     );
   }
   
-  private crearArregloEventos(resp){
+  private crearArregloTipoEventos(resp){
     if (resp===null||resp===undefined) {return [];}
     //Armo el vector iterable para las publicaciones
     const eventos: any[] = [];
@@ -48,7 +48,7 @@ export class TypeEventService implements AutoCompleteService {
     let observable:Observable<any>;
 
     if (this.eventos.length === 0) {
-      observable = this.obtenerEventos();
+      observable = this.obtenerTipoEventos();
     } else {
       observable = of(this.eventos);
     }

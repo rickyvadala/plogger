@@ -162,4 +162,34 @@ dislikePost(eid:string, publicacion: PublicacionModel){
   }));
 }
 
+obtenerTipoEventos(){
+  return this.http.get('https://plogger-437eb.firebaseio.com/tipoEvento.json')
+  .pipe(
+    map( resp=>this.crearArregloTipoEventos(resp) )
+  );
+}
+
+private crearArregloTipoEventos(resp){
+  if (resp===null||resp===undefined) {return [];}
+  //Armo el vector iterable para las publicaciones
+  const eventos: any[] = [];
+  Object.keys(resp).forEach(key =>{
+    
+      let evento: any = resp[key];
+     
+      evento.buscarTipo = evento.descripcion;
+
+
+
+      eventos.unshift(evento);
+  });
+  return eventos;
+}
+
+obtenerDescripcionTipoEventos(id){
+  return this.http.get(`https://plogger-437eb.firebaseio.com/tipoEvento/${ id }.json`);
+}
+
+
+
 }

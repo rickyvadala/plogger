@@ -22,17 +22,35 @@
     </ion-segment>
 
 
+    <!-- Esta para que quede un espacio -->
+    <h1> </h1>
 
-    <ion-button expand="full" fill="outline" mode="ios" color="gris1" (click)="newEvent()">Crear evento</ion-button>
+    <!-- Etiquetas -->
+    <ion-chip *ngFor="let tipo of tiposEventos" color="{{tipo.color}}" (click)="goToEventType(tipo.id, tipo)">
 
-    <!-- <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-        <ion-fab-button>
-            <ion-icon name="add" (click)="newEvent()"></ion-icon>
-        </ion-fab-button>
-    </ion-fab> -->
+        <ion-label color="{{tipo.color}}">
+            <ion-icon slot="start" name="{{tipo.icono}}"></ion-icon>
+            {{ tipo.label }}
+        </ion-label>
+    </ion-chip>
 
 
     <img *ngIf="imagen" src="../../../assets/img/eventos.jpeg">
+
+
+
+
+
+    <!-- <ion-button expand="full" fill="outline" mode="ios" color="gris1" (click)="newEvent()">Crear evento</ion-button> -->
+
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button color="gris1">
+            <ion-icon name="add" (click)="newEvent()"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+
+
+
 
 
 

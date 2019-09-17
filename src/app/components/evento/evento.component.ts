@@ -22,6 +22,7 @@ export class EventoComponent implements OnInit {
    }
 
   ngOnInit() {
+
   }
 
   ionViewWillEnter() {
@@ -49,6 +50,20 @@ export class EventoComponent implements OnInit {
     let eid = this.eventos[i].id;
     this.router.navigate([`/event/${eid}`],  {state:  this.eventos[i]} );
     // this.router.navigate(['/event', eid],).then();
+  }
+
+  obtenerEventosPorTipo(idTipo) {
+    this.eventService.obtenerEventos().subscribe((eventos: EventoModel [] ) => {
+      for (let i = 0; i < eventos.length; i++) {
+        const eventosFiltrados = eventos[i];
+       for (let j = 0; j < eventos[i].type.length; j++) {
+         const tipo = eventos[i].type[j];
+         if (tipo == idTipo) {
+          this.eventos.push(eventosFiltrados);
+         }  
+       }
+      }
+      });
   }
 
 }

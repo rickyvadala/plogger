@@ -2,7 +2,7 @@ import { PublicacionModel } from './publicacion.model';
 export class EventoModel {
     id?: string;
     uid?: string;
-    type: string [];
+    type: number [];
     name: string;
     description: string;
     ubication: string;

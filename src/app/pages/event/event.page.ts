@@ -36,10 +36,12 @@ export class EventPage implements OnInit {
   uid: string;
   recorridoDesde: string;
   recorridoHasta: string;
- 
+  type: string []= [];
+  typeDescripcion: string []= [];
   usuarioUid: any;
 
   miEvento = false;
+
 
   popClick: string;
   map: GoogleMap;
@@ -80,6 +82,16 @@ export class EventPage implements OnInit {
     this.uid = this.evento.uid;
     this.recorridoDesde = this.evento.recorridoDesde;
     this.recorridoHasta = this.evento.recorridoHasta;
+    this.type = this.evento.type;
+    this.type.forEach(tipo => {
+     
+      this.eventService.obtenerDescripcionTipoEventos(tipo)
+      .subscribe((resp: any) => { 
+        this.typeDescripcion.push(resp.label);
+      
+      });
+    });
+   
    }
 
   ngOnInit() {
@@ -125,7 +137,6 @@ export class EventPage implements OnInit {
   }
 
   doRefresh(event) {
-      console.log(event.target);
       this.obtenerEvento();
       event.target.complete();
   }

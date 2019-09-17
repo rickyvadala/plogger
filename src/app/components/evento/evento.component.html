@@ -1,6 +1,7 @@
-<ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" style="z-index: 999999;">
+<!-- <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" style="z-index: 999999;">
     <ion-refresher-content></ion-refresher-content>
-</ion-refresher>
+</ion-refresher> -->
+
 <ion-card *ngFor="let event of eventos; let i = index;" class="evento">
     <ion-card-header (click)="goToEvent(i)">
         <ion-card-subtitle>{{ event.startDate | date: 'dd/MM/yyyy HH:mm'}}</ion-card-subtitle>

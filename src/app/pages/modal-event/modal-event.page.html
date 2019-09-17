@@ -11,9 +11,15 @@
 </ion-header>
 
 <ng-template #name let-attrs="attrs">
-    <ion-badge slot="center" class="tipoEvento" color="{{attrs.data.color}}">
-        {{ attrs.data.descripcion }}
-    </ion-badge>
+    <ion-chip slot="center" class="tipoEvento" color="{{attrs.data.color}}">
+        <ion-label>
+            <ion-icon slot="start" name="{{attrs.data.icono}}"></ion-icon>
+            {{ attrs.data.label }}
+
+        </ion-label>
+    </ion-chip>
+
+
 </ng-template>
 
 
@@ -37,7 +43,7 @@
             </ion-card-content>
         </ion-card>
 
-        <ion-auto-complete [template]="name" [showResultsFirst]="false" [(model)]="selected" (itemSelected)="itemSelected($event)" [multi]="true" [dataProvider]="typeEventService" [disabled]="false" [removeButtonColor]="'dark'" [options]="{ placeholder : 'Seleccionar tipo de evento' }">
+        <ion-auto-complete [template]="name" [showResultsFirst]="false" [(model)]="selected" (itemSelected)="itemSelected($event)" [multi]="true" [dataProvider]="typeEventService" [disabled]="false" [removeButtonColor]="'dark'" [options]="{ placeholder : 'Seleccionar etiqueta' }">
         </ion-auto-complete>
 
         <ion-list class="mb-20" color="plogger">

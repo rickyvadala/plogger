@@ -5,15 +5,13 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { EventsPage } from './events.page';
+import { EventTypePage } from './event-type.page';
 import { ComponentsModule } from 'src/app/components/components.module';
-
-import { AutoCompleteModule } from 'ionic4-auto-complete';
 
 const routes: Routes = [
   {
     path: '',
-    component: EventsPage
+    component: EventTypePage
   }
 ];
 
@@ -23,10 +21,8 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     ComponentsModule,
-    RouterModule.forChild(routes),
-    AutoCompleteModule,
-    
+    RouterModule.forChild(routes)
   ],
-  declarations: [EventsPage]
+  declarations: [EventTypePage]
 })
-export class EventsPageModule {}
+export class EventTypePageModule {}

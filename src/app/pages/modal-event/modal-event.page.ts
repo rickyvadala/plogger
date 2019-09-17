@@ -65,7 +65,7 @@ export class ModalEventPage implements OnInit, AfterViewInit {
 
   public selected: string[] = [];
   
-  tipoEvento:  string[] = [];
+  tipoEvento:  number[] = [];
   recorrido = false; 
 
   
@@ -222,6 +222,18 @@ export class ModalEventPage implements OnInit, AfterViewInit {
 
   volver() {
   this.router.navigate(['/tabs/events']);
+  // todos los campos vacios
+  this.event.name = '';
+      this.event.description= '',
+      this.event.ubication= '',
+      this.event.startDate= '',
+      this.event.endDate= '',
+      //Usuario que crea el evento
+      this.event.uid = '',
+      this.event.foto = '',
+      this.event.recorridoDesde = '',
+      this.event.recorridoHasta = '',
+      this.event.type = null;
   }
 
   subirFotoEvento() {
@@ -329,10 +341,11 @@ export class ModalEventPage implements OnInit, AfterViewInit {
 
   //Tipo de evento seleccionado
   itemSelected (event) {
-  this.tipoEvento.push(event.descripcion);
+  this.tipoEvento.push(event.id);
+  
   for (let i = 0; i < this.tipoEvento.length; i++) {
     const element = this.tipoEvento[i];
-    if (this.tipoEvento[i] === 'Running' || this.tipoEvento[i] === 'Recolección de basura' || this.tipoEvento[i] === 'Reforestación') {
+    if (this.tipoEvento[i] === 0 || this.tipoEvento[i] === 4 || this.tipoEvento[i] === 2) {
       this.recorrido = true;
     }
   }

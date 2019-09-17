@@ -20,7 +20,8 @@ const routes: Routes = [
   { path: 'cuenta', loadChildren: './pages/cuenta/cuenta.module#CuentaPageModule',canActivate: [AuthGuard] },
   { path: 'event', loadChildren: './pages/modal-event/modal-event.module#ModalEventPageModule',canActivate: [AuthGuard] },
   { path: 'profile/:id', loadChildren: './pages/profile-other/profile-other.module#ProfileOtherPageModule', canActivate: [AuthGuard] },
-  { path: 'event/:id', loadChildren: './pages/event/event.module#EventPageModule', canActivate: [AuthGuard] }
+  { path: 'event/:id', loadChildren: './pages/event/event.module#EventPageModule', canActivate: [AuthGuard] },
+  { path: 'event-type/:id', loadChildren: './pages/event-type/event-type.module#EventTypePageModule', canActivate: [AuthGuard] }
 
 
 
