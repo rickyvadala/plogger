@@ -95,6 +95,12 @@ export class ModalEventPage implements OnInit, AfterViewInit {
     this.event.startDate = this.eventEditar.startDate;
     this.event.endDate = this.eventEditar.endDate;
     this.event.foto = this.eventEditar.foto;
+    if( this.event.foto) {
+      this.imageResponse = this.eventEditar.foto;
+      this.hayFoto = true;
+    }
+    
+    
     this.event.ubication = this.eventEditar.ubication;
     this.event.uid = this.eventEditar.uid;
   }

@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-toolbar color="dark" mode="ios">
+    <ion-toolbar color="petroleo" mode="ios">
         <ion-buttons slot="end">
             <ion-button (click)="volver()">
                 <ion-icon slot="icon-only" name="close"></ion-icon>
@@ -23,18 +23,26 @@
 </ng-template>
 
 
-<ion-content padding color="petroleo">
+<ion-content padding color="gris2">
 
 
 
 
     <form #formulario="ngForm" (ngSubmit)="onSubmitTemplate( formulario )">
+
+        <ion-auto-complete [template]="name" [showResultsFirst]="false" [(model)]="selected" (itemSelected)="itemSelected($event)" [multi]="true" [dataProvider]="typeEventService" [disabled]="false" [removeButtonColor]="'dark'" [options]="{ placeholder : 'Seleccionar etiqueta' }">
+        </ion-auto-complete>
         <!-- <h4 *ngIf="!editar" class="mb-20">Crear evento</h4>
         <h4 *ngIf="editar" class="mb-20">Editar evento</h4> -->
         <!-- Tipo evento -->
         <ion-card>
-            <ion-card-content>
-                <ion-chip>
+            <ion-card-content class="label-foto">
+                <ion-list *ngIf="hayFoto">
+                    <ion-item>
+                        <img src="{{imageResponse}}" />
+                    </ion-item>
+                </ion-list>
+                <ion-chip *ngIf="!hayFoto">
                     <ion-label (click)="subirFotoEvento()"> AGREGAR FOTO
                         <ion-icon name="images"></ion-icon>
                     </ion-label>
@@ -43,8 +51,7 @@
             </ion-card-content>
         </ion-card>
 
-        <ion-auto-complete [template]="name" [showResultsFirst]="false" [(model)]="selected" (itemSelected)="itemSelected($event)" [multi]="true" [dataProvider]="typeEventService" [disabled]="false" [removeButtonColor]="'dark'" [options]="{ placeholder : 'Seleccionar etiqueta' }">
-        </ion-auto-complete>
+
 
         <ion-list class="mb-20" color="plogger">
             <!-- Nombre evento -->
@@ -53,7 +60,7 @@
             </ion-item>
             <!-- Fecha -->
             <ion-item>
-                <ion-icon name="time"></ion-icon>
+                <ion-icon color="primary" name="time"></ion-icon>
                 <ion-datetime #startDate name="startDate" [(ngModel)]="event.startDate" display-format="DD MMM YYYY HH:mm" placeholder="Fecha de inicio" cancelText="Cancelar" doneText="Ok" required>
                     Fecha
                 </ion-datetime>
@@ -66,7 +73,7 @@
             </ion-item>
             <ion-item>
                 <!-- Descripcion -->
-                <ion-icon name="create"></ion-icon>
+                <ion-icon color="tertiary" name="create"></ion-icon>
                 <ion-textarea name="description" placeholder="Detalles" [(ngModel)]="event.description" type="text" required></ion-textarea>
             </ion-item>
             <!-- <ion-item>
@@ -81,7 +88,7 @@
                 <!--  ubicacion del evento -->
                 <form [formGroup]="directionFormGeo" (ngSubmit)="obtenerDireccionEvento(directionFormGeo.value)">
                     <ion-item>
-                        <ion-icon name="navigate"></ion-icon>
+                        <ion-icon color="secondary" name="navigate"></ion-icon>
                         <ion-input formControlName="destination" placeholder="Ubicación"></ion-input>
                     </ion-item>
                     <ion-button slot="end" type="submit" color="dark" [disabled]="!directionFormGeo.valid">Mostrar mapa
@@ -95,16 +102,18 @@
             <!-- Google Maps -->
             <form [formGroup]="directionForm" (ngSubmit)="calculateAndDisplayRoute(directionForm.value)">
                 <ion-item *ngIf="recorrido">
-                    <ion-icon name="walk"></ion-icon>
+                    <ion-icon color="dark" name="walk"></ion-icon>
                     <ion-input formControlName="source" placeholder="Recorrido desde"></ion-input>
                 </ion-item>
                 <ion-item *ngIf="recorrido">
                     <ion-icon name="walk" class="ocultar"></ion-icon>
                     <ion-input formControlName="destination" placeholder="Recorrido hasta"></ion-input>
                 </ion-item>
+
                 <ion-button slot="end" *ngIf="recorrido" size="small" type="submit" color="dark" [disabled]="!directionForm.valid">Mostrar mapa
                     <ion-icon name="pin"></ion-icon>
                 </ion-button>
+
             </form>
 
 
