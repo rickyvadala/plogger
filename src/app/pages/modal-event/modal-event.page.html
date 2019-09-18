@@ -21,12 +21,28 @@
 
 
 </ng-template>
+<ng-template #name2 let-attrs="attrs">
+    <ion-chip slot="center" class="tipoEvento" color="{{attrs.data.color}}">
+        <ion-label>
+            <ion-icon slot="start" name="{{attrs.data.icono}}"></ion-icon>
+            {{ attrs.data.label }}
+
+        </ion-label>
+    </ion-chip>
+
+
+</ng-template>
 
 
 <ion-content padding color="gris2">
 
+    <!-- <ion-chip *ngFor="let selected of selectedType" color="">
+        <ion-label color="{{selected.color}}">
+            <ion-icon slot="start" name="{{selected.icono}}"></ion-icon>
+            {{ selected.label }}
 
-
+        </ion-label>
+    </ion-chip> -->
 
     <form #formulario="ngForm" (ngSubmit)="onSubmitTemplate( formulario )">
 
@@ -60,20 +76,20 @@
             </ion-item>
             <!-- Fecha -->
             <ion-item>
-                <ion-icon color="primary" name="time"></ion-icon>
+                <ion-icon mode="ios" color="primary" name="time"></ion-icon>
                 <ion-datetime #startDate name="startDate" [(ngModel)]="event.startDate" display-format="DD MMM YYYY HH:mm" placeholder="Fecha de inicio" cancelText="Cancelar" doneText="Ok" required>
                     Fecha
                 </ion-datetime>
             </ion-item>
             <ion-item>
-                <ion-icon name="time" class="ocultar"></ion-icon>
+                <ion-icon mode="ios" name="time" class="ocultar"></ion-icon>
                 <ion-datetime name="endDate" [(ngModel)]="event.endDate" display-format="DD MMM YYYY HH:mm" placeholder="Fecha de finalización" cancelText="Cancelar" doneText="Ok" required>
                     Fecha
                 </ion-datetime>
             </ion-item>
             <ion-item>
                 <!-- Descripcion -->
-                <ion-icon color="tertiary" name="create"></ion-icon>
+                <ion-icon mode="ios" color="tertiary" name="create"></ion-icon>
                 <ion-textarea name="description" placeholder="Detalles" [(ngModel)]="event.description" type="text" required></ion-textarea>
             </ion-item>
             <!-- <ion-item>
@@ -88,11 +104,11 @@
                 <!--  ubicacion del evento -->
                 <form [formGroup]="directionFormGeo" (ngSubmit)="obtenerDireccionEvento(directionFormGeo.value)">
                     <ion-item>
-                        <ion-icon color="secondary" name="navigate"></ion-icon>
+                        <ion-icon mode="ios" color="secondary" name="navigate"></ion-icon>
                         <ion-input formControlName="destination" placeholder="Ubicación"></ion-input>
                     </ion-item>
                     <ion-button slot="end" type="submit" color="dark" [disabled]="!directionFormGeo.valid">Mostrar mapa
-                        <ion-icon name="pin"></ion-icon>
+                        <ion-icon mode="ios" name="pin"></ion-icon>
                     </ion-button>
                 </form>
 
@@ -102,16 +118,16 @@
             <!-- Google Maps -->
             <form [formGroup]="directionForm" (ngSubmit)="calculateAndDisplayRoute(directionForm.value)">
                 <ion-item *ngIf="recorrido">
-                    <ion-icon color="dark" name="walk"></ion-icon>
+                    <ion-icon mode="ios" color="dark" name="walk"></ion-icon>
                     <ion-input formControlName="source" placeholder="Recorrido desde"></ion-input>
                 </ion-item>
                 <ion-item *ngIf="recorrido">
-                    <ion-icon name="walk" class="ocultar"></ion-icon>
+                    <ion-icon mode="ios" name="walk" class="ocultar"></ion-icon>
                     <ion-input formControlName="destination" placeholder="Recorrido hasta"></ion-input>
                 </ion-item>
 
                 <ion-button slot="end" *ngIf="recorrido" size="small" type="submit" color="dark" [disabled]="!directionForm.valid">Mostrar mapa
-                    <ion-icon name="pin"></ion-icon>
+                    <ion-icon mode="ios" name="pin"></ion-icon>
                 </ion-button>
 
             </form>

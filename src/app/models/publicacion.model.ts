@@ -19,4 +19,5 @@ export class PublicacionModel {
     nombre?:string;
     apellido?:string;
     fotoPerfil?:string;
+    evento?: {}
 }

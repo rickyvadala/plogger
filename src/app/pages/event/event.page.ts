@@ -37,7 +37,7 @@ export class EventPage implements OnInit {
   recorridoDesde: string;
   recorridoHasta: string;
   type: string []= [];
-  typeDescripcion: string []= [];
+  typeDescripcion: any []= [];
   usuarioUid: any;
 
   miEvento = false;
@@ -87,7 +87,7 @@ export class EventPage implements OnInit {
      
       this.eventService.obtenerDescripcionTipoEventos(tipo)
       .subscribe((resp: any) => { 
-        this.typeDescripcion.push(resp.label);
+        this.typeDescripcion.push(resp);
       
       });
     });
@@ -165,5 +165,8 @@ export class EventPage implements OnInit {
     });
   }
 
+  shareEvent() {
+    this.router.navigate(['/compartir-evento'], {state: this.evento});
+  }
 
 }

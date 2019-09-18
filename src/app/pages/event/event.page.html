@@ -14,7 +14,8 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content padding="padding">
+<ion-content>
+    <ion-img class="imagen" *ngIf="foto" [src]="foto"></ion-img>
     <ion-card mode="ios" class="evento">
         <ion-card-header>
             <ion-card-subtitle>
@@ -27,17 +28,35 @@
         </ion-card-header>
 
         <ion-card-content>
-            <ion-card-subtitle>Recorrido </ion-card-subtitle>
+            <ion-button expand="full" color="petroleo">
+                <ion-icon name="checkmark-circle"></ion-icon> Asistiré</ion-button>
+            <ion-toolbar>
+                <ion-buttons>
+
+                    <ion-button>
+                        <ion-icon size="large" name="star" color="warning"></ion-icon> Me interesa</ion-button>
+                    <ion-button (click)="shareEvent()">
+                        <ion-icon size="large" name="share-alt" color="medium"></ion-icon> Compartir</ion-button>
+
+                </ion-buttons>
+            </ion-toolbar>
+            <br>
+            <ion-card-subtitle> <b class="b-size">Recorrido </b> </ion-card-subtitle>
             <ion-card-subtitle *ngIf="recorridoDesde"> {{ recorridoDesde}} </ion-card-subtitle>
             <ion-card-subtitle *ngIf="recorridoHasta"> {{ recorridoHasta}} </ion-card-subtitle>
-            <ion-label *ngFor="let desc of typeDescripcion">
-                [{{ desc }}]
-            </ion-label>
-            <ion-card-subtitle> Descripción: </ion-card-subtitle>
+            <br>
+
+            <ion-chip *ngFor="let desc of typeDescripcion" color="{{desc.color}}">
+                <ion-label color="{{desc.color}}">
+                    <ion-icon name="{{desc.icono}}"></ion-icon>
+                    {{ desc.label}}</ion-label>
+            </ion-chip>
+
+            <br>
+            <ion-card-subtitle> <b class="b-size">Descripción</b> </ion-card-subtitle>
 
             {{ description }}
 
-            <ion-img *ngIf="foto" [src]="foto"></ion-img>
         </ion-card-content>
     </ion-card>
     <!-- Mapa Google -->

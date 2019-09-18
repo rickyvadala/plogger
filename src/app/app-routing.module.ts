@@ -21,7 +21,9 @@ const routes: Routes = [
   { path: 'event', loadChildren: './pages/modal-event/modal-event.module#ModalEventPageModule',canActivate: [AuthGuard] },
   { path: 'profile/:id', loadChildren: './pages/profile-other/profile-other.module#ProfileOtherPageModule', canActivate: [AuthGuard] },
   { path: 'event/:id', loadChildren: './pages/event/event.module#EventPageModule', canActivate: [AuthGuard] },
-  { path: 'event-type/:id', loadChildren: './pages/event-type/event-type.module#EventTypePageModule', canActivate: [AuthGuard] }
+  { path: 'event-type/:id', loadChildren: './pages/event-type/event-type.module#EventTypePageModule', canActivate: [AuthGuard] },
+  { path: 'compartir-evento', loadChildren: './pages/compartir-evento/compartir-evento.module#CompartirEventoPageModule', canActivate: [AuthGuard] }
+
 
 
 

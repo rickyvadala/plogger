@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewChecked, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit, AfterViewChecked, Output, EventEmitter, ViewChild} from '@angular/core';
 import { PopoverController, AlertController } from '@ionic/angular';
 import { PopPublicacionSettingsComponent } from '../pop-publicacion-settings/pop-publicacion-settings.component';
 import { PublicacionesService } from 'src/app/services/publicaciones.service';
@@ -16,7 +16,6 @@ import { PerfilUsuarioModel } from 'src/app/models/perfil-usuario.model';
 import { ComentarioModel } from 'src/app/models/comentario.model';
 import { Router } from '@angular/router';
 import { PopLikesComponent } from '../pop-likes/pop-likes.component';
-
 
 @Component({
   selector: 'app-publicacion',
@@ -142,7 +141,8 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
 
     this.suscripcion=this.publicacionService.obtenerPublicacionesPerfil(UID)
     .subscribe(resp => {
-      this.publicaciones = resp;
+      console.log(resp);
+      this.publicaciones = resp;   
       this.cantPosts = resp.length;
       this.enviarMensaje();
       }  
@@ -473,4 +473,8 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
     await popover.present();
   }
 
+  goToEvent(evento) {
+    this.router.navigate([`/event/${evento.id}`],  {state:  evento} );
+
+  }
 }

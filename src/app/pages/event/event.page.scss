@@ -1,5 +1,5 @@
 ion-card-title {
-    font-size: 25px;
+    font-size: 30px;
 }
 
 ion-card-content {
@@ -17,4 +17,20 @@ ion-card-content {
 .mapEvent {
     position: relative;
     height: 50%;
+}
+
+.imagen {
+    height: 200px;
+    width: 500px;
+    align-self: center;
+}
+
+.image-container {
+    height: 200px;
+    width: 500px;
+}
+
+.b-size {
+    font-size: 20px;
+    color: black;
 }

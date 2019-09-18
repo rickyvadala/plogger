@@ -66,4 +66,11 @@ export class EventoComponent implements OnInit {
       });
   }
 
+  obtenerEventoCompartir(evento: any) {
+    this.eventos.push(evento);
+  }
+
+  mostrarEventoPublicacion(evento: any) {
+    this.eventos.push(evento);
+  }
 }

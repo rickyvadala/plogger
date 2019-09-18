@@ -51,6 +51,9 @@ export class ModalEventPage implements OnInit, AfterViewInit {
     endDate: ''
   }
 
+
+  selectedType: any[] = [];
+
   usuario: PerfilUsuarioModel = {};
   options: ImagePickerOptions;
   imageResponse: any;
@@ -348,6 +351,12 @@ export class ModalEventPage implements OnInit, AfterViewInit {
   //Tipo de evento seleccionado
   itemSelected (event) {
   this.tipoEvento.push(event.id);
+  // this.selectedType.push(event);
+  // console.log('selected');
+  // console.log(this.selectedType);
+  // console.log('tipoEvento');
+  // console.log(this.tipoEvento);
+  // this.event.type = null;
   
   for (let i = 0; i < this.tipoEvento.length; i++) {
     const element = this.tipoEvento[i];
