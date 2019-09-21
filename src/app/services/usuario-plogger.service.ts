@@ -68,7 +68,8 @@ export class UsuarioPloggerService {
                 tipoInicio: 'p',
                 mail: mail,
                 seguidos: array[index].seguidos,
-                seguidores: array[index].seguidores
+                seguidores: array[index].seguidores,
+                eventosMeInteresa: array[index].eventosMeInteresa
               }
               this.dataShare.changeUser(objUsuario);
               return;
@@ -124,6 +125,41 @@ export class UsuarioPloggerService {
     );
   }
 
+  agregarEventosMeInteresa(eventoId){
+    return this.http.get(`${this.urlABM}/perfil/${this.usuario.key}/eventosMeInteresa.json`)
+    .pipe(map((x:any) => {
+      let meInteresaArray: any[]; 
+      if (x!==null) {
+        //aca viene cuando ya tiene algun evento en meInteresa
+        for (let index = 0; index < x.length; index++) {
+          if (x[index]===eventoId) {
+            return;
+          }
+        }
+        meInteresaArray = x;
+        meInteresaArray.push(eventoId);
+        return this.http.put(`${this.urlABM}/perfil/${this.usuario.key}/eventosMeInteresa.json`,meInteresaArray).subscribe();
+      } else {
+        //aca viene cuando no tiene algun evento en meInteresa
+        meInteresaArray = [eventoId]; 
+        return this.http.put(`${this.urlABM}/perfil/${this.usuario.key}/eventosMeInteresa.json`, meInteresaArray).subscribe();    
+      }
+    }));
+  }
+
+  eliminarEventoMeInteresa(eventoId) {
+    return this.http.get(`${this.urlABM}/perfil/${this.usuario.key}/eventosMeInteresa.json`)
+    .pipe(map((x:any) => {
+      if (x!==null) {
+        for (let index = 0; index < x.length; index++) {
+          if (x[index]===eventoId) {
+            return this.http.delete(`${ this.urlABM }/perfil/${ this.usuario.key }/eventosMeInteresa/${ index }.json`).subscribe();
+          }
+        }
+      }
+    }));
+
+  }
 
   editarUsuario (usr) {
     const usrTemp = {

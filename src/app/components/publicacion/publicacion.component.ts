@@ -16,6 +16,7 @@ import { PerfilUsuarioModel } from 'src/app/models/perfil-usuario.model';
 import { ComentarioModel } from 'src/app/models/comentario.model';
 import { Router } from '@angular/router';
 import { PopLikesComponent } from '../pop-likes/pop-likes.component';
+import { EventoComponent } from '../evento/evento.component';
 
 @Component({
   selector: 'app-publicacion',
@@ -53,7 +54,11 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
 
   usuario:PerfilUsuarioModel={};
 
+  conEvento = false;
+
   @Output() mensajeEvent = new EventEmitter<string>();
+
+  @ViewChild('evento') evento: EventoComponent;
 
   constructor(private popoverCtrl: PopoverController,
               private publicacionService:PublicacionesService,
@@ -140,10 +145,17 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
     let UID = this.usuario.uid;
 
     this.suscripcion=this.publicacionService.obtenerPublicacionesPerfil(UID)
-    .subscribe(resp => {
-      console.log(resp);
+    .subscribe((resp: any) => {
       this.publicaciones = resp;   
       this.cantPosts = resp.length;
+      // this.publicaciones.forEach(p => {
+        
+      //   if(p.evento) {
+      //     this.conEvento = true;
+      //     console.log(p.evento);
+      //     this.evento.mostrarEventoPublicacion(p.evento);
+      //   }
+      // });
       this.enviarMensaje();
       }  
     );   

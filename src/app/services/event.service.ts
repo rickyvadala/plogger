@@ -125,6 +125,42 @@ publicarEnEvento(eid: string, publicacion:PublicacionModel) {
   return this.http.post(`${this.urlABM}/evento/${eid}/publicaciones.json`, publicacion);
 }
 
+
+agregarAsistire(eventoId) {
+  return this.http.get(`${this.urlABM}/evento/${eventoId}/asistire.json`)
+  .pipe(map((x:any) => {
+    let asistireArray: any[]; 
+    if (x!==null) {
+      //aca viene cuando ya tiene algun evento en meInteresa
+      for (let index = 0; index < x.length; index++) {
+        if (x[index]===this.usuario.key) {
+          return;
+        }
+      }
+      asistireArray = x;
+      asistireArray.push(this.usuario.key);
+      return this.http.put(`${this.urlABM}/evento/${eventoId}/asistire.json`,asistireArray).subscribe();
+    } else {
+      //aca viene cuando no tiene algun evento en meInteresa
+      asistireArray = [this.usuario.key]; 
+      return this.http.put(`${this.urlABM}/evento/${eventoId}/asistire.json`, asistireArray).subscribe();    
+    }
+  }));
+}
+
+eliminarAsistire(eventoId) {
+  return this.http.get(`${this.urlABM}/evento/${eventoId}/asistire.json`)
+  .pipe(map((x:any) => {
+    if (x!==null) {
+      for (let index = 0; index < x.length; index++) {
+        if (x[index]===this.usuario.key) {
+          return this.http.delete(`${ this.urlABM }/evento/${ eventoId }/asistire/${ index }.json`).subscribe();
+        }
+      }
+    }
+  }));
+}
+
 likePost(eid: string, publicacion:PublicacionModel){
   // Obtiene los like
   return this.http.get(`${this.urlABM}/evento/${eid}/publicaciones/${ publicacion.pid }/like.json`)
@@ -190,6 +226,8 @@ obtenerDescripcionTipoEventos(id){
   return this.http.get(`https://plogger-437eb.firebaseio.com/tipoEvento/${ id }.json`);
 }
 
-
+obtenerEvento(eventoId) {
+  return this.http.get(`${this.urlABM}/evento/${eventoId}.json`);
+}
 
 }

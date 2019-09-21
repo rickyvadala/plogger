@@ -7,6 +7,7 @@ import { DataShareService } from '../../services/data-share.service';
 import { PerfilUsuarioModel } from '../../models/perfil-usuario.model';
 import { PopLikesComponent } from '../pop-likes/pop-likes.component';
 import { PopoverController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-publicacion-others',
@@ -27,7 +28,8 @@ export class PublicacionOthersComponent implements OnInit {
 
   constructor(private publicacionService: PublicacionesService,
                       private dataShare: DataShareService,
-                      private popoverCtrl:PopoverController) {
+                      private popoverCtrl:PopoverController,
+                      public router: Router) {
     this.dataShare.currentUser.subscribe( usuario => {
       this.usuario = usuario
     });
@@ -219,5 +221,10 @@ export class PublicacionOthersComponent implements OnInit {
       }
     });
     await popover.present();
+  }
+
+  goToEvent(evento) {
+    this.router.navigate([`/event/${evento.id}`],  {state:  evento} );
+
   }
 }

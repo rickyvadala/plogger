@@ -8,6 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { ProfilePage } from './profile.page';
 import { ComponentsModule } from '../../components/components.module';
 import { PopProfileSettingsComponent } from '../../components/pop-profile-settings/pop-profile-settings.component';
+import { EventoComponent } from '../../components/evento/evento.component';
 
 
 const routes: Routes = [
@@ -19,7 +20,8 @@ const routes: Routes = [
 
 @NgModule({
   entryComponents: [
-    PopProfileSettingsComponent
+    PopProfileSettingsComponent,
+    EventoComponent
     ],
   imports: [
     CommonModule,

@@ -28,13 +28,21 @@
         </ion-card-header>
 
         <ion-card-content>
-            <ion-button expand="full" color="petroleo">
-                <ion-icon name="checkmark-circle"></ion-icon> Asistiré</ion-button>
+            <ion-button class="label-button" expand="full" color="petroleo" (click)="asistire()">
+                <ion-icon *ngIf="asistireFlag" size="large" name="checkmark-circle-outline"></ion-icon>
+                <ion-icon *ngIf="!asistireFlag" size="large" name="close-circle-outline"></ion-icon> &nbsp; Asistiré</ion-button>
+            <!-- <ion-button *ngIf="asistireFlag" expand="full" color="petroleo" (click)="noAsistire()">
+                <ion-icon size="large" name="close-circle-outline"></ion-icon> Asistiré</ion-button> -->
             <ion-toolbar>
+                <ion-card-subtitle *ngIf="cantAsistire > 0">
+                    <ion-icon size="small" name="people"></ion-icon> {{ cantAsistire}} personas asistirán
+                </ion-card-subtitle>
+                <br>
                 <ion-buttons>
 
-                    <ion-button>
-                        <ion-icon size="large" name="star" color="warning"></ion-icon> Me interesa</ion-button>
+                    <ion-button (click)="meInteresa()">
+                        <ion-icon *ngIf="meInteresaFlag" size="large" name="star" color="warning"></ion-icon>
+                        <ion-icon *ngIf="!meInteresaFlag" size="large" name="star" color="medium"></ion-icon> Me interesa</ion-button>
                     <ion-button (click)="shareEvent()">
                         <ion-icon size="large" name="share-alt" color="medium"></ion-icon> Compartir</ion-button>
 
