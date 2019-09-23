@@ -4,6 +4,8 @@ import { PopoverController, AlertController } from '@ionic/angular';
 import { PopEventoSettingsComponent } from 'src/app/components/pop-evento-settings/pop-evento-settings.component';
 import { DataShareService } from '../../services/data-share.service';
 import { EventService } from '../../services/event.service';
+import { UsuarioPloggerService } from '../../services/usuario-plogger.service';
+import { PerfilUsuarioModel } from '../../models/perfil-usuario.model';
 
 import {
   GoogleMaps,
@@ -38,6 +40,7 @@ export class EventPage implements OnInit {
   recorridoHasta: string;
   type: string []= [];
   typeDescripcion: any []= [];
+  usuariosAsistire: any [] = [];
   usuarioUid: any;
 
   miEvento = false;
@@ -45,6 +48,13 @@ export class EventPage implements OnInit {
 
   popClick: string;
   map: GoogleMap;
+
+  usuario: PerfilUsuarioModel;
+  meInteresaFlag = false;
+  asistireFlag = false;
+
+  cantAsistire: number = 0;
+  eventoAsistire: any [] = [];  
 
    //Esto es de googleMaps
    @ViewChild('mapElement') mapNativeElement: ElementRef;
@@ -57,10 +67,13 @@ export class EventPage implements OnInit {
               private dataShare: DataShareService,
               private eventService: EventService,
               public alertCtrl: AlertController,
+              public usuarioService: UsuarioPloggerService
               ) {
   
-
-    this.dataShare.currentUser.subscribe( usuario => this.usuarioUid = usuario.uid );
+    this.dataShare.currentUser.subscribe( usuario => {
+      this.usuario = usuario;
+      this.usuarioUid = usuario.uid;
+    } );
     this.dataShare.currentMessage.subscribe(mensaje => this.popClick = mensaje);
 
     this.obtenerEvento();     
@@ -73,17 +86,38 @@ export class EventPage implements OnInit {
    obtenerEvento() {
     this.evento = this.router.getCurrentNavigation().extras.state;
     this.eid = this.evento.id;
-    this.name =  this.evento.name;
-    this.description = this.evento.description;
-    this.inicio = this.evento.startDate;
-    this.fin = this.evento.endDate;
-    this.location = this.evento.ubication;
-    this.foto = this.evento.foto;
-    this.uid = this.evento.uid;
-    this.recorridoDesde = this.evento.recorridoDesde;
-    this.recorridoHasta = this.evento.recorridoHasta;
-    this.type = this.evento.type;
-    this.type.forEach(tipo => {
+    this.eventService.obtenerEvento(this.eid).subscribe((resp: any) => {
+
+      this.name =  resp.name;
+      this.description = resp.description;
+      this.inicio = resp.startDate;
+      this.fin = resp.endDate;
+      this.location = resp.ubication;
+      this.foto = resp.foto;
+      this.uid = resp.uid;
+      this.recorridoDesde = resp.recorridoDesde;
+      this.recorridoHasta = resp.recorridoHasta;
+      this.type = resp.type;
+      this.eventoAsistire = resp.asistire;
+      if(this.usuario.eventosMeInteresa || (this.usuario.eventosMeInteresa !== undefined)) {
+        this.usuario.eventosMeInteresa.forEach(event => {
+          if(event == this.eid){
+            this.meInteresaFlag = true;
+          }
+        });
+      }
+      if(this.eventoAsistire) {
+        let asistire = this.eventoAsistire;
+        asistire.forEach(a => {
+          this.cantAsistire = this.cantAsistire + 1;
+          if(this.usuario.key === a) {
+            this.asistireFlag = true;
+            return;
+          }
+        });
+      }
+
+      this.type.forEach(tipo => {
      
       this.eventService.obtenerDescripcionTipoEventos(tipo)
       .subscribe((resp: any) => { 
@@ -91,6 +125,7 @@ export class EventPage implements OnInit {
       
       });
     });
+    })
    
    }
 
@@ -165,8 +200,59 @@ export class EventPage implements OnInit {
     });
   }
 
+  meInteresa() {
+    let eid = this.evento.id;
+    if(!this.meInteresaFlag) {
+      this.usuarioService.agregarEventosMeInteresa(eid).subscribe(() => {
+        if(!(this.usuario.eventosMeInteresa !== undefined)) {
+          this.usuario.eventosMeInteresa = [];
+        }
+        this.meInteresaFlag = true;
+        this.usuario.eventosMeInteresa.push(eid);
+        this.dataShare.changeUser(this.usuario);
+      });
+      
+    } else {
+      this.usuarioService.eliminarEventoMeInteresa(eid).subscribe(() => {
+        this.meInteresaFlag = false;
+        if(this.usuario.eventosMeInteresa !== undefined){
+          for (let index = 0; index <this.usuario.eventosMeInteresa.length; index++) {
+            const evento = this.usuario.eventosMeInteresa[index];
+            if (evento == eid) {
+              this.usuario.eventosMeInteresa.splice(index, 1);
+            }
+          }
+        }
+      })
+    }
+  }
+
+  asistire() {
+    let eid = this.evento.id;
+    if(!this.asistireFlag) {
+      this.eventService.agregarAsistire(eid).subscribe();
+      this.asistireFlag = true;
+      this.cantAsistire = this.cantAsistire + 1;
+      this.eventoAsistire.push(this.usuario.key);
+    } else {
+      this.eventService.eliminarAsistire(eid).subscribe();
+      for (let i = 0; i < this.eventoAsistire.length; i++) {
+        const asistire = this.eventoAsistire[i];
+        if( asistire == this.usuario.key) {
+          this.eventoAsistire.splice(i , 1);
+        }
+      }
+      this.asistireFlag = false;
+      this.cantAsistire = this.cantAsistire - 1;
+    }
+  }
+
   shareEvent() {
     this.router.navigate(['/compartir-evento'], {state: this.evento});
+  }
+
+  verAsistire() {
+    this.router.navigate(['/asistiran'], {state: this.eventoAsistire});
   }
 
 }

@@ -9,6 +9,7 @@ import { HomePage } from './home.page';
 import { ComponentsModule } from 'src/app/components/components.module';
 
 import { AutoCompleteModule } from 'ionic4-auto-complete';
+import { EventoComponent } from 'src/app/components/evento/evento.component';
 
 const routes: Routes = [
   {
@@ -18,6 +19,9 @@ const routes: Routes = [
 ];
 
 @NgModule({
+  entryComponents: [
+    EventoComponent
+    ],
   imports: [
     CommonModule,
     FormsModule,

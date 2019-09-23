@@ -3,6 +3,7 @@ import { UsuarioPloggerService } from 'src/app/services/usuario-plogger.service'
 import { Router } from '@angular/router';
 import { ChatService } from 'src/app/services/chat.service';
 
+
 @Component({
   selector: 'app-users-chat',
   templateUrl: './users-chat.page.html',

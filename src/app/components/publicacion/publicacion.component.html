@@ -58,6 +58,7 @@
                     {{ item.evento.description }}
                 </ion-card-content>
             </ion-card>
+            <!-- <app-evento *ngIf="conEvento" #evento></app-evento> -->
 
             <ion-item [attr.class]="'itemPublicar editarItem c'+i">
                 <ion-textarea type="text" placeholder="{{item.texto}}" [(ngModel)]="textoEditar"></ion-textarea>

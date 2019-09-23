@@ -20,7 +20,8 @@ import { PopFollowComponent } from './pop-follow/pop-follow.component';
     PopPublicacionSettingsComponent,
     PopEventoSettingsComponent,
     PopLikesComponent,
-    PopFollowComponent
+    PopFollowComponent,
+    EventoComponent
   ],
   declarations: [
     PopProfileSettingsComponent,
