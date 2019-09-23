@@ -5,15 +5,13 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { HomePage } from './home.page';
+import { MessagePage } from './message.page';
 import { ComponentsModule } from 'src/app/components/components.module';
-
-import { AutoCompleteModule } from 'ionic4-auto-complete';
 
 const routes: Routes = [
   {
     path: '',
-    component: HomePage
+    component: MessagePage
   }
 ];
 
@@ -22,11 +20,9 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes),
     ComponentsModule,
-    AutoCompleteModule,
-    
+    RouterModule.forChild(routes)
   ],
-  declarations: [HomePage]
+  declarations: [MessagePage]
 })
-export class HomePageModule {}
+export class MessagePageModule {}

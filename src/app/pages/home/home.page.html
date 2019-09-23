@@ -9,6 +9,9 @@
             <ion-button>
                 <ion-icon name="notifications" color="dark"></ion-icon>
             </ion-button>
+            <ion-button (click)="goToChat()">
+                <ion-icon name="chatbubbles" color="dark"></ion-icon>
+            </ion-button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
@@ -26,7 +29,6 @@
 <ion-content padding>
 
     <ion-auto-complete [template]="name" [showResultsFirst]="false" [(model)]="selected" (itemSelected)="itemSelected($event)" [multi]="false" [dataProvider]="searchService" [disabled]="false" [removeButtonColor]="'dark'" [options]="{ placeholder : ' ', debounce : '1000' }">
-
     </ion-auto-complete>
 
     <app-publicacion></app-publicacion>

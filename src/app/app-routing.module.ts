@@ -22,7 +22,10 @@ const routes: Routes = [
   { path: 'profile/:id', loadChildren: './pages/profile-other/profile-other.module#ProfileOtherPageModule', canActivate: [AuthGuard] },
   { path: 'event/:id', loadChildren: './pages/event/event.module#EventPageModule', canActivate: [AuthGuard] },
   { path: 'event-type/:id', loadChildren: './pages/event-type/event-type.module#EventTypePageModule', canActivate: [AuthGuard] },
-  { path: 'compartir-evento', loadChildren: './pages/compartir-evento/compartir-evento.module#CompartirEventoPageModule', canActivate: [AuthGuard] }
+  { path: 'compartir-evento', loadChildren: './pages/compartir-evento/compartir-evento.module#CompartirEventoPageModule', canActivate: [AuthGuard] },
+  { path: 'message', loadChildren: './pages/message/message.module#MessagePageModule', canActivate: [AuthGuard] },
+  { path: 'users-chat', loadChildren: './pages/users-chat/users-chat.module#UsersChatPageModule', canActivate: [AuthGuard] },
+  { path: 'chat', loadChildren: './pages/chat/chat.module#ChatPageModule', canActivate: [AuthGuard] }
 
 
 

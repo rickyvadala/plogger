@@ -1,0 +1,60 @@
+<ion-header>
+    <ion-toolbar color="petroleo">
+        <ion-title>Conversación</ion-title>
+        <ion-buttons>
+            <ion-button slot="start">
+                <ion-back-button></ion-back-button>
+            </ion-button>
+        </ion-buttons>
+
+    </ion-toolbar>
+
+</ion-header>
+<ion-content>
+    <!-- <div class="chat-window app-mensajes">
+        <h1>Chat</h1>
+
+        <div *ngFor="let chat of chats" [ngClass]="{ 'textoChat': usuario.uid == chat.uid  }">
+
+            <ion-label color="primary" [ngClass]="{ 'badge-primary': usuario.uid == chat.uid,
+                                                    'textoChatOtroUsuario': usuario.uid != chat.uid }">
+                {{ chat.nombre }}</ion-label>
+            <p>
+                {{ chat.mensaje }}
+            </p>
+        </div>
+
+    </div> -->
+
+
+    <div class="app-mensajes" id="app-mensajes">
+
+        <div *ngFor="let chat of chatService.chats" [ngClass]="{ 'textoChat': usuario.key == chat.uidUsuarioLogueado  }">
+            <span>
+              {{ chat.nombre }}</span>
+            <p>
+                {{ chat.mensaje }}
+            </p>
+        </div>
+
+        <!--
+  <div class="text-right">
+    <span class="badge badge-primary">Fernando</span>
+    <p>
+      Este es un mensaje de chat
+    </p>
+  </div>
+
+  <div>
+    <span class="badge badge-success">Maria</span>
+    <p>
+      Saludos Fernando
+    </p>
+  </div>
+   -->
+
+    </div>
+    <input type="text" name="mensaje" [(ngModel)]="mensaje" class="form-control" (keyup.enter)="enviarMensaje()" placeholder="Enviar mensaje">
+
+
+</ion-content>

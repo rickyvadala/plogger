@@ -15,7 +15,7 @@ import { HttpClientModule } from '@angular/common/http';
 // AutentificacionFacebook
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFirestoreModule, AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 
@@ -43,6 +43,7 @@ import { Camera } from '@ionic-native/camera/ngx';
     StatusBar,
     SplashScreen,
     ImagePicker,
+    AngularFirestore,
     File,
     Camera,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

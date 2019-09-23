@@ -3,17 +3,19 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 
+
+
+
 import { IonicModule } from '@ionic/angular';
 
-import { HomePage } from './home.page';
+import { ChatPage } from './chat.page';
 import { ComponentsModule } from 'src/app/components/components.module';
-
-import { AutoCompleteModule } from 'ionic4-auto-complete';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 
 const routes: Routes = [
   {
     path: '',
-    component: HomePage
+    component: ChatPage
   }
 ];
 
@@ -22,11 +24,10 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes),
     ComponentsModule,
-    AutoCompleteModule,
-    
+    AngularFirestoreModule,
+    RouterModule.forChild(routes)
   ],
-  declarations: [HomePage]
+  declarations: [ChatPage]
 })
-export class HomePageModule {}
+export class ChatPageModule {}

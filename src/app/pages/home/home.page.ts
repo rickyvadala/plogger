@@ -27,4 +27,8 @@ export class HomePage implements OnInit {
     this.router.navigate(['/profile', item.uid]);
   }
 
+  goToChat(){
+    this.router.navigate(['/message']);
+  }
+
 }

@@ -1,0 +1,40 @@
+<ion-header>
+    <ion-toolbar color="petroleo">
+        <ion-title>Direct</ion-title>
+        <ion-buttons>
+            <ion-button slot="start">
+                <ion-back-button></ion-back-button>
+            </ion-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-button (click)="goToUserChat()">
+                <ion-icon name="create" color="dark"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+
+</ion-header>
+
+<br>
+<ion-content>
+
+
+    <ion-item-group *ngFor="let us of usuarios; let i = index">
+        <ion-item (click)="goToChat(i)">
+            <ion-avatar slot="end">
+                <img [src]="us.foto">
+            </ion-avatar>
+            <ion-label> {{ us.nombre }} {{ us.apellido }}:</ion-label>
+            <br>
+
+            <ion-label> {{ mensaje }} </ion-label>
+
+
+        </ion-item>
+    </ion-item-group>
+
+
+
+
+
+</ion-content>
