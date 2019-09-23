@@ -54,8 +54,7 @@ export class EventPage implements OnInit {
   asistireFlag = false;
 
   cantAsistire: number = 0;
-  eventoAsistire: any [] = [];
-  
+  eventoAsistire: any [] = [];  
 
    //Esto es de googleMaps
    @ViewChild('mapElement') mapNativeElement: ElementRef;
@@ -100,7 +99,6 @@ export class EventPage implements OnInit {
       this.recorridoHasta = resp.recorridoHasta;
       this.type = resp.type;
       this.eventoAsistire = resp.asistire;
-      console.log(this.usuario.eventosMeInteresa);
       if(this.usuario.eventosMeInteresa || (this.usuario.eventosMeInteresa !== undefined)) {
         this.usuario.eventosMeInteresa.forEach(event => {
           if(event == this.eid){
@@ -235,8 +233,15 @@ export class EventPage implements OnInit {
       this.eventService.agregarAsistire(eid).subscribe();
       this.asistireFlag = true;
       this.cantAsistire = this.cantAsistire + 1;
+      this.eventoAsistire.push(this.usuario.key);
     } else {
       this.eventService.eliminarAsistire(eid).subscribe();
+      for (let i = 0; i < this.eventoAsistire.length; i++) {
+        const asistire = this.eventoAsistire[i];
+        if( asistire == this.usuario.key) {
+          this.eventoAsistire.splice(i , 1);
+        }
+      }
       this.asistireFlag = false;
       this.cantAsistire = this.cantAsistire - 1;
     }
@@ -244,6 +249,10 @@ export class EventPage implements OnInit {
 
   shareEvent() {
     this.router.navigate(['/compartir-evento'], {state: this.evento});
+  }
+
+  verAsistire() {
+    this.router.navigate(['/asistiran'], {state: this.eventoAsistire});
   }
 
 }

@@ -227,4 +227,5 @@ export class PublicacionOthersComponent implements OnInit {
     this.router.navigate([`/event/${evento.id}`],  {state:  evento} );
 
   }
+
 }

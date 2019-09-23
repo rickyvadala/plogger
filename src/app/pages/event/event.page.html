@@ -34,7 +34,7 @@
             <!-- <ion-button *ngIf="asistireFlag" expand="full" color="petroleo" (click)="noAsistire()">
                 <ion-icon size="large" name="close-circle-outline"></ion-icon> Asistiré</ion-button> -->
             <ion-toolbar>
-                <ion-card-subtitle *ngIf="cantAsistire > 0">
+                <ion-card-subtitle *ngIf="cantAsistire > 0" (click)="verAsistire()">
                     <ion-icon size="small" name="people"></ion-icon> {{ cantAsistire}} personas asistirán
                 </ion-card-subtitle>
                 <br>
@@ -49,11 +49,15 @@
                 </ion-buttons>
             </ion-toolbar>
             <br>
-            <ion-card-subtitle> <b class="b-size">Recorrido </b> </ion-card-subtitle>
+            <ion-card-subtitle *ngIf="recorridoDesde"> <b class="b-size">Recorrido </b> </ion-card-subtitle>
             <ion-card-subtitle *ngIf="recorridoDesde"> {{ recorridoDesde}} </ion-card-subtitle>
             <ion-card-subtitle *ngIf="recorridoHasta"> {{ recorridoHasta}} </ion-card-subtitle>
             <br>
 
+            <ion-card-subtitle> <b class="b-size">Descripción</b> </ion-card-subtitle>
+
+            {{ description }}
+            <br>
             <ion-chip *ngFor="let desc of typeDescripcion" color="{{desc.color}}">
                 <ion-label color="{{desc.color}}">
                     <ion-icon name="{{desc.icono}}"></ion-icon>
@@ -61,9 +65,6 @@
             </ion-chip>
 
             <br>
-            <ion-card-subtitle> <b class="b-size">Descripción</b> </ion-card-subtitle>
-
-            {{ description }}
 
         </ion-card-content>
     </ion-card>
