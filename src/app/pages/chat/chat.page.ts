@@ -25,72 +25,31 @@ export class ChatPage implements OnInit {
     private usuarioPlogger: UsuarioPloggerService,
     private router: Router
     ) { 
-
-this.dataShare.currentUser.subscribe( usuario => this.usuario = usuario );
-this.usuarioDestinatario = this.router.getCurrentNavigation().extras.state;
-this.chatService.cargarMensajes() .subscribe( ()=>{
-
-  setTimeout( ()=>{
-    this.elemento.scrollTop = this.elemento.scrollHeight;
-  },20);
-
-
-});
-
+    
+    this.dataShare.currentUser.subscribe( usuario => this.usuario = usuario );
+    this.usuarioDestinatario = this.router.getCurrentNavigation().extras.state;
+    this.chatService.cargarMensajes() .subscribe( ()=>{
+            setTimeout( ()=> {this.elemento.scrollTop = this.elemento.scrollHeight;},50);});
     }
 
-ngOnInit() {
-  
-
-  //this.enviarMensaje();
-  //this.obtenerUsuarios();
+ngOnInit() {  
   this.elemento = document.getElementById('app-mensajes');
-  
 }
-
-
-
 
 obtenerUsuarios() {
-
-this.usuarioPlogger.obtenerPerfiles().subscribe(resp => {
-this.usuarios = resp;
-})
+  this.usuarioPlogger.obtenerPerfiles().subscribe(resp => {
+      this.usuarios = resp;
+   })
 }
 
-
-
-
 enviarMensaje(){
-
   if( this.mensaje.length === 0 ){
     return;
   }
-
   this.chatService.agregarMensaje( this.mensaje )
-          .then( ()=>this.mensaje = "" )
+          .then( ()=> this.mensaje = "" )
           .catch( (err)=>console.error('Error al enviar',  err ) );
-
-
-
+ 
 }
-
-// guardarMensaje ( texto: string ) {
-
-// let mensaje: MensajeModel = {
-// nombre: this.usuario.nombre,
-// apellido: this.usuario.apellido,
-// mensaje: texto,
-// fecha: new Date().toISOString(),
-// uidUsuarioLogueado: this.usuario.uid,
-// uidUsuarioDestinatario: this.usuarioDestinatario.uid,
-// foto: this.usuario.foto
-// }
-// this.chatService.guardarChat(mensaje).subscribe(() => {
-
-// });
-// this.mensaje = '';
-// }
-
 
 }
