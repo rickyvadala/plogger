@@ -7,4 +7,5 @@ export class MensajeModel {
     uidUsuarioLogueado: string;
     uidUsuarioDestinatario: string;
     foto?: string;
+    ultimoMensaje?: string
 }

@@ -31,17 +31,43 @@ export class ChatService {
 
   cargarMensajes(){
 
+    // this.itemsCollection = this.afs.collection<MensajeModel>('chats', ref => ref.orderBy('fecha','desc').limit(50));
+    this.itemsCollection = this.afs.collection<MensajeModel>('chats', ref => ref.orderBy('fecha','desc').limit(50));
+
+
+    return this.itemsCollection.valueChanges().pipe(
+                              map( (mensajes: MensajeModel[]) =>{
+                                this.chats = [];
+                                mensajes.forEach((mensaje) => {
+                                  if( (mensaje.uidUsuarioLogueado == this.usuario.key && mensaje.uidUsuarioDestinatario == this.usuarioDestinatario) || (mensaje.uidUsuarioLogueado == this.usuarioDestinatario && mensaje.uidUsuarioDestinatario == this.usuario.key) ) {
+                                    this.chats.unshift( mensaje );
+                                  }
+                                  
+                                });
+                                return this.chats;
+                              }))
+  }
+
+  cargarChats(){
+
     this.itemsCollection = this.afs.collection<MensajeModel>('chats', ref => ref.orderBy('fecha','desc').limit(50));
 
     return this.itemsCollection.valueChanges().pipe(
                               map( (mensajes: MensajeModel[]) =>{
                                 this.chats = [];
-                                mensajes.forEach(mensaje => {
-                                  if( (mensaje.uidUsuarioLogueado == this.usuario.key && mensaje.uidUsuarioDestinatario == this.usuarioDestinatario) || (mensaje.uidUsuarioLogueado == this.usuarioDestinatario && mensaje.uidUsuarioDestinatario == this.usuario.key) ) {
+                                let cantMjes = 0
+                                mensajes.forEach((mensaje) => {
+                                  if( (mensaje.uidUsuarioLogueado == this.usuario.key) ||( mensaje.uidUsuarioDestinatario == this.usuario.key)  ) {
+                                    cantMjes = cantMjes + 1;
                                     this.chats.unshift( mensaje );
+
                                   }
+                                  
                                 });
-                                
+                               
+                                this.chats.forEach(mensaje => {
+                                  mensaje.ultimoMensaje = this.chats[cantMjes - 1].mensaje;
+                                });
                                 return this.chats;
                               }))
   }
@@ -67,7 +93,24 @@ export class ChatService {
    
   return ver;
   }
+  
+  borrarMensajes(keyOther: string) { 
+    let ref = this.afs.collection('chats').get().subscribe(querySnapshot =>{
+      querySnapshot.forEach(doc => {
+        if( (doc.data().uidUsuarioLogueado == this.usuario.key && doc.data().uidUsuarioDestinatario == keyOther) || (doc.data().uidUsuarioLogueado == keyOther && doc.data().uidUsuarioDestinatario == this.usuario.key) ) {
+          doc.ref.delete();
+        }
+      }
+      );})
+  }
+    
+   
+    
 
+    
+      
+
+  
 
   
 }

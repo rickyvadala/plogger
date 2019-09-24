@@ -18,15 +18,22 @@
 <br>
 <ion-content>
 
-    <ion-item-group *ngFor="let us of usuarios; let i = index">
-        <ion-item (click)="goToChat(i)">
-            <ion-avatar slot="end">
-                <img [src]="us.foto">
-            </ion-avatar>
-            <ion-label> {{ us.nombre }} {{ us.apellido }}</ion-label>
-            <br>
-            <ion-label> {{ mensaje }} </ion-label>
-        </ion-item>
+    <ion-item-group *ngFor="let us of usuariosChat; let i = index">
+        <ion-item-sliding>
+            <ion-item (click)="goToChat(i)">
+                <ion-avatar slot="end">
+                    <img [src]="us.foto">
+                </ion-avatar>
+                <ion-label> {{ us.nombre }} {{ us.apellido }}</ion-label>
+                <br>
+            </ion-item>
+            <ion-item-options side="end">
+                <ion-item-option color="danger" expandable (click)="borrarConversacion(us.key)">
+                    <ion-icon slot="icon-only" name="trash"></ion-icon>
+                </ion-item-option>
+            </ion-item-options>
+        </ion-item-sliding>
     </ion-item-group>
+
 
 </ion-content>
