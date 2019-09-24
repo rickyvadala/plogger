@@ -31,8 +31,7 @@ export class ChatService {
 
   cargarMensajes(){
 
-    this.itemsCollection = this.afs.collection<MensajeModel>('chats', ref => ref.orderBy('fecha','desc')
-                                                                             );
+    this.itemsCollection = this.afs.collection<MensajeModel>('chats', ref => ref.orderBy('fecha','desc').limit(50));
 
     return this.itemsCollection.valueChanges().pipe(
                               map( (mensajes: MensajeModel[]) =>{

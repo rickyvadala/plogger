@@ -29,7 +29,7 @@ export class ChatPage implements OnInit {
     this.dataShare.currentUser.subscribe( usuario => this.usuario = usuario );
     this.usuarioDestinatario = this.router.getCurrentNavigation().extras.state;
     this.chatService.cargarMensajes() .subscribe( ()=>{
-            setTimeout( ()=> {this.elemento.scrollTop = this.elemento.scrollHeight;},50);});
+            setTimeout( ()=> this.elemento.scrollTop = this.elemento.scrollHeight, 500);});
     }
 
 ngOnInit() {  
@@ -49,6 +49,7 @@ enviarMensaje(){
   this.chatService.agregarMensaje( this.mensaje )
           .then( ()=> this.mensaje = "" )
           .catch( (err)=>console.error('Error al enviar',  err ) );
+  this.elemento.scrollTop = this.elemento.scrollHeight   
  
 }
 
