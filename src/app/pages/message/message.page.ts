@@ -30,7 +30,6 @@ this.dataShare.currentUser.subscribe( usuario => {this.usuario = usuario} );
 
 ngOnInit() {
 this.obtenerUsuarios();
-this.chatService.obtenerMensajes().subscribe(resp => console.log(resp))
 }
 
 
