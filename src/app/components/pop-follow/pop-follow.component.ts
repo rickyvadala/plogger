@@ -23,7 +23,7 @@ export class PopFollowComponent implements OnInit {
   ngOnInit() {
     this.passedData = this.navParams.get('data');
     this.followService.getUserOfData(this.passedData).subscribe( resp => {
-      console.log(resp);
+     // console.log(resp);
       this.users=resp;
     });
   }

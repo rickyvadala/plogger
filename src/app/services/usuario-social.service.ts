@@ -43,10 +43,10 @@ export class UsuarioService {
         this.usuario.tipoInicio = "f";
     }
         this.afAuth.authState.subscribe( user => {      
-      console.log( 'Estado del usuario: ', user );
+      //console.log( 'Estado del usuario: ', user );
 
       if ( !user ) {
-        console.log('Return');
+     //   console.log('Return');
         return;
       }
       let displayName = user.displayName;
@@ -84,7 +84,7 @@ export class UsuarioService {
             this.usuario.fechaNac = array[index].fechaNac;
             this.usuario.seguidos = array[index].seguidos;
             this.usuario.seguidores = array[index].seguidores;
-            console.log("Perfil existente", this.usuario);
+     //       console.log("Perfil existente", this.usuario);
             this.router.navigate(['/tabs']);
 
 
@@ -95,7 +95,7 @@ export class UsuarioService {
         }
         if (bandera === false) {
           this.crearPerfil(this.usuario).subscribe( user => {
-            console.log("Crea nuevo perfil",user);
+    //        console.log("Crea nuevo perfil",user);
           });
         }
       });

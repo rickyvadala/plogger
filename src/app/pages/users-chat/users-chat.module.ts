@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { UsersChatPage } from './users-chat.page';
 import { ComponentsModule } from 'src/app/components/components.module';
+import { AutoCompleteModule } from 'ionic4-auto-complete';
 
 const routes: Routes = [
   {
@@ -21,6 +22,7 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     ComponentsModule,
+    AutoCompleteModule,
     RouterModule.forChild(routes)
   ],
   declarations: [UsersChatPage]
