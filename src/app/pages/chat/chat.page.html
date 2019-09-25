@@ -29,6 +29,14 @@
 
 
 </ion-content>
-<div class="textoInput">
-    <input type="text" class="label-mje" name="mensaje" [(ngModel)]="mensaje" (keyup.enter)="enviarMensaje()" placeholder="Escribe un mensaje">
+<div>
+    <td>
+        <ion-textarea type="text" class="textoInput label-mje" name="mensaje" [(ngModel)]="mensaje" placeholder="Escribe un mensaje">
+        </ion-textarea>
+    </td>
+    <td>
+        <ion-button class="enviar" (click)="enviarMensaje()" color="light">
+            Enviar
+        </ion-button>
+    </td>
 </div>

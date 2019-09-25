@@ -26,6 +26,8 @@ export class MessagePage implements OnInit {
   usConver: any[] = []
       
   usConverTemporal: any [] = [];
+  sinMensajes= true ;
+  loading = true;
 
   constructor(  private chatService: ChatService,
                 private dataShare: DataShareService,
@@ -57,6 +59,8 @@ export class MessagePage implements OnInit {
         this.usuarios.forEach(us => {
           if((mensaje.uidUsuarioDestinatario === us.key) || (mensaje.uidUsuarioLogueado === us.key)) {
             this.usConver.push(us);
+            this.sinMensajes = false;
+            this.loading = false;
             this.usConver.forEach((usC, index) => {
               this.usConverTemporal = Object.assign([], this.usConver);
               this.usConverTemporal.splice(index, 1);
@@ -66,6 +70,7 @@ export class MessagePage implements OnInit {
           }});});
         });});
     this.usuariosChat = this.usConverRepetidos;
+
   }
 
 

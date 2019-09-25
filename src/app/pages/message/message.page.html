@@ -12,12 +12,16 @@
             </ion-button>
         </ion-buttons>
     </ion-toolbar>
-
 </ion-header>
+
+
+<ion-progress-bar type="indeterminate" color="plogger" *ngIf="loading"></ion-progress-bar>
+
+
+
 
 <br>
 <ion-content>
-
     <ion-item-group *ngFor="let us of usuariosChat; let i = index">
         <ion-item-sliding>
             <ion-item (click)="goToChat(i)">
@@ -34,6 +38,11 @@
             </ion-item-options>
         </ion-item-sliding>
     </ion-item-group>
+
+    <div *ngIf="sinMensajes" class="sinMensaje">
+        <tr>No hay mensajes en su bandeja de entrada </tr>
+        <tr class="msjChat">Inicia un nuevo chat</tr>
+    </div>
 
 
 </ion-content>
