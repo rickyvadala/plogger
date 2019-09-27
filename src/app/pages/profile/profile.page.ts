@@ -19,6 +19,7 @@ export class ProfilePage implements OnInit {
   cantPosts:string;
   cantSeguidores = null;
   cantSeguidos = null;
+  hayPublicacion = true;
 
   usuario:PerfilUsuarioModel={};
 
@@ -47,7 +48,14 @@ export class ProfilePage implements OnInit {
   }
 
   recibirMensaje($event) {
-    this.cantPosts = $event
+    this.cantPosts = $event;
+    
+    if ($event >= 1) { 
+      this.hayPublicacion = true;
+    } else {
+      this.hayPublicacion = false;
+    }
+  
   }
 
 

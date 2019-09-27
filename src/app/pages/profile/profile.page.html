@@ -54,4 +54,8 @@
     </ion-grid>
 
     <app-publicacion (mensajeEvent)="recibirMensaje($event)"></app-publicacion>
+
+    <div *ngIf="!hayPublicacion" class="sinMensaje">
+        <tr>No hay publicaciones en este perfil </tr>
+    </div>
 </ion-content>

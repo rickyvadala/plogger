@@ -15,13 +15,19 @@
 </ion-header>
 
 
-<ion-progress-bar type="indeterminate" color="plogger" *ngIf="loading"></ion-progress-bar>
+<!-- <div class="container">
+    <ng-container *ngIf="loading; else mainTemplate">
+        <ion-progress-bar type="indeterminate" color="plogger"></ion-progress-bar>
+    </ng-container>
+</div> -->
 
 
 
 
 <br>
 <ion-content>
+
+    <!-- <ng-template #mainTemplate> -->
     <ion-item-group *ngFor="let us of usuariosChat; let i = index">
         <ion-item-sliding>
             <ion-item (click)="goToChat(i)">
@@ -39,10 +45,10 @@
         </ion-item-sliding>
     </ion-item-group>
 
-    <div *ngIf="sinMensajes" class="sinMensaje">
+    <div *ngIf="tieneMensajes" class="sinMensaje">
         <tr>No hay mensajes en su bandeja de entrada </tr>
-        <tr class="msjChat">Inicia un nuevo chat</tr>
+        <tr class="msjChat" (click)="goToUserChat()">Inicia un nuevo chat</tr>
     </div>
-
+    <!-- </ng-template> -->
 
 </ion-content>
