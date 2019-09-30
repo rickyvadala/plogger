@@ -18,10 +18,9 @@ const routes: Routes = [
   { path: 'message', loadChildren: './pages/message/message.module#MessagePageModule', canActivate: [AuthGuard] },
   { path: 'users-chat', loadChildren: './pages/users-chat/users-chat.module#UsersChatPageModule', canActivate: [AuthGuard] },
   { path: 'chat', loadChildren: './pages/chat/chat.module#ChatPageModule', canActivate: [AuthGuard] },
+  { path: 'asistiran', loadChildren: './pages/asistiran/asistiran.module#AsistiranPageModule', canActivate: [AuthGuard] },
+  { path: 'invitar-amigos/:id', loadChildren: './pages/invitar-amigos/invitar-amigos.module#InvitarAmigosPageModule', canActivate: [AuthGuard] }
 
-
-
-  { path: 'asistiran', loadChildren: './pages/asistiran/asistiran.module#AsistiranPageModule', canActivate: [AuthGuard] }
 
   // { path: 'tabs', loadChildren: './pages/tabs/tabs.module#TabsPageModule'},
   // { path: 'home', loadChildren: './pages/home/home.module#HomePageModule'},

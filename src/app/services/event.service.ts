@@ -125,6 +125,41 @@ publicarEnEvento(eid: string, publicacion:PublicacionModel) {
   return this.http.post(`${this.urlABM}/evento/${eid}/publicaciones.json`, publicacion);
 }
 
+obtenerInvitados(eventoId) {
+  return this.http.get(`${this.urlABM}/evento/${eventoId}/invitados.json`)
+}
+
+agregarInvitados(eventoId, invitados) {
+      // return this.http.put(`${this.urlABM}/evento/${eventoId}/invitados.json`,invitadosArray);
+
+      return this.http.get(`${this.urlABM}/evento/${eventoId}/invitados.json`)
+      .pipe(map((x:any) => {
+        let invitadosArray: any[]; 
+        if (x!==null) {
+          //aca viene cuando ya tiene algun evento en meInteresa
+          for (let index = 0; index < x.length; index++) {
+            invitados.forEach(invitado => {
+              if (x[index]===invitado) {
+                return;
+              }
+            });
+            
+          }
+          invitadosArray = x;
+          invitados.forEach(i => {
+            invitadosArray.push(i);
+            
+          });
+         
+          return this.http.put(`${this.urlABM}/evento/${eventoId}/invitados.json`,invitadosArray).subscribe();
+        } else {
+          //aca viene cuando no tiene algun evento en meInteresa
+          invitadosArray = invitados; 
+          return this.http.put(`${this.urlABM}/evento/${eventoId}/invitados.json`,invitadosArray).subscribe();    
+        }
+      }));
+}
+
 
 agregarAsistire(eventoId) {
   return this.http.get(`${this.urlABM}/evento/${eventoId}/asistire.json`)

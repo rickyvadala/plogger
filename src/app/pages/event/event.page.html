@@ -14,7 +14,7 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="content-evento">
     <ion-img class="imagen" *ngIf="foto" [src]="foto"></ion-img>
     <ion-card mode="ios" class="evento">
         <ion-card-header>
@@ -65,6 +65,11 @@
             </ion-chip>
 
             <br>
+            <ion-fab *ngIf="miEvento" vertical="bottom" horizontal="end" slot="fixed">
+                <ion-fab-button color="gris1" size="small">
+                    <ion-icon mode="md" name="person-add" size="small" (click)="invitarAmigos()"></ion-icon>
+                </ion-fab-button>
+            </ion-fab>
 
         </ion-card-content>
     </ion-card>
