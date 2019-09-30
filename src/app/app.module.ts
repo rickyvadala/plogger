@@ -25,6 +25,10 @@ import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { Camera } from '@ionic-native/camera/ngx';
 
+//Send notifications push FCM
+import { FCM } from '@ionic-native/fcm/ngx';
+
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -40,6 +44,7 @@ import { Camera } from '@ionic-native/camera/ngx';
     FormsModule
   ],
   providers: [
+    FCM,
     StatusBar,
     SplashScreen,
     ImagePicker,
