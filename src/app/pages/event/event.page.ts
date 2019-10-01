@@ -78,9 +78,6 @@ export class EventPage implements OnInit {
 
     this.obtenerEvento();     
 
-     if(this.uid === this.usuarioUid) {
-       this.miEvento = true;
-     }
    }
 
    obtenerEvento() {
@@ -99,6 +96,9 @@ export class EventPage implements OnInit {
       this.recorridoHasta = resp.recorridoHasta;
       this.type = resp.type;
       this.eventoAsistire = resp.asistire;
+      if(this.uid === this.usuarioUid) {
+        this.miEvento = true;
+      }
       if(this.usuario.eventosMeInteresa || (this.usuario.eventosMeInteresa !== undefined)) {
         this.usuario.eventosMeInteresa.forEach(event => {
           if(event == this.eid){
@@ -253,6 +253,10 @@ export class EventPage implements OnInit {
 
   verAsistire() {
     this.router.navigate(['/asistiran'], {state: this.eventoAsistire});
+  }
+
+  invitarAmigos() {
+    this.router.navigate(['/invitar-amigos', this.eid] );
   }
 
 }

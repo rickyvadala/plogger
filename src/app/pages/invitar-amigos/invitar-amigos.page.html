@@ -1,0 +1,27 @@
+<ion-header>
+    <ion-toolbar color="petroleo">
+        <ion-title>Invitar amigos</ion-title>
+
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <div>
+        <ion-list>
+            <ion-item *ngFor="let us of usuarios">
+                <ion-checkbox color="danger" (ionChange)="onChange($event, us)"></ion-checkbox>
+                <ion-avatar slot="end">
+                    <img [src]="us.foto" />
+                </ion-avatar>
+                <ion-label>{{us.apellido}} {{ us.nombre }}</ion-label>
+            </ion-item>
+        </ion-list>
+    </div>
+    <div>
+        <ion-button expand="full" color="petroleo" (click)="invitarAmigos()">Invitar amigos</ion-button>
+    </div>
+</ion-content>
