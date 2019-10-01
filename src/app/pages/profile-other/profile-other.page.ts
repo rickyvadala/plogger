@@ -41,6 +41,10 @@ export class ProfileOtherPage implements OnInit {
     });
   }
 
+  ionViewDidEnter(){
+    this.getProfileOther();
+  }
+
   getProfileOther() {
     this.usuarioService.obtenerPerfiles().subscribe(profiles => {
       this.profileOther = profiles.filter(prof => prof.key == this.profileOtherUid);
@@ -90,20 +94,31 @@ export class ProfileOtherPage implements OnInit {
     this.followService.follow(this.keyOther).subscribe(resp =>{
       if (this.usuario.seguidos===undefined) {
         this.usuario.seguidos=[this.keyOther];
+        this.profileOther[0].seguidores=[this.usuario.key];
       } else {
         this.usuario.seguidos.unshift(this.keyOther);
+        this.profileOther[0].seguidores.push(this.usuario.key);
       }
       this.cantSeguidores=this.cantSeguidores+1;
+
       return;
     });
   }
 
   unfollow () {
     this.followService.unfollow(this.keyOther).subscribe(resp =>{
-      for (let index = 0; index < this.usuario.seguidos.length; index++) {
-        if (this.usuario.seguidos[index]===this.keyOther) {
-          this.usuario.seguidos.splice(index,1);
+      for (let i = 0; i < this.usuario.seguidos.length; i++) {
+        if (this.usuario.seguidos[i]===this.keyOther) {
+          this.usuario.seguidos.splice(i,1);
           this.cantSeguidores=this.cantSeguidores-1;
+          debugger
+
+          for (let j = 0; j < this.profileOther[0].seguidores.length; j++) {
+            if (this.profileOther[0].seguidores[j]===this.usuario.key) {
+              this.profileOther[0].seguidores.splice(j,1)
+            }
+            
+          }
           return;
         }        
       }
