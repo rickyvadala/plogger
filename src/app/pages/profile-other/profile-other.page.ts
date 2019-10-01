@@ -111,13 +111,10 @@ export class ProfileOtherPage implements OnInit {
         if (this.usuario.seguidos[i]===this.keyOther) {
           this.usuario.seguidos.splice(i,1);
           this.cantSeguidores=this.cantSeguidores-1;
-          debugger
-
           for (let j = 0; j < this.profileOther[0].seguidores.length; j++) {
             if (this.profileOther[0].seguidores[j]===this.usuario.key) {
               this.profileOther[0].seguidores.splice(j,1)
             }
-            
           }
           return;
         }        
