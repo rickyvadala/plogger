@@ -6,6 +6,7 @@ import { UsuarioPloggerService } from 'src/app/services/usuario-plogger.service'
 import { DataShareService } from 'src/app/services/data-share.service';
 import { PerfilUsuarioModel } from 'src/app/models/perfil-usuario.model';
 import { PopFollowComponent } from 'src/app/components/pop-follow/pop-follow.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -26,7 +27,8 @@ export class ProfilePage implements OnInit {
   constructor(private popoverCtrl: PopoverController,
               public us: UsuarioService, 
               public usPlogger: UsuarioPloggerService,
-              private dataShare: DataShareService) { }
+              private dataShare: DataShareService,
+              private router: Router) { }
 
   ngOnInit() {
     this.dataShare.currentUser.subscribe( usuario => this.usuario = usuario);
@@ -101,6 +103,10 @@ export class ProfilePage implements OnInit {
       }
     });
     await popover.present();
+  }
+
+  goToReports() {
+    this.router.navigate(['/reports']);
   }
 
 }

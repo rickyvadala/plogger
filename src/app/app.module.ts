@@ -27,6 +27,10 @@ import { Camera } from '@ionic-native/camera/ngx';
 
 //Send notifications push FCM
 import { FCM } from '@ionic-native/fcm/ngx';
+//Reports
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ChartsModule } from 'ng2-charts';
+
 
 
 @NgModule({
@@ -41,7 +45,9 @@ import { FCM } from '@ionic-native/fcm/ngx';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
     AngularFireStorageModule,
-    FormsModule
+    FormsModule,
+    ChartsModule,
+    BrowserAnimationsModule
   ],
   providers: [
     FCM,
