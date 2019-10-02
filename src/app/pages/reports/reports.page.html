@@ -1,0 +1,24 @@
+<ion-header>
+    <ion-toolbar mode="ios" color="plogger">
+        <ion-title>Reportes</ion-title>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+    </ion-toolbar>
+
+</ion-header>
+
+<ion-content>
+
+    <tr>
+        <h6 class="alinear">Estadísticas de eventos por cada ciudad</h6>
+        <ngx-charts-bar-vertical-2d [view]="view" [results]="multi" [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel">
+        </ngx-charts-bar-vertical-2d>
+    </tr>
+    <tr>
+        <h6 class="alinear">Estadísticas de personas segun sexo </h6>
+        <canvas *ngIf="mostrarSexo" baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend">
+        </canvas>
+    </tr>
+
+</ion-content>
