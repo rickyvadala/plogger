@@ -38,7 +38,6 @@ export class PopLikesComponent implements OnInit {
   }
 
   goToProfileOther(i) {
-    debugger
     this.popoverCtrl.dismiss();
     let otherProfileUid = i;
     console.log(otherProfileUid);
