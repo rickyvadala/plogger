@@ -20,5 +20,10 @@
         <canvas *ngIf="mostrarSexo" baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend">
         </canvas>
     </tr>
+    <tr>
+        <h6 class="alinear">Estadísticas de eventos finalizados</h6>
+        <canvas *ngIf="mostrarEventosFinalizados" baseChart [data]="pieChartDataEventosFinal" [labels]="pieChartLabelsEventosFinal" [chartType]="pieChartTypeEventosFinal" [options]="pieChartOptionsEventosFinal" [plugins]="pieChartPluginsEventosFinal" [legend]="pieChartLegendEventosFinal">
+        </canvas>
+    </tr>
 
 </ion-content>
