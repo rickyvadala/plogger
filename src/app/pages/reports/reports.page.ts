@@ -5,6 +5,7 @@ import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { Label, SingleDataSet } from 'ng2-charts';
 import { UsuarioPloggerService } from 'src/app/services/usuario-plogger.service';
 
+
 @Component({
   selector: 'app-reports',
   templateUrl: './reports.page.html',
@@ -54,6 +55,22 @@ export class ReportsPage implements OnInit {
   contFemenino = 0;
   contPlanta = 0;
 
+  // eventos por tipo
+  contEventosRunning = 0;
+  contEventosRecoleccion = 0;
+  contEventosReforestacion = 0;
+  contEventosRecursos = 0;
+  contEventosReciclaje = 0;
+  barChartOptions: ChartOptions = {
+    responsive: true,
+  };
+  barChartLabels: Label[] = [];
+  barChartType: ChartType = 'bar';
+  barChartLegend = true;
+
+  barChartData: ChartDataSets[] = [];
+  mostrarEventosTipo = false;
+
 
   constructor(private eventServices: EventService,
     private usuarioPloggerService: UsuarioPloggerService) { }
@@ -61,7 +78,46 @@ export class ReportsPage implements OnInit {
   ngOnInit() {
     this.eventosPorCiudades();
     this.personasSegunSexo();
+    // this.eventosPorTipo();
   }
+
+  // eventosPorTipo() {
+  //   this.eventServices.obtenerEventos().subscribe((resp: EventoModel[]) => {
+  //     let eventos = resp;
+
+  //     eventos.forEach(evento => {
+  //       evento.type.forEach(type => {
+  //         let tipo = type;
+  //         switch (tipo) {
+  //           case 0 :
+  //            this.contEventosRecoleccion = this.contEventosRecoleccion + 1;
+  //            break;
+  //           case 1 :
+  //             this.contEventosRunning = this.contEventosRunning + 1;
+  //             break;
+  //           case 2 :
+  //             this.contEventosReforestacion = this.contEventosReforestacion + 1;   
+  //             break;
+  //           case 3 :
+  //             this.contEventosRecursos =  this.contEventosRecursos + 1;
+  //             break;
+  //           case 4 :
+  //             this.contEventosReciclaje = this.contEventosReciclaje + 1;
+  //             break;
+  //         }
+  //       });
+
+  //     });
+
+  //     this.barChartLabels = ['Recolección de basura', 'Running', 'Reforestación', 'Reducción de recursos', 'Reciclaje'];
+  //     this.barChartData = [
+  //       { data: [this.contEventosRecoleccion, this.contEventosRunning, this.contEventosReforestacion, this.contEventosRecursos, this.contEventosReciclaje], label: 'Eventos',
+  //       backgroundColor: 'green' , borderColor: 'green',},
+  //     ];
+  //     this.mostrarEventosTipo = true;
+
+  //   })
+  // }
 
   personasSegunSexo() {
     this.usuarioPloggerService.obtenerPerfiles().subscribe(resp => {

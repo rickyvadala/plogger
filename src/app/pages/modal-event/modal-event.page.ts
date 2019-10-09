@@ -360,7 +360,7 @@ export class ModalEventPage implements OnInit, AfterViewInit {
   
   for (let i = 0; i < this.tipoEvento.length; i++) {
     const element = this.tipoEvento[i];
-    if (this.tipoEvento[i] === 0 || this.tipoEvento[i] === 4 || this.tipoEvento[i] === 2) {
+    if (this.tipoEvento[i] === 0 || this.tipoEvento[i] === 1 || this.tipoEvento[i] === 2) {
       this.recorrido = true;
     }
   }

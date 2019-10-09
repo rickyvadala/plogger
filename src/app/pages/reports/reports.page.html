@@ -16,9 +16,15 @@
         </ngx-charts-bar-vertical-2d>
     </tr>
     <tr>
-        <h6 class="alinear">Estadísticas de personas segun sexo </h6>
+        <h6 class="alinear">Estadísticas de personas por sexo </h6>
         <canvas *ngIf="mostrarSexo" baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend">
         </canvas>
     </tr>
+    <br>
+    <!-- <div>
+        <h6 class="alinear">Estadisticas de eventos por tipo</h6>
+        <canvas *ngIf="mostrarEventosTipo" baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType">
+      </canvas>
+    </div> -->
 
 </ion-content>
