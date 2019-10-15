@@ -1,6 +1,6 @@
 <ion-header>
     <ion-toolbar mode="ios" color="plogger">
-        <ion-title>Reportes</ion-title>
+        <ion-title>Estadísticas</ion-title>
         <ion-buttons slot="start">
             <ion-back-button></ion-back-button>
         </ion-buttons>
@@ -11,25 +11,32 @@
 <ion-content>
 
     <tr>
-        <h6 class="alinear">Estadísticas de eventos por cada ciudad</h6>
+        <h6 class="alinear">Eventos por cada ciudad</h6>
         <ngx-charts-bar-vertical-2d [view]="view" [results]="multi" [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel">
         </ngx-charts-bar-vertical-2d>
     </tr>
     <tr>
-        <h6 class="alinear">Estadísticas de personas por sexo </h6>
+        <h6 class="alinear">Personas por sexo </h6>
         <canvas *ngIf="mostrarSexo" baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend">
         </canvas>
     </tr>
     <br>
-    <!-- <div>
-        <h6 class="alinear">Estadisticas de eventos por tipo</h6>
+    <tr>
+        <h6 class="alinear">Eventos por tipo de eventos</h6>
         <canvas *ngIf="mostrarEventosTipo" baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType">
       </canvas>
-    </div> -->
+    </tr>
     <tr>
-        <h6 class="alinear">Estadísticas de eventos finalizados</h6>
+        <h6 class="alinear">Eventos finalizados</h6>
         <canvas *ngIf="mostrarEventosFinalizados" baseChart [data]="pieChartDataEventosFinal" [labels]="pieChartLabelsEventosFinal" [chartType]="pieChartTypeEventosFinal" [options]="pieChartOptionsEventosFinal" [plugins]="pieChartPluginsEventosFinal" [legend]="pieChartLegendEventosFinal">
         </canvas>
     </tr>
+    <br>
+    <tr>
+        <h6 class="alinear">Eventos según creación</h6>
+        <canvas *ngIf="eventosMesReady" baseChart width="400" height="400" [datasets]="lineChartData" [labels]="lineChartLabels" [colors]="lineChartColors" [legend]="lineChartLegend" [options]="pieChartOptions2" [chartType]="lineChartType" [plugins]="lineChartPlugins">
+        </canvas>
+    </tr>
+
 
 </ion-content>

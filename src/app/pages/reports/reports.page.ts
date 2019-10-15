@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EventService } from 'src/app/services/event.service';
 import { EventoModel } from 'src/app/models/evento.model';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
-import { Label, SingleDataSet, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip } from 'ng2-charts';
+import { Label, SingleDataSet, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip, Color } from 'ng2-charts';
 import { UsuarioPloggerService } from 'src/app/services/usuario-plogger.service';
 import { EventTypePageModule } from '../event-type/event-type.module';
 
@@ -14,6 +14,23 @@ import { EventTypePageModule } from '../event-type/event-type.module';
 })
 export class ReportsPage implements OnInit {
 
+  //Estadisticas semanas 
+  eventosMesReady = false;
+  public lineChartData: ChartDataSets[] = [];
+ 
+  public lineChartLabels: Label[] = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+  public pieChartOptions2: ChartOptions = {
+    responsive: true,
+  };
+  public lineChartColors: Color[] = [
+    {
+      borderColor: 'black',
+      backgroundColor: 'rgba(255,0,0,0.3)',
+    },
+  ];
+  public lineChartLegend = true;
+  public lineChartType = 'line';
+  public lineChartPlugins = [];
 
   //Estadisticas por edad
   public pieChartOptions: ChartOptions = {
@@ -82,6 +99,7 @@ export class ReportsPage implements OnInit {
 
   barChartData: ChartDataSets[] = [];
   mostrarEventosTipo = false;
+
   //Creadores de eventos
   contEventoFinalizado =0;
   contEventoEnProceso =0;
@@ -96,47 +114,85 @@ export class ReportsPage implements OnInit {
   ngOnInit() {
     this.eventosPorCiudades();
     this.personasSegunSexo();
-    // this.eventosPorTipo();
+    this.eventosPorTipo();
     this.usuariosPorEventoCreado();
+    this.eventosPorDias();
   }
 
-  // eventosPorTipo() {
-  //   this.eventServices.obtenerEventos().subscribe((resp: EventoModel[]) => {
-  //     let eventos = resp;
+eventosPorDias() {
+  this.eventServices.obtenerEventos().subscribe(resp => {
+    let eventos= resp;
+    let eventosEnero;
+    let eventosFebrero;
+    let eventosMarzo;
+    let eventosAbril;
+    let eventosMayo;
+    let eventosJunio;
+    let eventosJulio;
+    let eventosAgosto;
+    let eventosSeptiembre;
+    let eventosOctubre;
+    let eventosNoviembre;
+    let eventosDiciembre;
+    eventosEnero = eventos.filter(e => e.startDate.includes('-01-')).length;
+    eventosFebrero = eventos.filter(e => e.startDate.includes('-02-')).length;
+    eventosMarzo = eventos.filter(e => e.startDate.includes('-03-')).length;
+    eventosAbril = eventos.filter(e => e.startDate.includes('-04-')).length;
+    eventosMayo = eventos.filter(e => e.startDate.includes('-05-')).length;
+    eventosJunio = eventos.filter(e => e.startDate.includes('-06-')).length;
+    eventosJulio = eventos.filter(e => e.startDate.includes('-07-')).length;
+    eventosAgosto = eventos.filter(e => e.startDate.includes('-08-')).length;
+    eventosSeptiembre = eventos.filter(e => e.startDate.includes('-09-')).length;
+    eventosOctubre = eventos.filter(e => e.startDate.includes('-10-')).length;
+    eventosNoviembre = eventos.filter(e => e.startDate.includes('-11-')).length;
+    eventosDiciembre = eventos.filter(e => e.startDate.includes('-12-')).length;
 
-  //     eventos.forEach(evento => {
-  //       evento.type.forEach(type => {
-  //         let tipo = type;
-  //         switch (tipo) {
-  //           case 0 :
-  //            this.contEventosRecoleccion = this.contEventosRecoleccion + 1;
-  //            break;
-  //           case 1 :
-  //             this.contEventosRunning = this.contEventosRunning + 1;
-  //             break;
-  //           case 2 :
-  //             this.contEventosReforestacion = this.contEventosReforestacion + 1;   
-  //             break;
-  //           case 3 :
-  //             this.contEventosRecursos =  this.contEventosRecursos + 1;
-  //             break;
-  //           case 4 :
-  //             this.contEventosReciclaje = this.contEventosReciclaje + 1;
-  //             break;
-  //         }
-  //       });
+  this.lineChartData = [
+      { data: [eventosEnero, eventosFebrero, eventosMarzo, eventosAbril, eventosMayo, eventosJunio, eventosJulio,
+        eventosAgosto,eventosSeptiembre,eventosOctubre, eventosNoviembre,eventosDiciembre], label: 'Eventos' },
+    ];
 
-  //     });
+    this.eventosMesReady = true;
+  })
+}
 
-  //     this.barChartLabels = ['Recolección de basura', 'Running', 'Reforestación', 'Reducción de recursos', 'Reciclaje'];
-  //     this.barChartData = [
-  //       { data: [this.contEventosRecoleccion, this.contEventosRunning, this.contEventosReforestacion, this.contEventosRecursos, this.contEventosReciclaje], label: 'Eventos',
-  //       backgroundColor: 'green' , borderColor: 'green',},
-  //     ];
-  //     this.mostrarEventosTipo = true;
+  eventosPorTipo() {
+    this.eventServices.obtenerEventos().subscribe((resp: EventoModel[]) => {
+      let eventos = resp;
+   
+      eventos.forEach(evento => {
+        evento.type.forEach(type => {
+          let tipo = type;
+          switch (tipo) {
+            case 0 :
+             this.contEventosRecoleccion = this.contEventosRecoleccion + 1;
+             break;
+            case 1 :
+              this.contEventosRunning = this.contEventosRunning + 1;
+              break;
+            case 2 :
+              this.contEventosReforestacion = this.contEventosReforestacion + 1;   
+              break;
+            case 3 :
+              this.contEventosRecursos =  this.contEventosRecursos + 1;
+              break;
+            case 4 :
+              this.contEventosReciclaje = this.contEventosReciclaje + 1;
+              break;
+          }
+        });
 
-  //   })
-  // }
+      });
+
+      this.barChartLabels = ['Recolección de basura', 'Running', 'Reforestación', 'Reducción de recursos', 'Reciclaje'];
+      this.barChartData = [
+        { data: [this.contEventosRecoleccion, this.contEventosRunning, this.contEventosReforestacion, this.contEventosRecursos, this.contEventosReciclaje], label: 'Eventos',
+        backgroundColor: 'pink' , borderColor: 'pink',},
+      ];
+      this.mostrarEventosTipo = true;
+
+    })
+  }
 
   personasSegunSexo() {
     this.usuarioPloggerService.obtenerPerfiles().subscribe(resp => {
