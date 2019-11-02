@@ -180,7 +180,7 @@ export class ModalEventPage implements OnInit, AfterViewInit {
         that.directionsDisplayGeo.setDirections(response);
         this.showMap = true;
       } else {
-        window.alert('Directions request failed due to ' + status);
+        window.alert('Dirección no encontrada, ingrese nuevamente.'); //+ status);
       }
     });
   }
