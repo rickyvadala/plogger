@@ -187,17 +187,33 @@ export class EventPage implements OnInit {
 
   mostrarMapa() {
     const that = this;
+    if (this.evento.recorridoDesde !== "") {
     this.directionsService.route({
-      origin: this.recorridoDesde,
-      destination: this.recorridoHasta,
+      origin: this.evento.recorridoDesde,
+      destination: this.evento.recorridoHasta,
       travelMode: 'DRIVING'
     }, (response, status) => {
       if (status === 'OK') {
+
         that.directionsDisplay.setDirections(response);
       } else {
         window.alert('Dirección no existente, por favor intente nuevamente.');
       }
-    });
+    });}
+    else {
+      this.directionsService.route({
+        origin: this.evento.ubication,
+        destination: this.evento.ubication,
+        travelMode: 'DRIVING'
+      }, (response, status) => {
+        if (status === 'OK') {
+          that.directionsDisplay.setDirections(response);
+        } else {
+          window.alert('Dirección no encontrada, ingrese nuevamente.'); //+ status);
+        }
+      });
+    } 
+  
   }
 
   meInteresa() {
