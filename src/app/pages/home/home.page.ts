@@ -5,7 +5,7 @@ import { SearchService } from '../../services/search.service';
 import { Router } from '@angular/router';
 
 //Send notifications push FCM
-import { FCM } from '@ionic-native/fcm/ngx';
+//import { FCM } from '@ionic-native/fcm/ngx';
 
 
 @Component({
@@ -20,15 +20,15 @@ export class HomePage implements OnInit {
   public selected: string[] = [];
 
   constructor( public searchService: SearchService,
-                public FCM: FCM,
+                //public FCM: FCM,
                 public router: Router) {     
   
   }
 
   ngOnInit() {
-    this.FCM.getToken().then(token => {
-      console.log(token);
-    });
+    // this.FCM.getToken().then(token => {
+    //   console.log(token);
+    // });
   }
 
   itemSelected(item: any) {
