@@ -12,10 +12,26 @@
 <ion-content padding color="plogger">
     <h4 class="mb-20">Crea un nuevo usuario de Plogger</h4>
     <form #formulario="ngForm" (ngSubmit)="onSubmitTemplate( formulario )">
+
+
         <ion-list class="mb-20" color="plogger">
+
+
+
+
+
+
+            <ion-item>
+                <ion-label>Tipo de cuenta</ion-label>
+                <ion-select placeholder="Seleccione una opcion" (ionChange)="optionSelect($event)" required>
+                    <ion-select-option value="persona">Persona</ion-select-option>
+                    <ion-select-option value="empresa">Empresa</ion-select-option>
+                </ion-select>
+            </ion-item>
             <!-- <ion-list-header>
                 <ion-label>Formulario template: Valido {{formulario.valid}}</ion-label>
             </ion-list-header> -->
+
             <ion-item>
                 <ion-label position="floating">Email</ion-label>
                 <ion-input name="email" [(ngModel)]="usuario.email" type="email" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" required></ion-input>
@@ -41,14 +57,27 @@
                 <ion-label position="floating">Repetir Contraseña</ion-label>
                 <ion-input #pass2 name="password1" minlength="8" (input)="validarContrasena(pass1.value, pass2.value)" [(ngModel)]="usuario.password" type="password" required></ion-input>
             </ion-item>
+            <ion-item>
+                <ion-label position="floating">Lugar de residencia</ion-label>
+                <ion-input name="ubicacion" [(ngModel)]="usuario.ubicacion" type="text" required></ion-input>
+            </ion-item>
 
             <ion-label *ngIf="(contValidas === false) && (formulario.valid)" color="danger">&nbsp;&nbsp;Verificar contraseñas</ion-label>
+            <ion-item>
+                <ion-label>Aceptar términos y condiciones</ion-label>
+                <ion-checkbox slot="start" (ionChange)="isSelect($event)"></ion-checkbox>
+            </ion-item>
 
         </ion-list>
-        <ion-button color="dark" expand="full" type="submit" [disabled]="formulario.invalid || (contValidas === false)">
+        <ion-button color="dark" expand="full" type="submit" [disabled]="formulario.invalid || (contValidas === false) || !requiredTipoUsu || !requiredCheckBox">
             <ion-icon slot="start" name="walk"></ion-icon>Crear
         </ion-button>
         <br>
         <ion-label (click)="volver()">¿Ya tenes cuenta? - Ingresar</ion-label>
+        <ion-button class="labelTermCond" color="dark">
+            <ion-label (click)="goToTerminosCond()">
+                Términos y condiciones
+            </ion-label>
+        </ion-button>
     </form>
 </ion-content>

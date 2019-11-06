@@ -10,6 +10,8 @@ export class PerfilUsuarioModel {
     mail?:string;
     seguidores?: any[];
     seguidos?: any[];
-    eventosMeInteresa?: any[]
+    eventosMeInteresa?: any[];
+    tipoUsuario?: string;
+    descripcion?: string;
 }
 

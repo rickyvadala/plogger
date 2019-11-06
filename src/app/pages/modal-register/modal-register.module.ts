@@ -6,6 +6,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { ModalRegisterPage } from './modal-register.page';
+import { ComponentsModule } from 'src/app/components/components.module';
+import { TerminosCondicionesPage } from '../terminos-condiciones/terminos-condiciones.page';
+
 
 const routes: Routes = [
   {
@@ -17,9 +20,11 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
+    ComponentsModule,
     FormsModule,
     IonicModule
   ],
-  declarations: [ModalRegisterPage]
+  declarations: [ModalRegisterPage,TerminosCondicionesPage],
+  entryComponents: [TerminosCondicionesPage]
 })
 export class ModalRegisterPageModule {}

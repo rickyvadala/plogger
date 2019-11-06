@@ -32,7 +32,7 @@
                 </ion-chip>
                 <ion-label *ngIf="nombreImg">{{ nombreImg }}</ion-label>
             </ion-item>
-            <ion-list>
+            <ion-list *ngIf="mostrarTipoPersona">
                 <ion-radio-group name="sexo" [(ngModel)]="usuario.sexo">
                     <ion-list-header>
                         <ion-label>Sexo</ion-label>
@@ -55,6 +55,10 @@
                 </ion-radio-group>
 
             </ion-list>
+            <ion-item *ngIf="!mostrarTipoPersona">
+                <ion-label position="floating">Descripción</ion-label>
+                <ion-input name="descripcion" [(ngModel)]="usuario.descripcion" type="text" required></ion-input>
+            </ion-item>
 
         </ion-list>
         <ion-button color="dark" expand="full" type="submit" [disabled]="formulario.invalid">

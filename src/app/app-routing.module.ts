@@ -20,7 +20,8 @@ const routes: Routes = [
   { path: 'chat', loadChildren: './pages/chat/chat.module#ChatPageModule', canActivate: [AuthGuard] },
   { path: 'asistiran', loadChildren: './pages/asistiran/asistiran.module#AsistiranPageModule', canActivate: [AuthGuard] },
   { path: 'invitar-amigos/:id', loadChildren: './pages/invitar-amigos/invitar-amigos.module#InvitarAmigosPageModule', canActivate: [AuthGuard] },
-  { path: 'reports', loadChildren: './pages/reports/reports.module#ReportsPageModule', canActivate: [AuthGuard] }
+  { path: 'reports', loadChildren: './pages/reports/reports.module#ReportsPageModule', canActivate: [AuthGuard] },
+  { path: 'terminos-condiciones', loadChildren: './pages/terminos-condiciones/terminos-condiciones.module#TerminosCondicionesPageModule' },
 
 
   // { path: 'tabs', loadChildren: './pages/tabs/tabs.module#TabsPageModule'},

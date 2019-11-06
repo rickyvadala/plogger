@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { UsuarioPloggerModel } from '../../models/usuario-plogger.model';
 import { NgForm } from '@angular/forms';
 import { UsuarioPloggerService } from 'src/app/services/usuario-plogger.service';
+import { TerminosCondicionesPage } from '../terminos-condiciones/terminos-condiciones.page';
 
 @Component({
   selector: 'app-modal-register',
@@ -15,6 +16,10 @@ export class ModalRegisterPage implements OnInit {
   usuario: UsuarioPloggerModel;
 
   contValidas = false;
+  tipoUsuario;
+  esPersona= true;;
+  requiredTipoUsu = false;
+  requiredCheckBox = false;
 
   constructor(private modalCtrl: ModalController,
               private router: Router,
@@ -99,13 +104,17 @@ export class ModalRegisterPage implements OnInit {
         nombre: mail.slice(0, mail.indexOf('@')),
         apellido: '',
         fechaNac: '',
+        ubicacion: this.usuario.ubicacion,
         sexo: 'p',
         foto: '../../../assets/img/default-user.png',
         tipoInicio: 'p',
+        tipoUsuario: this.tipoUsuario,
         mail: mail
       };
       this.authPlogger.crearPerfil(usr)
       .subscribe();
+
+
 
       this.registroCorrecto();
       this.modalCtrl.dismiss();
@@ -126,6 +135,28 @@ export class ModalRegisterPage implements OnInit {
 
   crearNombreFromEmail (mail){
 
+  }
+
+  optionSelect(event){
+    this.tipoUsuario = event.target.value;
+    if (this.tipoUsuario !== "") {
+      this.requiredTipoUsu = true;
+    }
+  }
+
+  isSelect(event){
+    this.requiredCheckBox = event.detail.checked;
+  }
+
+  goToTerminosCond(){
+    this.presentModal();
+  }
+
+  async presentModal() {
+    const modal = await this.modalCtrl.create({
+      component: TerminosCondicionesPage
+    });
+    return await modal.present();
   }
 
 }

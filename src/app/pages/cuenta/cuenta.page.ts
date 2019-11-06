@@ -29,6 +29,7 @@ export class CuentaPage implements OnInit {
   options: ImagePickerOptions;
 
   hayFoto = false;
+  mostrarTipoPersona = false;
 
 
 
@@ -42,6 +43,8 @@ export class CuentaPage implements OnInit {
 
   ngOnInit() {
     this.dataShare.currentUser.subscribe( usuario => this.usuario = usuario);
+    console.log(this.usuario);
+    this.mostrarSegunTipoUsuario();
   }
 
   volver() {
@@ -66,7 +69,9 @@ export class CuentaPage implements OnInit {
       mail:this.usuario.mail,
       seguidores: this.usuario.seguidores,
       seguidos: this.usuario.seguidos,
-      eventosMeInteresa: this.usuario.eventosMeInteresa
+      eventosMeInteresa: this.usuario.eventosMeInteresa,
+      tipoUsuario: this.usuario.tipoUsuario,
+      descripcion: this.usuario.descripcion
     }
     // Solucion de que se borra la foto actual si no subis una
     if (this.imageURL===undefined) {
@@ -145,5 +150,11 @@ export class CuentaPage implements OnInit {
     }, (err) => {
       alert(err);
     });  
+  }
+
+  mostrarSegunTipoUsuario(){
+    if (this.usuario.tipoUsuario === 'persona') {
+      this.mostrarTipoPersona = true;
+    }
   }
 }

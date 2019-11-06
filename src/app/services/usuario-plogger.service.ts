@@ -69,7 +69,9 @@ export class UsuarioPloggerService {
                 mail: mail,
                 seguidos: array[index].seguidos,
                 seguidores: array[index].seguidores,
-                eventosMeInteresa: array[index].eventosMeInteresa
+                eventosMeInteresa: array[index].eventosMeInteresa,
+                tipoUsuario: array[index].tipoUsuario,
+                descripcion: array[index].descripcion
               }
               this.dataShare.changeUser(objUsuario);
               return;
