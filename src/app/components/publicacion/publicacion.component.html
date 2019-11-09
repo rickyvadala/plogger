@@ -26,7 +26,9 @@
 
 
 <ion-card *ngFor="let item of publicaciones; let i = index;" class="publicaciones animated fadeIn">
+
     <ion-item mode="ios" color="spot">
+
         <ion-avatar class="item-avatar">
             <img (click)="goToProfileOther(i)" *ngIf="item.fotoPerfil" [src]="item.fotoPerfil" />
         </ion-avatar>
@@ -35,6 +37,8 @@
             <ion-card-title (click)="goToProfileOther(i)">{{item.nombre}} {{item.apellido}}</ion-card-title>
         </ion-card-header>
         <ion-icon *ngIf="item.uid===usuario.key" slot="end" name="more" color="dark" (click)="mostrarPop($event,i,item)"></ion-icon>
+        <ion-icon *ngIf="item.uid!==usuario.key" slot="end" name="more" color="dark" (click)="mostrarPopReport($event,i,item)"></ion-icon>
+
     </ion-item>
     <img *ngIf="item.foto" [src]="item.foto" />
 
@@ -74,6 +78,7 @@
             <ion-icon class="icon" name="heart" color="danger"></ion-icon>
             <ion-label class="text">&nbsp;{{publicaciones[i].like.length}}</ion-label>
         </div>
+
     </ion-card-content>
 
     <ion-item color="spot">

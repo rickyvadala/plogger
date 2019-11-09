@@ -17,6 +17,7 @@ import { ComentarioModel } from 'src/app/models/comentario.model';
 import { Router } from '@angular/router';
 import { PopLikesComponent } from '../pop-likes/pop-likes.component';
 import { EventoComponent } from '../evento/evento.component';
+import { PopPublicacionesReportComponent } from '../pop-publicaciones-report/pop-publicaciones-report.component';
 
 @Component({
   selector: 'app-publicacion',
@@ -51,6 +52,7 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
   flagComentarios:boolean=false;
 
   flagLike:boolean;
+  fotoReportada= false;
 
   usuario:PerfilUsuarioModel={};
 
@@ -181,7 +183,9 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
     await popover.present();
     popover.onDidDismiss().then( resp => {
      if (this.popClick==="borrar") {
+
       this.publicaciones.splice(i,1);
+       
      }
      if (this.popClick==="editar") {
        let elem = document.getElementsByClassName("c"+i) as HTMLCollectionOf<HTMLElement>;
@@ -201,6 +205,69 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
        }
      }
     });
+  }
+
+  async mostrarPopReport(evento,i, publicacion:PublicacionModel) {
+    const popover = await this.popoverCtrl.create({
+      component: PopPublicacionesReportComponent,
+      event: evento,
+      mode: 'ios',
+      componentProps: {
+        publicacion:publicacion
+      }
+    });
+    await popover.present();
+    popover.onDidDismiss().then( resp => {
+ 
+      if (this.popClick=== "reportar") {
+        //console.log('reportar', i, publicacion.pid);
+       
+        let nombrePublica = publicacion.nombre + publicacion.apellido;
+        let pidPublicacion = publicacion.pid;
+        this.reportAlert(i,publicacion,pidPublicacion,nombrePublica);
+       }
+       
+    });
+  }
+
+  async reportAlert(i,publicacion,pidPublicacion,nombrePublica) {
+    const alert = await this.alertCtrl.create({
+      //header: 'Gracias por reportar esta publicación',
+       subHeader: 'Gracias por reportar esta publicación',
+      message: 'Si crees que esta publicación infringe nuestras Normas comunitarias y que debería eliminarse, márcala como inapropiada',
+      buttons: [{
+        text: 'Cancelar',
+        handler: (blah) => {
+          return;
+        }
+      },
+        {
+          text: 'Inapropiada',
+          handler: (blah) => {
+         
+            let personaQueReporta = this.usuario.nombre + ' ' + this.usuario.apellido;
+            this.publicacionService.report(publicacion,personaQueReporta).subscribe(resp => {
+              if (this.usuario.reportados===undefined) {
+               // this.usuario.reportados=[pidPublicacion]; 
+              
+                this.publicacionService.borrarPost(publicacion).subscribe();
+                this.publicaciones.splice(i,1);
+                this.publicacion.reportada=true;
+              }else {
+                  //  this.usuario.reportados.unshift(pidPublicacion); 
+                this.publicacionService.borrarPost(publicacion).subscribe();
+                this.publicaciones.splice(i,1);
+                this.publicacion.reportada=true;   
+              }
+              return;
+            });
+            return;
+          }
+        }
+      ]
+    });
+      await alert.present();
+    
   }
 
   comentar(i,publicacion:PublicacionModel){
@@ -343,6 +410,8 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
     this.publicacion.nombre = this.usuario.nombre;
     this.publicacion.apellido = this.usuario.apellido
     this.publicacion.fotoPerfil = this.usuario.foto;
+    this.publicacion.reportada = false;
+
 
     if (this.publicacion.texto==='' && this.publicacion.foto==='') {
       const alert = await this.alertCtrl.create({
