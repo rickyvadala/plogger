@@ -102,9 +102,7 @@ export class EventoComponent implements OnInit {
     await popover.present();
     popover.onDidDismiss().then( resp => {
  
-      if (this.popClick=== "reportar") {
-        console.log('reportar', i, event);
-    
+      if (this.popClick=== "reportar") {    
        this.reportAlert(i,event);
        }
        

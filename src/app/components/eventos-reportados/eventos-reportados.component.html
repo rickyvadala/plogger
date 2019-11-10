@@ -1,3 +1,7 @@
+<ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" style="z-index: 999999;">
+    <ion-refresher-content></ion-refresher-content>
+</ion-refresher>
+
 <ion-card *ngFor="let event of eventos; let i = index;" class="evento">
     <ion-item mode="ios" color="gris1">
         <ion-card-header (click)="goToEvent(i)" color="gris1">

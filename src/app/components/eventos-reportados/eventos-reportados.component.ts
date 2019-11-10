@@ -55,6 +55,7 @@ export class EventosReportadosComponent implements OnInit {
     });
   }
 
+
   async eventoReportadoEliminado(i) {
     const alert = await this.alertCtrl.create({
       //header: 'Gracias por reportar esta publicación',
@@ -90,5 +91,11 @@ export class EventosReportadosComponent implements OnInit {
     });
       await alert.present();
     
+  }
+
+  doRefresh( event){
+ 
+    event.target.complete();
+    this.cargarPublicacionesReportadas();
   }
 }

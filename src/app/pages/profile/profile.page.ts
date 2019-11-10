@@ -25,7 +25,7 @@ export class ProfilePage implements OnInit {
   hayPublicacion = true;
 
   usuario:PerfilUsuarioModel={};
-  pruebaboton = false;
+  esAdmin = false;
 
 
 
@@ -50,17 +50,14 @@ export class ProfilePage implements OnInit {
     }
 
     console.log(this.usuario);
-    this.prueba();
+    this.usuarioAdmin();
   }
 
-//este no va
-  prueba(){
+  usuarioAdmin(){
     if (this.usuario.admin === true ) {
-     // console.log('es true');
-      this.pruebaboton = true;
+      this.esAdmin = true;
     }else{
-      //console.log('es false');
-      this.pruebaboton = false;
+      this.esAdmin = false;
     }
   }
 
@@ -127,6 +124,16 @@ export class ProfilePage implements OnInit {
 
   goToReports() {
     this.router.navigate(['/reports']);
+  }
+
+  segmentChanged(ev: any) {
+    // this.imagen = false;
+    // this.misEventos = ev.target.value;
+    // if (ev.target.value == 'miseventos') {
+    //  this.evento.eventosMios();
+    // } else {
+    //   this.evento.cargarEventos();
+    // }
   }
 
   
