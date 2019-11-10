@@ -3,6 +3,12 @@ import { EventService } from 'src/app/services/event.service';
 import { EventoModel } from 'src/app/models/evento.model';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { PopoverController, AlertController } from '@ionic/angular';
+import { DataShareService } from 'src/app/services/data-share.service';
+import { PerfilUsuarioModel } from 'src/app/models/perfil-usuario.model';
+import { PublicacionModel } from 'src/app/models/publicacion.model';
+import { PopPublicacionesReportComponent } from '../pop-publicaciones-report/pop-publicaciones-report.component';
+import { PublicacionesService } from 'src/app/services/publicaciones.service';
 
 
 @Component({
@@ -16,13 +22,23 @@ export class EventoComponent implements OnInit {
   private subscripcion: Subscription;
 
   misEventos: string;
+  usuario:PerfilUsuarioModel={};
+  popClick: string;
+
 
   constructor(private eventService: EventService,
-              public router: Router ) {
+              public router: Router,
+              private dataShare: DataShareService,
+              private popoverCtrl: PopoverController,
+              private alertCtrl: AlertController,
+               ) {
    }
 
   ngOnInit() {
-
+    this.dataShare.currentMessage.subscribe( mensaje => this.popClick = mensaje);
+    this.dataShare.currentUser.subscribe( usuario => {
+      this.usuario = usuario
+    });
   }
 
   ionViewWillEnter() {
@@ -72,5 +88,64 @@ export class EventoComponent implements OnInit {
 
   mostrarEventoPublicacion(evento: any) {
     this.eventos.push(evento);
+  }
+
+  async mostrarPopReport(evento,i, event) {
+    const popover = await this.popoverCtrl.create({
+      component: PopPublicacionesReportComponent,
+      event: evento,
+      mode: 'ios',
+      componentProps: {
+        publicacion: event
+      }
+    });
+    await popover.present();
+    popover.onDidDismiss().then( resp => {
+ 
+      if (this.popClick=== "reportar") {
+        console.log('reportar', i, event);
+    
+       this.reportAlert(i,event);
+       }
+       
+    });
+  }
+
+  async reportAlert(i,event) {
+    const alert = await this.alertCtrl.create({
+      //header: 'Gracias por reportar esta publicación',
+       subHeader: 'Gracias por reportar este evento',
+      message: 'Si crees que este evento infringe nuestras normas y políticas de seguridad, márcalo como inapropiado',
+      buttons: [{
+        text: 'Cancelar',
+        handler: (blah) => {
+          return;
+        }
+      },
+        {
+          text: 'Inapropiado',
+          handler: (blah) => {
+         
+            let personaQueReporta = this.usuario.nombre + ' ' + this.usuario.apellido;
+            this.eventService.report(event,personaQueReporta).subscribe(resp => {
+              if (this.usuario.reportados===undefined) {
+               // this.usuario.reportados=[pidPublicacion]; 
+              
+                this.eventService.borrarEvento(event.id).subscribe();
+                this.eventos.splice(i,1);
+              }else {
+                  //  this.usuario.reportados.unshift(pidPublicacion); 
+                this.eventService.borrarEvento(event.id).subscribe();
+                this.eventos.splice(i,1);
+              }
+              return;
+            });
+            return;
+          }
+        }
+      ]
+    });
+      await alert.present();
+    
   }
 }

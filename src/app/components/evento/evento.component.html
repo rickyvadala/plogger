@@ -3,13 +3,17 @@
 </ion-refresher> -->
 
 <ion-card *ngFor="let event of eventos; let i = index;" class="evento">
-    <ion-card-header (click)="goToEvent(i)">
-        <ion-card-subtitle>{{ event.startDate | date: 'dd/MM/yyyy HH:mm'}}</ion-card-subtitle>
+    <ion-item mode="ios" class="ion-item">
+        <ion-card-header (click)="goToEvent(i)">
+            <ion-card-subtitle>{{ event.startDate | date: 'dd/MM/yyyy HH:mm'}}</ion-card-subtitle>
 
-        <ion-card-title><b>{{ event.name }} </b> </ion-card-title>
-        <ion-card-subtitle> {{ event.ubication }}</ion-card-subtitle>
+            <ion-card-title><b>{{ event.name }} </b> </ion-card-title>
+            <ion-card-subtitle> {{ event.ubication }}</ion-card-subtitle>
 
-    </ion-card-header>
+        </ion-card-header>
+        <ion-icon *ngIf="event.uid!==usuario.key" slot="end" name="more" color="dark" (click)="mostrarPopReport($event,i,event)"></ion-icon>
+
+    </ion-item>
 
     <ion-img *ngIf="event.foto" [src]="event.foto"></ion-img>
 

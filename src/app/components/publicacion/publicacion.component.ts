@@ -234,7 +234,7 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
     const alert = await this.alertCtrl.create({
       //header: 'Gracias por reportar esta publicación',
        subHeader: 'Gracias por reportar esta publicación',
-      message: 'Si crees que esta publicación infringe nuestras Normas comunitarias y que debería eliminarse, márcala como inapropiada',
+      message: 'Si crees que esta publicación infringe nuestras normas y políticas de seguridad, márcala como inapropiada',
       buttons: [{
         text: 'Cancelar',
         handler: (blah) => {

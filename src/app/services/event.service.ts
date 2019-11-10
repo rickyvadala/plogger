@@ -67,8 +67,52 @@ private crearArregloEventos(resp){
   return eventos;
 }
 
+obtenerEventosReportados(){
+  return this.http.get(`${ this.urlABM }/reportes/eventos.json`)
+  .pipe(
+    map( resp=>this.crearArregloEventosReportados(resp) )
+  );
+}
+
+private crearArregloEventosReportados(resp){
+  if (resp===null||resp===undefined) {return [];}
+  //Armo el vector iterable para las publicaciones
+  const eventos: EventoModel[] = [];
+  Object.keys(resp).forEach(key =>{
+    
+      let evento: EventoModel = resp[key];
+      evento.id = key;
+
+      // arreglo publicaciones en evento
+
+    const publicaciones: PublicacionModel[] = [];
+    var x = resp[key].publicaciones;
+    if (x === undefined || x === null) {
+      evento.publicaciones = [];
+    }
+    else {
+      Object.keys(resp[key].publicaciones).forEach(keyPublicacion =>{
+        
+        let publicacion: PublicacionModel = resp[key].publicaciones[keyPublicacion];
+        publicacion.pid = keyPublicacion.toString();
+        publicaciones.unshift(publicacion);
+      });
+    }
+    evento.publicaciones = publicaciones;
+
+// aca termina
+
+      eventos.unshift(evento);
+  });
+  return eventos;
+}
+
 borrarEvento(eventoId: string) {
   return this.http.delete(`${ this.urlABM }/evento/${eventoId}.json`);
+}
+
+borrarEventoReportado(eventoId: string) {
+  return this.http.delete(`${ this.urlABM }/reportes/eventos/${eventoId}.json`);
 }
 
 editarEvento(evento: EventoModel) {
@@ -264,5 +308,38 @@ obtenerDescripcionTipoEventos(id){
 obtenerEvento(eventoId) {
   return this.http.get(`${this.urlABM}/evento/${eventoId}.json`);
 }
+
+report(event,personaQueReporta){
+  // Obtiene los reportes
+  return this.http.get(`${ this.urlABM }/reportes/eventos/${ event.id }.json`)
+  .pipe(map((x:any) => {
+    console.log(event);
+    let reportadosArray: any[]; 
+    if (x!==null) {
+      //aca viene cuando ya reportre a otras
+      for (let index = 0; index < x.length; index++) {
+        if (x[index]===this.usuario.reportados) {
+          return;
+        }
+      }
+      reportadosArray = x;
+      reportadosArray.push(event);
+      //console.log(reportadosArray);
+      return this.http.put(`${ this.urlABM }/reportes/eventos/${ event.id }.json`,event).subscribe(resp =>{
+        this.usuario.reportados =reportadosArray;
+      
+       
+      });
+    } else {
+      //aca viene cuando es el primer reporte
+      event.personaReporta = personaQueReporta;
+      reportadosArray = [event]; 
+      //console.log(reportadosArray);
+      return this.http.put(`${ this.urlABM }/reportes/eventos/${ event.id }.json`,event).subscribe(resp =>{
+        this.usuario.reportados =reportadosArray;
+      });
+    }
+  }));
+} 
 
 }

@@ -16,6 +16,7 @@ import { PopLikesComponent } from './pop-likes/pop-likes.component';
 import { PopFollowComponent } from './pop-follow/pop-follow.component';
 import { PopPublicacionesReportComponent } from './pop-publicaciones-report/pop-publicaciones-report.component';
 import { PublicacionesReportadasComponent } from './publicaciones-reportadas/publicaciones-reportadas.component';
+import { EventosReportadosComponent } from './eventos-reportados/eventos-reportados.component';
 
 @NgModule({
   entryComponents: [
@@ -31,6 +32,7 @@ import { PublicacionesReportadasComponent } from './publicaciones-reportadas/pub
     PopPublicacionSettingsComponent,
     PublicacionComponent,
     PublicacionesReportadasComponent,
+    EventosReportadosComponent,
     EventoComponent,
     PublicacionOthersComponent,
     PublicacionEventoComponent,
@@ -44,6 +46,7 @@ import { PublicacionesReportadasComponent } from './publicaciones-reportadas/pub
     PopPublicacionesReportComponent,
     PopPublicacionSettingsComponent,
     PublicacionesReportadasComponent,
+    EventosReportadosComponent,
     PublicacionComponent,
     EventoComponent,
     PublicacionOthersComponent,
