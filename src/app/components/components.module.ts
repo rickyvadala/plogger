@@ -14,6 +14,8 @@ import { PublicacionEventoComponent } from './publicacion-evento/publicacion-eve
 import { PopEventoSettingsComponent } from './pop-evento-settings/pop-evento-settings.component';
 import { PopLikesComponent } from './pop-likes/pop-likes.component';
 import { PopFollowComponent } from './pop-follow/pop-follow.component';
+import { PopPublicacionesReportComponent } from './pop-publicaciones-report/pop-publicaciones-report.component';
+import { PublicacionesReportadasComponent } from './publicaciones-reportadas/publicaciones-reportadas.component';
 
 @NgModule({
   entryComponents: [
@@ -21,22 +23,27 @@ import { PopFollowComponent } from './pop-follow/pop-follow.component';
     PopEventoSettingsComponent,
     PopLikesComponent,
     PopFollowComponent,
+    PopPublicacionesReportComponent,
     EventoComponent
   ],
   declarations: [
     PopProfileSettingsComponent,
     PopPublicacionSettingsComponent,
     PublicacionComponent,
+    PublicacionesReportadasComponent,
     EventoComponent,
     PublicacionOthersComponent,
     PublicacionEventoComponent,
     PopEventoSettingsComponent,
+    PopPublicacionesReportComponent,
     PopLikesComponent,
     PopFollowComponent
   ],
   exports: [
     PopProfileSettingsComponent,
+    PopPublicacionesReportComponent,
     PopPublicacionSettingsComponent,
+    PublicacionesReportadasComponent,
     PublicacionComponent,
     EventoComponent,
     PublicacionOthersComponent,

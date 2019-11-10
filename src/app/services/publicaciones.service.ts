@@ -40,6 +40,8 @@ export class PublicacionesService{
       );
   }
 
+ 
+
   private crearArregloPerfil(resp){
     const publicaciones: PublicacionModel[] = [];
     let uid = this.usuario.key;
@@ -79,11 +81,33 @@ export class PublicacionesService{
     );
   }
 
+  obtenerPublicacionesReportadas(){
+    return this.http.get(`${ this.urlABM }/reportes/publicacion.json`)
+    .pipe(
+      map( resp=>this.crearArregloPublicacionesReportadas(resp) )
+    );
+  }
+
+  private crearArregloPublicacionesReportadas(resp){
+    if (resp===null||resp===undefined) {return [];}
+    //Armo el vector iterable para las publicaciones
+    const publicaciones: PublicacionModel[] = [];
+    Object.keys(resp).forEach(key =>{
+     
+        let publicacion: PublicacionModel = resp[key];
+        publicacion.pid = key;
+
+        publicaciones.unshift(publicacion);
+    });
+    return publicaciones;
+  }
+
   private crearArregloHome(resp){
     if (resp===null||resp===undefined) {return [];}
     //Armo el vector iterable para las publicaciones
     const publicaciones: PublicacionModel[] = [];
     Object.keys(resp).forEach(key =>{
+
         let publicacion: PublicacionModel = resp[key];
         publicacion.pid = key;
 
@@ -110,6 +134,10 @@ export class PublicacionesService{
 
   borrarPost(publicacion:PublicacionModel){
     return this.http.delete(`${ this.urlABM }/publicacion/${ publicacion.pid }.json`); 
+  }
+
+  borrarPublicacionReportada(publicacion:PublicacionModel){
+    return this.http.delete(`${ this.urlABM }/reportes/publicacion/${ publicacion.pid }.json`); 
   }
 
   editarPost(publicacion:PublicacionModel,textoEdit:string){
@@ -230,5 +258,38 @@ private crearArregloPerfilOther(resp){
       });
       return likesArray; 
     }
+
+    report(publicacion,personaQueReporta){
+      // Obtiene los reportes
+      return this.http.get(`${ this.urlABM }/reportes/publicacion/${ publicacion.pid }.json`)
+      .pipe(map((x:any) => {
+        console.log(publicacion);
+        let reportadosArray: any[]; 
+        if (x!==null) {
+          //aca viene cuando ya reportre a otras
+          for (let index = 0; index < x.length; index++) {
+            if (x[index]===this.usuario.reportados) {
+              return;
+            }
+          }
+          reportadosArray = x;
+          reportadosArray.push(publicacion);
+          //console.log(reportadosArray);
+          return this.http.put(`${ this.urlABM }/reportes/publicacion/${ publicacion.pid }.json`,publicacion).subscribe(resp =>{
+            this.usuario.reportados =reportadosArray;
+          
+           
+          });
+        } else {
+          //aca viene cuando es el primer reporte
+          publicacion.personaReporta = personaQueReporta;
+          reportadosArray = [publicacion]; 
+          //console.log(reportadosArray);
+          return this.http.put(`${ this.urlABM }/reportes/publicacion/${ publicacion.pid }.json`,publicacion).subscribe(resp =>{
+            this.usuario.reportados =reportadosArray;
+          });
+        }
+      }));
+    } 
 
 }

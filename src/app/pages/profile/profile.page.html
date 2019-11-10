@@ -15,6 +15,8 @@
 
 </ion-header>
 
+
+
 <ion-content padding>
 
 
@@ -58,9 +60,18 @@
         </ion-row>
     </ion-grid>
 
+
     <app-publicacion (mensajeEvent)="recibirMensaje($event)"></app-publicacion>
 
-    <div *ngIf="!hayPublicacion" class="sinMensaje">
+
+    <div *ngIf="!hayPublicacion && !pruebaboton" class="sinMensaje">
         <tr>No hay publicaciones en este perfil </tr>
+    </div>
+
+    <div>
+        <!-- aca van todas las publicaciones reportadas -->
+        <div *ngIf="pruebaboton">
+            <app-publicaciones-reportadas> </app-publicaciones-reportadas>
+        </div>
     </div>
 </ion-content>

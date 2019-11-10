@@ -71,7 +71,8 @@ export class CuentaPage implements OnInit {
       seguidos: this.usuario.seguidos,
       eventosMeInteresa: this.usuario.eventosMeInteresa,
       tipoUsuario: this.usuario.tipoUsuario,
-      descripcion: this.usuario.descripcion
+      descripcion: this.usuario.descripcion,
+      admin: false
     }
     // Solucion de que se borra la foto actual si no subis una
     if (this.imageURL===undefined) {

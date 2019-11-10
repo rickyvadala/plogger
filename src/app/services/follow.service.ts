@@ -25,6 +25,7 @@ export class FollowService {
       if (x!==null) {
         //aca viene cuando ya sigue a otros usuarios
         for (let index = 0; index < x.length; index++) {
+         
           if (x[index]===this.usuario.uid) {
             return;
           }

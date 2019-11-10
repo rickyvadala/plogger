@@ -109,7 +109,8 @@ export class ModalRegisterPage implements OnInit {
         foto: '../../../assets/img/default-user.png',
         tipoInicio: 'p',
         tipoUsuario: this.tipoUsuario,
-        mail: mail
+        mail: mail,
+        admin: false
       };
       this.authPlogger.crearPerfil(usr)
       .subscribe();

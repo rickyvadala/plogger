@@ -39,6 +39,8 @@ export class ProfileOtherPage implements OnInit {
     this.dataShare.currentUser.subscribe( usuario => {
       this.usuario = usuario
     });
+    console.log('key');
+    console.log(this.keyOther);
   }
 
   ionViewDidEnter(){

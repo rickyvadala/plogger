@@ -13,5 +13,7 @@ export class PerfilUsuarioModel {
     eventosMeInteresa?: any[];
     tipoUsuario?: string;
     descripcion?: string;
+    reportados?: any[];
+    admin?: boolean;
 }
 

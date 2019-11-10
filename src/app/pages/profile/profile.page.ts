@@ -7,6 +7,8 @@ import { DataShareService } from 'src/app/services/data-share.service';
 import { PerfilUsuarioModel } from 'src/app/models/perfil-usuario.model';
 import { PopFollowComponent } from 'src/app/components/pop-follow/pop-follow.component';
 import { Router } from '@angular/router';
+import { PublicacionesService } from 'src/app/services/publicaciones.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -23,12 +25,16 @@ export class ProfilePage implements OnInit {
   hayPublicacion = true;
 
   usuario:PerfilUsuarioModel={};
+  pruebaboton = false;
+
+
 
   constructor(private popoverCtrl: PopoverController,
               public us: UsuarioService, 
               public usPlogger: UsuarioPloggerService,
               private dataShare: DataShareService,
-              private router: Router) { }
+              private router: Router,
+              ) { }
 
   ngOnInit() {
     this.dataShare.currentUser.subscribe( usuario => this.usuario = usuario);
@@ -41,6 +47,20 @@ export class ProfilePage implements OnInit {
       this.cantSeguidos=0;
     } else {
       this.cantSeguidos=this.usuario.seguidos.length;
+    }
+
+    console.log(this.usuario);
+    this.prueba();
+  }
+
+//este no va
+  prueba(){
+    if (this.usuario.admin === true ) {
+     // console.log('es true');
+      this.pruebaboton = true;
+    }else{
+      //console.log('es false');
+      this.pruebaboton = false;
     }
   }
 
@@ -109,4 +129,5 @@ export class ProfilePage implements OnInit {
     this.router.navigate(['/reports']);
   }
 
+  
 }

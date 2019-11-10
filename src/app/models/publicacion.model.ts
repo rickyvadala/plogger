@@ -20,4 +20,5 @@ export class PublicacionModel {
     apellido?:string;
     fotoPerfil?:string;
     evento?: {}
+    reportada?: boolean;
 }
