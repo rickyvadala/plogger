@@ -4,6 +4,8 @@ import { UsuarioPloggerService } from '../../services/usuario-plogger.service';
 import { PerfilUsuarioModel } from '../../models/perfil-usuario.model';
 import { EventService } from 'src/app/services/event.service';
 import { AlertController } from '@ionic/angular';
+import { DataShareService } from 'src/app/services/data-share.service';
+import { FollowService } from 'src/app/services/follow.service';
 
 @Component({
   selector: 'app-invitar-amigos',
@@ -13,24 +15,59 @@ import { AlertController } from '@ionic/angular';
 export class InvitarAmigosPage implements OnInit {
 
   eid: string;
-  usuarios: PerfilUsuarioModel[] = [];
+  usuarios: any[] = [];
 
   usuariosNoInvitados: PerfilUsuarioModel[] = [];
 
   listaInvitados: string[] = [];
   nuevaSeleccionInvitados: string[] = [];
 
+  masterSelected:boolean;
+  checklist:any;
+  checkedList:any =[];
+  usuario:PerfilUsuarioModel={};
+  mostrarSelect =false;
+
+ 
+
+
   constructor( private route: ActivatedRoute, private usuarioPlogger: UsuarioPloggerService, 
-              private eventoService: EventService, private alertCtrl: AlertController, private router: Router) { }
+              private eventoService: EventService, private alertCtrl: AlertController, private router: Router,
+              private dataShare: DataShareService,private followService: FollowService) { }
 
   ngOnInit() {
+    this.dataShare.currentUser.subscribe( usuario => this.usuario = usuario);
+
    this.eid = this.route.snapshot.params['id'];
-   this.obtenerInvitados();
   }
 
+  
+
+  invitarSeguidores(){
+    console.log(this.usuario);
+    this.followService.getUserOfData(this.usuario.seguidores).subscribe( resp => {
+      this.usuarios = resp;
+      this.mostrarSelect = true;
+     });
+
+  }
+
+  invitarSeguidos(){
+    this.followService.getUserOfData(this.usuario.seguidos).subscribe( resp => {
+      this.usuarios = resp;      
+      this.mostrarSelect = true;
+
+     });
+  }
+
+  invitarTodos(){
+    this.obtenerInvitados();
+  }
+  
   obtenerInvitados() {
     this.eventoService.obtenerInvitados(this.eid).subscribe((resp: any[]) => {
       this.listaInvitados = resp;
+      this.mostrarSelect = true;
       console.log(resp);
       if(this.listaInvitados) {
          this.obtenerUsuarios(true);
@@ -44,14 +81,12 @@ export class InvitarAmigosPage implements OnInit {
     if (hayInvitados) {
       this.usuarioPlogger.obtenerPerfiles().subscribe(resp => {
         let usuariostemp = resp;
-        console.log(usuariostemp);
         usuariostemp.forEach((us, index) => {
           this.listaInvitados.forEach(i => {
             if(us.key === i) {
               usuariostemp.splice(index, 1);
               return;
             }
-            console.log(usuariostemp);
     
           });
     
@@ -62,6 +97,7 @@ export class InvitarAmigosPage implements OnInit {
     } else {
       this.usuarioPlogger.obtenerPerfiles().subscribe(resp => {
        this.usuarios = resp;
+       console.log(this.usuarios);
         });
     
     }
@@ -79,13 +115,42 @@ export class InvitarAmigosPage implements OnInit {
             }
         });
       }
+
     }
 
+    checkUncheckAll() {
+      for (var i = 0; i < this.usuarios.length; i++) {
+        this.usuarios[i].isSelect = this.masterSelected;
+      }
+      this.getCheckedItemList();
+    }
+    isAllSelected() {
+      this.masterSelected = this.usuarios.every(function(item:any) {
+          return item.isSelect == true;
+        })
+      this.getCheckedItemList();
+    }
+  
+    getCheckedItemList(){
+      
+      for (var i = 0; i < this.usuarios.length; i++) {
+        if(this.usuarios[i].isSelect)
+        this.checkedList.push(this.usuarios[i].key);
+      }
+    }
+   
+
     invitarAmigos() {
-      this.eventoService.agregarInvitados(this.eid, this.nuevaSeleccionInvitados).subscribe(resp => {
-        console.log(resp);
-        this.amigosInvitados();
-      });
+      if (this.checkedList.length > 0)  {
+        this.eventoService.agregarInvitados(this.eid, this.checkedList).subscribe(resp => {
+          this.amigosInvitados();
+        });
+      }else {
+        this.eventoService.agregarInvitados(this.eid, this.nuevaSeleccionInvitados).subscribe(resp => {
+          this.amigosInvitados();
+        });
+      }
+      
     }
 
     async amigosInvitados() {

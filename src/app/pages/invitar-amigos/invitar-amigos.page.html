@@ -11,17 +11,37 @@
 
 <ion-content padding>
     <div>
+        <div>
+            <button class="button-invit" (click)="invitarSeguidos()">Seguidos</button>
+            <button class="button-invit" (click)="invitarSeguidores()">Seguidores</button>
+            <button class="button-invit" (click)="invitarTodos()">Toda la red</button>
+
+        </div>
+        <br><br>
+
         <ion-list>
+            <ion-item>
+                <input *ngIf="mostrarSelect" type="checkbox" color="danger" [(ngModel)]='masterSelected' name="list_name" value="m1" (change)="checkUncheckAll()" />
+                <ion-label style="text-indent: 5px" *ngIf="mostrarSelect"> SELECCIONAR TODOS </ion-label>
+            </ion-item>
+        </ion-list>
+
+        <ion-list>
+
             <ion-item *ngFor="let us of usuarios">
-                <ion-checkbox color="danger" (ionChange)="onChange($event, us)"></ion-checkbox>
+                <ion-checkbox color="danger" (ionChange)="onChange($event, us)" [(ngModel)]="us.isSelect" name="list_name" value="{{us.id}}" (change)="isAllSelected()"></ion-checkbox>
                 <ion-avatar slot="end">
                     <img [src]="us.foto" />
                 </ion-avatar>
                 <ion-label> {{us.apellido}} {{ us.nombre }}</ion-label>
             </ion-item>
         </ion-list>
+
+
+
+
     </div>
     <div>
-        <ion-button expand="full" color="petroleo" (click)="invitarAmigos()">Invitar amigos</ion-button>
+        <ion-button expand="full" *ngIf="mostrarSelect" color="petroleo" (click)="invitarAmigos()">Invitar amigos</ion-button>
     </div>
 </ion-content>
