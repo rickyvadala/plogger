@@ -26,6 +26,8 @@ export class ProfilePage implements OnInit {
 
   usuario:PerfilUsuarioModel={};
   esAdmin = false;
+  showEvent= false;
+  showPublic = true;
 
 
 
@@ -126,14 +128,14 @@ export class ProfilePage implements OnInit {
     this.router.navigate(['/reports']);
   }
 
-  segmentChanged(ev: any) {
-    // this.imagen = false;
-    // this.misEventos = ev.target.value;
-    // if (ev.target.value == 'miseventos') {
-    //  this.evento.eventosMios();
-    // } else {
-    //   this.evento.cargarEventos();
-    // }
+  mostrarPublicacion(){
+  this.showPublic = true;
+  this.showEvent = false;
+  }
+
+  mostrarEvento(){
+    this.showPublic = false;
+  this.showEvent =true ;
   }
 
   
