@@ -1,6 +1,7 @@
 <ion-header>
     <ion-toolbar mode="ios" color="petroleo">
         <ion-title>Eventos</ion-title>
+
     </ion-toolbar>
 </ion-header>
 
@@ -11,14 +12,20 @@
 
 
     <ion-segment mode="md" (ionChange)="segmentChanged($event)" color="gris1">
+        <title>Eventos</title>
         <ion-segment-button value="eventos">
             <ion-icon mode="md" name="globe"></ion-icon>
-            <ion-label>Eventos</ion-label>
+            <ion-label>En proceso</ion-label>
         </ion-segment-button>
         <ion-segment-button value="miseventos">
             <ion-icon name="ribbon"></ion-icon>
             <ion-label>Mis eventos</ion-label>
         </ion-segment-button>
+        <ion-segment-button value="eventosfinalizados">
+            <ion-icon name="filing"></ion-icon>
+            <ion-label>Finalizados</ion-label>
+        </ion-segment-button>
+
     </ion-segment>
 
 

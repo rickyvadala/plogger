@@ -39,6 +39,7 @@ export class EventoComponent implements OnInit {
     this.dataShare.currentUser.subscribe( usuario => {
       this.usuario = usuario
     });
+    //this.cargarEventos();
   }
 
   ionViewWillEnter() {
@@ -52,8 +53,21 @@ export class EventoComponent implements OnInit {
     })
   }
 
-  eventosMios() {
-    this.eventService.obtenerMisEventos().subscribe(resp => {
+  eventosFinalizados(){
+    this.eventService.obtenerEventosFinalizados().subscribe(resp => {
+      this.eventos = resp;
+   });
+  }
+
+
+  eventosEnProceso() {
+    this.eventService.obtenerEventosEnProceso().subscribe(resp => {
+        this.eventos = resp;
+     });
+  }
+
+  obtenerMisEventos(){
+   this.eventService.obtenerMisEventos().subscribe(resp => {
       this.eventos = resp;
     });
   }

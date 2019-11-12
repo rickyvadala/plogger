@@ -342,4 +342,59 @@ report(event,personaQueReporta){
   }));
 } 
 
+obtenerEventosEnProceso(){
+  return this.http.get(`${ this.urlABM }/evento.json`)
+  .pipe(
+    map( resp=>this.crearArregloEventosEnProceso(resp) )
+  );
+}
+
+private crearArregloEventosEnProceso(resp){
+  if (resp===null||resp===undefined) {return [];}
+  //Armo el vector iterable para eventos
+  const eventos: EventoModel[] = [];
+  Object.keys(resp).forEach(key =>{
+    
+      let evento: EventoModel = resp[key];
+      evento.id = key;
+
+      let fechaActual = new Date; 
+      let fechaFinEvento = evento.endDate;
+      if (fechaFinEvento > fechaActual.toISOString()){
+        eventos.unshift(evento);
+        return;
+      }
+
+  });
+  return eventos;
+}
+
+obtenerEventosFinalizados(){
+  return this.http.get(`${ this.urlABM }/evento.json`)
+  .pipe(
+    map( resp=>this.crearArregloEventoFinalizados(resp) )
+  );
+}
+
+private crearArregloEventoFinalizados(resp){
+  if (resp===null||resp===undefined) {return [];}
+  //Armo el vector iterable para eventos
+  const eventos: EventoModel[] = [];
+  Object.keys(resp).forEach(key =>{
+    
+      let evento: EventoModel = resp[key];
+      evento.id = key;
+
+      let fechaActual = new Date; 
+      let fechaFinEvento = evento.endDate;
+      if (fechaFinEvento < fechaActual.toISOString()){
+        eventos.unshift(evento);
+        return;
+      }
+
+  });
+  return eventos;
+}
+    
+
 }

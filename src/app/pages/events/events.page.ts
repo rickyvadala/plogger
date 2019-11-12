@@ -4,6 +4,8 @@ import { EventService } from 'src/app/services/event.service';
 import { EventoComponent } from '../../components/evento/evento.component';
 import { SearchEventService } from '../../services/search-event.service';
 import { TypeEventService } from 'src/app/services/type-event.service';
+import { ModalController } from '@ionic/angular';
+import { MisEventosPage } from '../mis-eventos/mis-eventos.page';
 
 @Component({
   selector: 'app-events',
@@ -25,6 +27,7 @@ export class EventsPage implements OnInit, AfterViewInit {
   constructor(private router: Router,
               private eventService: EventService,
               public searchService: SearchEventService,
+              private modalCtrl: ModalController,
               ) { 
               }
 
@@ -46,10 +49,14 @@ export class EventsPage implements OnInit, AfterViewInit {
   segmentChanged(ev: any) {
     this.imagen = false;
     this.misEventos = ev.target.value;
-    if (ev.target.value == 'miseventos') {
-     this.evento.eventosMios();
+    if (ev.target.value == 'eventos') {
+     this.evento.eventosEnProceso();
     } else {
-      this.evento.cargarEventos();
+      if (ev.target.value == 'miseventos'){
+      this.evento.obtenerMisEventos();
+      }else {
+        this.evento.eventosFinalizados();
+      }
     }
   }
 
@@ -61,7 +68,5 @@ export class EventsPage implements OnInit, AfterViewInit {
   this.router.navigate(['/event-type', id], {state: tipo});
   }
 
-
-  
 
 }
