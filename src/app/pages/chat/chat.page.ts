@@ -28,8 +28,9 @@ export class ChatPage implements OnInit {
     
     this.dataShare.currentUser.subscribe( usuario => this.usuario = usuario );
     this.usuarioDestinatario = this.router.getCurrentNavigation().extras.state;
-    this.chatService.cargarMensajes() .subscribe( ()=>{
-            setTimeout( ()=> this.elemento.scrollTop = this.elemento.scrollHeight, 500);});
+   this.chatService.cargarMensajes() .subscribe( ()=>{
+             setTimeout( ()=> this.elemento.scrollTop = this.elemento.scrollHeight, 100);});
+
     }
 
 ngOnInit() {  

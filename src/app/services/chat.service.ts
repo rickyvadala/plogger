@@ -44,6 +44,7 @@ export class ChatService {
                                   }
                                   
                                 });
+                      
                                 return this.chats;
                               }))
   }

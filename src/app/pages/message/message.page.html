@@ -30,7 +30,7 @@
     <!-- <ng-template #mainTemplate> -->
     <ion-item-group *ngFor="let us of usuariosChat; let i = index">
         <ion-item-sliding>
-            <ion-item (click)="goToChat(i)">
+            <ion-item (click)="goToChat(us,i)">
                 <ion-avatar slot="end">
                     <img [src]="us.foto">
                 </ion-avatar>

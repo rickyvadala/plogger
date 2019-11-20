@@ -32,7 +32,8 @@ export class MessagePage implements OnInit {
   constructor(  private chatService: ChatService,
                 private dataShare: DataShareService,
                 private usuarioPlogger: UsuarioPloggerService,
-                private router: Router, public alertCtrl: AlertController
+                private router: Router,
+                public alertCtrl: AlertController
     ) { 
 
       this.dataShare.currentUser.subscribe( usuario => {this.usuario = usuario} );
@@ -74,14 +75,15 @@ export class MessagePage implements OnInit {
 
   }
 
+  goToChat(us,i){
+
+  this.router.navigate(['chat'], {state:  this.usuarios[i]});
+  this.chatService.usuarioDestinatario = us.key;
+
+}
 
   goToUserChat() {
     this.router.navigate(['/users-chat']);
-  }
-
-  goToChat(i){
-      this.router.navigate(['/chat'], {state:  this.usuarios[i]});
-      this.chatService.usuarioDestinatario = this.usuarios[i].key;
   }
 
   borrarConversacion(us){

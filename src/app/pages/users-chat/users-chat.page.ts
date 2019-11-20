@@ -47,7 +47,7 @@ export class UsersChatPage implements OnInit {
       
       this.router.navigate(['chat']);
       this.chatService.usuarioDestinatario = usuario.uid;
-
+      console.log(this.chatService.usuarioDestinatario);
     }
 
 }
