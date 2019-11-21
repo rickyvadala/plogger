@@ -444,9 +444,9 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
 
   subirFoto() {
     this.options = {
-    
-      width: 200,
-      quality: 25,
+      width: 800,
+      height: 800,
+      quality: 70,
       outputType: 1,
       maximumImagesCount: 1
 
@@ -485,6 +485,9 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
 
     const options: CameraOptions = { 
       quality: 70,
+      targetWidth: 800,
+      targetHeight: 800,
+      correctOrientation: true,
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE

@@ -330,12 +330,11 @@ export class PublicacionEventoComponent implements OnInit {
 
   subirFoto() {
     this.options = {
-    
-      width: 200,
-      quality: 25,
+      width: 800,
+      height: 800,
+      quality: 70,
       outputType: 1,
       maximumImagesCount: 1
-
     };
     this.imageResponse = [];
     this.imagePicker.getPictures(this.options).then((results) => {
@@ -364,7 +363,6 @@ export class PublicacionEventoComponent implements OnInit {
 
   
   async sacarFoto() {
-
     let result1;
     this.imageResponse = [];
     try{
@@ -373,7 +371,10 @@ export class PublicacionEventoComponent implements OnInit {
       quality: 70,
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE
+      mediaType: this.camera.MediaType.PICTURE,
+      correctOrientation: true,
+      targetWidth: 800,
+      targetHeight: 800
     };
 
     await this.camera.getPicture(options).then((result) => {
