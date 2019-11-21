@@ -25,6 +25,8 @@ export class EventoComponent implements OnInit {
   usuario:PerfilUsuarioModel={};
   popClick: string;
 
+  eventsReady = false;
+
 
   constructor(private eventService: EventService,
               public router: Router,
@@ -70,6 +72,42 @@ export class EventoComponent implements OnInit {
    this.eventService.obtenerMisEventos().subscribe(resp => {
       this.eventos = resp;
     });
+  }
+
+  eventosFiltrados() {
+    let fechaDesde;
+    let fechaHasta;
+    let ciudad;
+    this.eventsReady = true;
+
+    if(this.eventService.filterFechaDesde) {
+      fechaDesde = new Date(this.eventService.filterFechaDesde);
+    }
+    if(this.eventService.filterFechaHasta){
+      fechaHasta = new Date(this.eventService.filterFechaHasta);
+    }
+
+    if(this.eventService.filterCiudad){
+      ciudad = this.eventService.filterCiudad;
+    }
+
+    this.eventService.obtenerEventos().subscribe(response => {
+
+      this.eventos = response;  
+      if(fechaDesde) {
+        this.eventos = this.eventos.filter(e => new Date(e.startDate) > fechaDesde);
+      }
+      if(fechaHasta) {
+        this.eventos = this.eventos.filter(e => new Date(e.endDate) < fechaHasta);
+      }
+
+      if (ciudad) {
+        this.eventos = this.eventos.filter(e => e.ubication.includes(ciudad));
+      }
+
+      this.eventsReady = false;
+
+    })
   }
 
   doRefresh( event){

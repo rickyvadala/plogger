@@ -20,9 +20,12 @@ export class EventsPage implements OnInit, AfterViewInit {
   tiposEventos: any[] = [];
   imagen = true;
   eid: string;
+  filters = false;
+  filterFechaDesde = null;
+  filterFechaHasta = null;
+  filterCiudad = null;
+
   @ViewChild('evento') evento: EventoComponent;
-  
-  
 
   constructor(private router: Router,
               private eventService: EventService,
@@ -58,6 +61,28 @@ export class EventsPage implements OnInit, AfterViewInit {
         this.evento.eventosFinalizados();
       }
     }
+  }
+
+  showFilters() {
+    if(!this.filters){
+      this.filters = true;
+    } else {
+      this.filters = false;
+      this.filterCiudad = null;
+      this.filterFechaDesde = null;
+      this.filterFechaHasta = null;
+      this.eventService.filterFechaDesde = null;
+      this.eventService.filterFechaHasta = null;
+      this.eventService.filterCiudad = null;
+    }
+  }
+
+  filter() {
+    this.eventService.filterFechaDesde = this.filterFechaDesde;
+    this.eventService.filterFechaHasta = this.filterFechaHasta;
+    this.eventService.filterCiudad = this.filterCiudad;
+    this.filters = false;
+    this.evento.eventosFiltrados();    
   }
 
   itemSelected(item: any) {

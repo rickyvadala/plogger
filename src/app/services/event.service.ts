@@ -15,6 +15,10 @@ export class EventService  {
   private urlABM = 'https://plogger-437eb.firebaseio.com';
   usuario: PerfilUsuarioModel={};
 
+  filterFechaDesde = null;
+  filterFechaHasta = null;
+  filterCiudad = null;
+
   constructor(private http: HttpClient,
               private dataShare: DataShareService) { 
   

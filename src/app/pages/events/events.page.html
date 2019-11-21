@@ -41,12 +41,40 @@
         </ion-label>
     </ion-chip>
 
+    <br>
+    <br>
+    <div style="text-align: right;">
+        <ion-button color="success" fill="outline" (click)="showFilters()">Filtros</ion-button>
+    </div>
+
+
+    <br><br>
+
+    <div *ngIf="filters">
+        <ion-list>
+            <ion-item>
+                <ion-label>Fecha desde:</ion-label>
+                <ion-datetime name="filterFechaDesde" [(ngModel)]="filterFechaDesde" display-format="DD.MM.YYYY"></ion-datetime>
+            </ion-item>
+            <ion-item>
+                <ion-label>Fecha hasta:</ion-label>
+                <ion-datetime name="filterFechaHasta" [(ngModel)]="filterFechaHasta" display-format="DD.MM.YYYY"></ion-datetime>
+            </ion-item>
+            <br>
+            <ion-item>
+                <ion-label>Cuidad:</ion-label>
+                <ion-input name="filterCiudad" [(ngModel)]="filterCiudad"></ion-input>
+            </ion-item>
+        </ion-list>
+
+        <ion-button color="petroleo" (click)="filter()" expand="full" fill="outline">Filtrar</ion-button>
+    </div>
+
+    <app-evento #evento> </app-evento>
+
+    <br><br>
 
     <img *ngIf="imagen" src="../../../assets/img/eventos.jpeg">
-
-
-
-
 
     <!-- <ion-button expand="full" fill="outline" mode="ios" color="gris1" (click)="newEvent()">Crear evento</ion-button> -->
 
@@ -55,14 +83,6 @@
             <ion-icon name="add" (click)="newEvent()"></ion-icon>
         </ion-fab-button>
     </ion-fab>
-
-
-
-
-
-
-    <app-evento #evento> </app-evento>
-
 
 
     <ng-template #name let-attrs="attrs">

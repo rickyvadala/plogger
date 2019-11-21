@@ -1,6 +1,9 @@
 <!-- <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" style="z-index: 999999;">
     <ion-refresher-content></ion-refresher-content>
 </ion-refresher> -->
+<div *ngIf="eventsReady" class="spinner-container">
+    <ion-spinner color="success" name="bubbles"></ion-spinner>
+</div>
 
 <ion-card *ngFor="let event of eventos; let i = index;" class="evento">
     <ion-item mode="ios" class="ion-item">
