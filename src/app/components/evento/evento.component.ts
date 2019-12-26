@@ -9,8 +9,6 @@ import { PerfilUsuarioModel } from 'src/app/models/perfil-usuario.model';
 import { PublicacionModel } from 'src/app/models/publicacion.model';
 import { PopPublicacionesReportComponent } from '../pop-publicaciones-report/pop-publicaciones-report.component';
 import { PublicacionesService } from 'src/app/services/publicaciones.service';
-import { CausaReportePage } from 'src/app/pages/causa-reporte/causa-reporte.page';
-import { CausaReportComponent } from '../causa-report/causa-report.component';
 
 
 @Component({
