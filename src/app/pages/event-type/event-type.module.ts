@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { EventTypePage } from './event-type.page';
 import { ComponentsModule } from 'src/app/components/components.module';
+import { AutoCompleteModule } from 'ionic4-auto-complete';
 
 const routes: Routes = [
   {
@@ -21,7 +22,8 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     ComponentsModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    AutoCompleteModule
   ],
   declarations: [EventTypePage]
 })

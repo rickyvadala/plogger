@@ -9,6 +9,7 @@ import { PerfilUsuarioModel } from 'src/app/models/perfil-usuario.model';
 import { PublicacionModel } from 'src/app/models/publicacion.model';
 import { PopPublicacionesReportComponent } from '../pop-publicaciones-report/pop-publicaciones-report.component';
 import { PublicacionesService } from 'src/app/services/publicaciones.service';
+import { SearchTypeEventService } from 'src/app/services/search-type-event.service';
 
 
 @Component({
@@ -46,8 +47,7 @@ export class EventoComponent implements OnInit {
               private dataShare: DataShareService,
               private popoverCtrl: PopoverController,
               private alertCtrl: AlertController,
-              private pickerController: PickerController
-               ) {
+              private pickerController: PickerController               ) {
    }
 
   ngOnInit() {
@@ -146,7 +146,7 @@ export class EventoComponent implements OnInit {
          }  
        }
       }
-      });
+      });    
   }
 
   obtenerEventoCompartir(evento: any) {
