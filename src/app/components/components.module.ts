@@ -17,6 +17,7 @@ import { PopFollowComponent } from './pop-follow/pop-follow.component';
 import { PopPublicacionesReportComponent } from './pop-publicaciones-report/pop-publicaciones-report.component';
 import { PublicacionesReportadasComponent } from './publicaciones-reportadas/publicaciones-reportadas.component';
 import { EventosReportadosComponent } from './eventos-reportados/eventos-reportados.component';
+import { CausaReportComponent } from './causa-report/causa-report.component';
 
 @NgModule({
   entryComponents: [
@@ -25,7 +26,8 @@ import { EventosReportadosComponent } from './eventos-reportados/eventos-reporta
     PopLikesComponent,
     PopFollowComponent,
     PopPublicacionesReportComponent,
-    EventoComponent
+    EventoComponent,
+    CausaReportComponent
   ],
   declarations: [
     PopProfileSettingsComponent,
@@ -39,7 +41,8 @@ import { EventosReportadosComponent } from './eventos-reportados/eventos-reporta
     PopEventoSettingsComponent,
     PopPublicacionesReportComponent,
     PopLikesComponent,
-    PopFollowComponent
+    PopFollowComponent,
+    CausaReportComponent
   ],
   exports: [
     PopProfileSettingsComponent,

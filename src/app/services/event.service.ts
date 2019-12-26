@@ -313,6 +313,12 @@ obtenerEvento(eventoId) {
   return this.http.get(`${this.urlABM}/evento/${eventoId}.json`);
 }
 
+motivoReporte(event, motivo){
+  return this.http.put(`${ this.urlABM }/reportes/motivos/${ event.id }.json`,motivo).subscribe(resp =>{
+    console.log(resp);
+  });
+}
+
 report(event,personaQueReporta){
   // Obtiene los reportes
   return this.http.get(`${ this.urlABM }/reportes/eventos/${ event.id }.json`)

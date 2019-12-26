@@ -23,6 +23,7 @@ const routes: Routes = [
   { path: 'reports', loadChildren: './pages/reports/reports.module#ReportsPageModule', canActivate: [AuthGuard] },
   { path: 'terminos-condiciones', loadChildren: './pages/terminos-condiciones/terminos-condiciones.module#TerminosCondicionesPageModule' },
   { path: 'mis-eventos', loadChildren: './pages/mis-eventos/mis-eventos.module#MisEventosPageModule' },
+  { path: 'causa-reporte', loadChildren: './pages/causa-reporte/causa-reporte.module#CausaReportePageModule' },
 
 
   // { path: 'tabs', loadChildren: './pages/tabs/tabs.module#TabsPageModule'},

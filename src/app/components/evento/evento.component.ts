@@ -3,12 +3,14 @@ import { EventService } from 'src/app/services/event.service';
 import { EventoModel } from 'src/app/models/evento.model';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { PopoverController, AlertController } from '@ionic/angular';
+import { PopoverController, AlertController, ModalController, PickerController } from '@ionic/angular';
 import { DataShareService } from 'src/app/services/data-share.service';
 import { PerfilUsuarioModel } from 'src/app/models/perfil-usuario.model';
 import { PublicacionModel } from 'src/app/models/publicacion.model';
 import { PopPublicacionesReportComponent } from '../pop-publicaciones-report/pop-publicaciones-report.component';
 import { PublicacionesService } from 'src/app/services/publicaciones.service';
+import { CausaReportePage } from 'src/app/pages/causa-reporte/causa-reporte.page';
+import { CausaReportComponent } from '../causa-report/causa-report.component';
 
 
 @Component({
@@ -27,12 +29,27 @@ export class EventoComponent implements OnInit {
 
   eventsReady = false;
 
+  defaultColumnOptions = [
+    [
+      'Desnudos o actividad sexual',
+      'Lenguajes que incitan al odio',
+      'Violencia u organizaciones peligrosas',
+      'Bullying o acoso',
+      'Informacion falsa'
+    ]
+  ]
+   multiColumnOptions = [
+    
+  ]
+
 
   constructor(private eventService: EventService,
               public router: Router,
               private dataShare: DataShareService,
               private popoverCtrl: PopoverController,
               private alertCtrl: AlertController,
+              private modalCtrl: ModalController,
+              private pickerController: PickerController
                ) {
    }
 
@@ -65,6 +82,7 @@ export class EventoComponent implements OnInit {
   eventosEnProceso() {
     this.eventService.obtenerEventosEnProceso().subscribe(resp => {
         this.eventos = resp;
+        console.log(this.eventos);
      });
   }
 
@@ -142,6 +160,30 @@ export class EventoComponent implements OnInit {
     this.eventos.push(evento);
   }
 
+  getColumns(numColumns, numOptions, columnOptions) {
+    let columns = [];
+    for (let i = 0; i < numColumns; i++) {
+      columns.push({
+        name: `col-${i}`,
+        options: this.getColumnOptions(i, numOptions, columnOptions)
+      });
+    }
+
+    return columns;
+  }
+
+   getColumnOptions(columnIndex, numOptions, columnOptions) {
+    let options = [];
+    for (let i = 0; i < numOptions; i++) {
+      options.push({
+        text: columnOptions[columnIndex][i % numOptions],
+        value: i
+      })
+    }
+
+    return options;
+  }
+
   async mostrarPopReport(evento,i, event) {
     const popover = await this.popoverCtrl.create({
       component: PopPublicacionesReportComponent,
@@ -155,13 +197,32 @@ export class EventoComponent implements OnInit {
     popover.onDidDismiss().then( resp => {
  
       if (this.popClick=== "reportar") {    
-       this.reportAlert(i,event);
+        this.openPicker(i,event);
        }
        
     });
   }
+  
+  async openPicker(i, event,numColumns = 1, numOptions = 5, columnOptions = this.defaultColumnOptions){
+    const picker = await this.pickerController.create({
+      columns: this.getColumns(numColumns, numOptions, columnOptions),  
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Confirmar',
+          handler: (motivo) => {
+          this.reportAlert(i,event, motivo);
+          }
+        }
+      ]
+    });
+    await picker.present();
+  }
 
-  async reportAlert(i,event) {
+  async reportAlert(i,event, motivo) {
     const alert = await this.alertCtrl.create({
       //header: 'Gracias por reportar esta publicación',
        subHeader: 'Gracias por reportar este evento',
@@ -177,6 +238,7 @@ export class EventoComponent implements OnInit {
           handler: (blah) => {
          
             let personaQueReporta = this.usuario.nombre + ' ' + this.usuario.apellido;
+            this.eventService.motivoReporte(event,motivo);
             this.eventService.report(event,personaQueReporta).subscribe(resp => {
               if (this.usuario.reportados===undefined) {
                // this.usuario.reportados=[pidPublicacion]; 
