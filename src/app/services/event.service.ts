@@ -314,8 +314,8 @@ obtenerEvento(eventoId) {
 }
 
 motivoReporte(event, motivo){
-  return this.http.put(`${ this.urlABM }/reportes/motivos/${ event.id }.json`,motivo).subscribe(resp =>{
-    console.log(resp);
+  return this.http.put(`${ this.urlABM }/reportes/motivos/eventos/${ event.id }.json`,motivo).subscribe(resp =>{
+   // console.log(resp);
   });
 }
 

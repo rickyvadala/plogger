@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewChecked, Output, EventEmitter, ViewChild} from '@angular/core';
-import { PopoverController, AlertController } from '@ionic/angular';
+import { PopoverController, AlertController, PickerController } from '@ionic/angular';
 import { PopPublicacionSettingsComponent } from '../pop-publicacion-settings/pop-publicacion-settings.component';
 import { PublicacionesService } from 'src/app/services/publicaciones.service';
 import { Subscription } from 'rxjs';
@@ -58,6 +58,19 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
 
   conEvento = false;
 
+  defaultColumnOptions = [
+    [
+      'Desnudos o actividad sexual',
+      'Lenguajes que incitan al odio',
+      'Violencia u organizaciones peligrosas',
+      'Bullying o acoso',
+      'Informacion falsa'
+    ]
+  ]
+   multiColumnOptions = [
+    
+  ]
+
   @Output() mensajeEvent = new EventEmitter<string>();
 
   @ViewChild('evento') evento: EventoComponent;
@@ -69,7 +82,8 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
               public file: File,
               private dataShare: DataShareService,
               public camera: Camera,
-              public router: Router
+              public router: Router,
+              private pickerController: PickerController
               ) { }
   ngOnInit() {
     this.dataShare.currentMessage.subscribe( mensaje => this.popClick = mensaje);
@@ -207,6 +221,30 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
     });
   }
 
+  getColumns(numColumns, numOptions, columnOptions) {
+    let columns = [];
+    for (let i = 0; i < numColumns; i++) {
+      columns.push({
+        name: `col-${i}`,
+        options: this.getColumnOptions(i, numOptions, columnOptions)
+      });
+    }
+
+    return columns;
+  }
+
+   getColumnOptions(columnIndex, numOptions, columnOptions) {
+    let options = [];
+    for (let i = 0; i < numOptions; i++) {
+      options.push({
+        text: columnOptions[columnIndex][i % numOptions],
+        value: i
+      })
+    }
+
+    return options;
+  }
+
   async mostrarPopReport(evento,i, publicacion:PublicacionModel) {
     const popover = await this.popoverCtrl.create({
       component: PopPublicacionesReportComponent,
@@ -224,13 +262,33 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
        
         let nombrePublica = publicacion.nombre + publicacion.apellido;
         let pidPublicacion = publicacion.pid;
-        this.reportAlert(i,publicacion,pidPublicacion,nombrePublica);
+        //this.reportAlert(i,publicacion,pidPublicacion,nombrePublica);
+        this.openPicker(i, event,publicacion,pidPublicacion,nombrePublica)
        }
        
     });
   }
 
-  async reportAlert(i,publicacion,pidPublicacion,nombrePublica) {
+  async openPicker(i, event,publicacion,pidPublicacion,nombrePublica,numColumns = 1, numOptions = 5, columnOptions = this.defaultColumnOptions){
+    const picker = await this.pickerController.create({
+      columns: this.getColumns(numColumns, numOptions, columnOptions),  
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Confirmar',
+          handler: (motivo) => {
+        this.reportAlert(i,publicacion,motivo,pidPublicacion,nombrePublica);
+      }
+        }
+      ]
+    });
+    await picker.present();
+  }
+
+  async reportAlert(i,publicacion,motivo,pidPublicacion,nombrePublica) {
     const alert = await this.alertCtrl.create({
       //header: 'Gracias por reportar esta publicación',
        subHeader: 'Gracias por reportar esta publicación',
@@ -246,6 +304,7 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
           handler: (blah) => {
          
             let personaQueReporta = this.usuario.nombre + ' ' + this.usuario.apellido;
+            this.publicacionService.motivoReporte(publicacion,motivo);
             this.publicacionService.report(publicacion,personaQueReporta).subscribe(resp => {
               if (this.usuario.reportados===undefined) {
                // this.usuario.reportados=[pidPublicacion]; 

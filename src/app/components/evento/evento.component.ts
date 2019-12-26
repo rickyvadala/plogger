@@ -48,7 +48,6 @@ export class EventoComponent implements OnInit {
               private dataShare: DataShareService,
               private popoverCtrl: PopoverController,
               private alertCtrl: AlertController,
-              private modalCtrl: ModalController,
               private pickerController: PickerController
                ) {
    }

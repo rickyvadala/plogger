@@ -88,6 +88,12 @@ export class PublicacionesService{
     );
   }
 
+  motivoReporte(publicacion, motivo){
+    return this.http.put(`${ this.urlABM }/reportes/motivos/publicaciones/${ publicacion.pid }.json`,motivo).subscribe(resp =>{
+     // console.log(resp);
+    });
+  }
+
   private crearArregloPublicacionesReportadas(resp){
     if (resp===null||resp===undefined) {return [];}
     //Armo el vector iterable para las publicaciones
