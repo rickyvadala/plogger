@@ -22,7 +22,7 @@ export class ChatPage implements OnInit {
 
   constructor(  public chatService: ChatService,
     private dataShare: DataShareService,
-    private usuarioPlogger: UsuarioPloggerService,
+    // private usuarioPlogger: UsuarioPloggerService,
     private router: Router
     ) { 
     
@@ -37,11 +37,11 @@ ngOnInit() {
   this.elemento = document.getElementById('app-mensajes');
 }
 
-obtenerUsuarios() {
-  this.usuarioPlogger.obtenerPerfiles().subscribe(resp => {
-      this.usuarios = resp;
-   })
-}
+// obtenerUsuarios() {
+//   this.usuarioPlogger.obtenerPerfiles().subscribe(resp => {
+//       this.usuarios = resp;
+//    })
+// }
 
 enviarMensaje(){
   if( this.mensaje.length === 0 ){

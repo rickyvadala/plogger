@@ -40,14 +40,12 @@ export class UsersChatPage implements OnInit {
     goToChat(i) {
       this.router.navigate(['chat'], {state:  this.usuarios[i]});
       this.chatService.usuarioDestinatario = this.usuarios[i].key;
-    console.log(this.usuarios[i]);
     }
 
     itemSelected(usuario: any) {
       
       this.router.navigate(['chat']);
       this.chatService.usuarioDestinatario = usuario.uid;
-      console.log(this.chatService.usuarioDestinatario);
     }
 
 }

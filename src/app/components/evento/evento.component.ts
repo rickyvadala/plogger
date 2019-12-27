@@ -72,20 +72,31 @@ export class EventoComponent implements OnInit {
   eventosFinalizados(){
     this.eventService.obtenerEventosFinalizados().subscribe(resp => {
       this.eventos = resp;
+      this.eventos.forEach(evento => {
+        evento.orderDate = new Date(evento.startDate);
+      });
+      this.eventos = this.eventos.sort((a,b) => a.orderDate- b.orderDate);
    });
   }
 
 
   eventosEnProceso() {
     this.eventService.obtenerEventosEnProceso().subscribe(resp => {
-        this.eventos = resp;
-        console.log(this.eventos);
+      this.eventos = resp;
+      this.eventos.forEach(evento => {
+        evento.orderDate = new Date(evento.startDate);
+      });
+      this.eventos = this.eventos.sort((a,b) => a.orderDate- b.orderDate);
      });
   }
 
   obtenerMisEventos(){
    this.eventService.obtenerMisEventos().subscribe(resp => {
       this.eventos = resp;
+      this.eventos.forEach(evento => {
+        evento.orderDate = new Date(evento.startDate);
+      });
+      this.eventos = this.eventos.sort((a,b) => a.orderDate- b.orderDate);
     });
   }
 

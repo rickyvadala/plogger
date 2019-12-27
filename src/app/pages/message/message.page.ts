@@ -14,7 +14,7 @@ import { AlertController } from '@ionic/angular';
 })
 export class MessagePage implements OnInit {
   mensaje: string = "";
-  chats: MensajeModel [] = [];
+  chats: MensajeModel[] = [];
   usuario: any;
   usuarios: any[] = [];
   usuariosUid: any[] = [];
@@ -22,23 +22,24 @@ export class MessagePage implements OnInit {
 
   usuariosChat: any[] = [];
 
-  usConverRepetidos: any [] = [];
+  usConverRepetidos: any[] = [];
   usConver: any[] = []
-      
-  usConverTemporal: any [] = [];
-  tieneMensajes= true ;
+
+  usConverTemporal: any[] = [];
+  tieneMensajes = true;
   loading = true;
 
-  constructor(  private chatService: ChatService,
-                private dataShare: DataShareService,
-                private usuarioPlogger: UsuarioPloggerService,
-                private router: Router,
-                public alertCtrl: AlertController
-    ) { 
+  chatBorrado: number;
 
-      this.dataShare.currentUser.subscribe( usuario => {this.usuario = usuario} );
+  constructor(private chatService: ChatService,
+    private dataShare: DataShareService,
+    private usuarioPlogger: UsuarioPloggerService,
+    private router: Router,
+    public alertCtrl: AlertController
+  ) {
 
-    }
+    this.dataShare.currentUser.subscribe(usuario => { this.usuario = usuario });
+  }
 
   ngOnInit() {
     this.obtenerUsuarios();
@@ -46,50 +47,54 @@ export class MessagePage implements OnInit {
 
 
   obtenerUsuarios() {
+    this.usuariosChat = [];
     this.usuarioPlogger.obtenerPerfiles().subscribe(resp => {
-      let todos: any [];
+      let todos: any[];
       todos = resp;
       todos.forEach(u => {
-        if(u.key !== this.usuario.key) {
+        if (u.key !== this.usuario.key) {
           this.usuarios.push(u);
-        }});
-    
-    this.chatService.cargarChats().subscribe( (resp: MensajeModel[]) => {
-      this.chats = resp;
-      this.chats.forEach(mensaje => {
-        this.usuarios.forEach(us => {
-          if((mensaje.uidUsuarioDestinatario === us.key) || (mensaje.uidUsuarioLogueado === us.key)) {
-            this.usConver.push(us);
-            this.tieneMensajes = false;
-            this.loading = false;
-            this.usConver.forEach((usC, index) => {
-              this.usConverTemporal = Object.assign([], this.usConver);
-              this.usConverTemporal.splice(index, 1);
-              if((this.usConverTemporal.indexOf(usC) == -1) && (this.usConverRepetidos.indexOf(usC) == -1)) {
-                this.usConverRepetidos.push(usC);
-              }});
-          }});});
-        });});
-    this.usuariosChat = this.usConverRepetidos;
+        }
+      });
+
+      this.chatService.cargarChats().subscribe((resp: MensajeModel[]) => {
+        this.chats = resp;
+        this.chats.forEach(mensaje => {
+          this.usuarios.forEach(us => {
+            if ((mensaje.uidUsuarioDestinatario === us.key) || (mensaje.uidUsuarioLogueado === us.key)) {
+              this.usConver.push(us);
+              this.tieneMensajes = false;
+              this.loading = false;
+              this.usConver.forEach((usC, index) => {
+                this.usConverTemporal = Object.assign([], this.usConver);
+                this.usConverTemporal.splice(index, 1);
+                if ((this.usConverTemporal.indexOf(usC) == -1) && (this.usConverRepetidos.indexOf(usC) == -1)) {
+                  this.usConverRepetidos.push(usC);
+                }
+              });
+            }
+          });
+        });
+        this.usuariosChat = this.usConverRepetidos;
+      });
+    });
     
 
   }
 
-  goToChat(us,i){
+  goToChat(us, i) {
+    this.router.navigate(['chat'], { state: this.usuarios[i] });
+    this.chatService.usuarioDestinatario = us.key;
 
-  this.router.navigate(['chat'], {state:  this.usuarios[i]});
-  this.chatService.usuarioDestinatario = us.key;
-
-}
+  }
 
   goToUserChat() {
     this.router.navigate(['/users-chat']);
   }
 
-  borrarConversacion(us){
-    console.log(us);
-
-   this.borrarChat(us);
+  borrarConversacion(us, index) {
+    this.chatBorrado = index;
+    this.borrarChat(us);
   }
 
   async borrarChat(us) {
@@ -98,7 +103,7 @@ export class MessagePage implements OnInit {
       // subHeader: 'Subtitle',
       message: 'Si eliminas la conversación, desaparecerá de tu bandeja de entrada, pero no de la bandeja de los demás',
       buttons: [
-        
+
         {
           text: 'Cancelar',
           handler: (blah) => {
@@ -109,14 +114,15 @@ export class MessagePage implements OnInit {
           text: 'Eliminar',
           handler: (blah) => {
             this.chatService.borrarMensajes(us);
+            this.usuariosChat.splice(this.chatBorrado,1);
             return;
           }
-          
+
         }
       ]
     });
-      await alert.present();
-    
+    await alert.present();
+
   }
 
 }
