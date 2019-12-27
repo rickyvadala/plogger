@@ -52,6 +52,9 @@ https://ionicframework.com/docs/publishing/play-store
 For iOS
 https://ionicframework.com/docs/publishing/app-store
 
+##Certificate HTTPS
+$ ng serve --ssl true 
+
 ## Lets go!
 
 
