@@ -36,6 +36,7 @@ export class PopFollowComponent implements OnInit {
   }
 
   goToProfileOther(i) {
+    console.log(i);
     this.popoverCtrl.dismiss();
     let otherProfileUid = i;
     this.router.navigate(['/profile', otherProfileUid]);

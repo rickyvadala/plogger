@@ -7,10 +7,10 @@
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
-<ion-content padding>
+<ion-content>
     <ion-item *ngFor="let item of users; let i = index;">
         <ion-avatar class="item-avatar">
-            <img (click)="goToProfileOther(item.key)" *ngIf="item.foto" [src]="item.foto" />
+            <img (click)="goToProfileOther(item.uid)" *ngIf="item.foto" [src]="item.foto" />
         </ion-avatar>
         <ion-label>&nbsp;{{item.nombre}}&nbsp;{{item.apellido}}</ion-label>
     </ion-item>
