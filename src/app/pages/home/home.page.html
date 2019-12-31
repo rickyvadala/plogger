@@ -31,6 +31,6 @@
     <ion-auto-complete [template]="name" [showResultsFirst]="false" [(model)]="selected" (itemSelected)="itemSelected($event)" [multi]="false" [dataProvider]="searchService" [disabled]="false" [removeButtonColor]="'dark'" [options]="{ placeholder : ' ', debounce : '1000' }">
     </ion-auto-complete>
 
-    <app-publicacion></app-publicacion>
+    <app-publicacion #publicacionesHome></app-publicacion>
 
 </ion-content>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 import { PopProfileSettingsComponent } from '../../components/pop-profile-settings/pop-profile-settings.component';
 import { UsuarioService } from '../../services/usuario-social.service';
@@ -16,6 +16,8 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage implements OnInit {
+  
+  @ViewChild('publicaciones') publicaciones;
 
   foto: string;
   nombre: string;
@@ -28,17 +30,18 @@ export class ProfilePage implements OnInit {
   esAdmin = false;
   showEvent= false;
   showPublic = true;
-
-
+  primerIngreso = true;
 
   constructor(private popoverCtrl: PopoverController,
               public us: UsuarioService, 
               public usPlogger: UsuarioPloggerService,
               private dataShare: DataShareService,
               private router: Router,
-              ) { }
+              ) { 
+              }
 
   ngOnInit() {
+    console.log("ngOninit")
     this.dataShare.currentUser.subscribe( usuario => this.usuario = usuario);
     if (this.usuario.seguidores===undefined) {
       this.cantSeguidores=0;
@@ -50,9 +53,8 @@ export class ProfilePage implements OnInit {
     } else {
       this.cantSeguidos=this.usuario.seguidos.length;
     }
-
-    console.log(this.usuario);
     this.usuarioAdmin();
+    this.primerIngreso = true;
   }
 
   usuarioAdmin(){
@@ -66,6 +68,12 @@ export class ProfilePage implements OnInit {
   ionViewWillEnter(){
     this.getNombre();
     this.getFoto();
+    if (this.primerIngreso != true) {
+      this.publicaciones.ngOnInit();
+    } else this.primerIngreso = false
+  }
+  ionViewWillLeave (){
+    this.publicaciones.publicaciones = [];
   }
 
   recibirMensaje($event) {

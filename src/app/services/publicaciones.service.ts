@@ -114,6 +114,8 @@ export class PublicacionesService{
     const publicaciones: PublicacionModel[] = [];
     Object.keys(resp).forEach(key =>{
 
+        if(this.usuario.seguidos.includes(resp[key].uid) || resp[key].uid === this.usuario.key) {
+        
         let publicacion: PublicacionModel = resp[key];
         publicacion.pid = key;
 
@@ -134,6 +136,7 @@ export class PublicacionesService{
         //Aca termina la parte de comentarios
 
         publicaciones.unshift(publicacion);
+        }
     });
     return publicaciones;
   }

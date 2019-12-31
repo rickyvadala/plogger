@@ -61,7 +61,7 @@
     </ion-grid>
 
 
-    <app-publicacion (mensajeEvent)="recibirMensaje($event)"></app-publicacion>
+    <app-publicacion (mensajeEvent)="recibirMensaje($event)" #publicaciones></app-publicacion>
 
 
     <div *ngIf="!hayPublicacion && !esAdmin" class="sinMensaje">

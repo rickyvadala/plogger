@@ -1,4 +1,4 @@
-import { Component, OnInit, ɵConsole } from '@angular/core';
+import { Component, OnInit, ɵConsole, ViewChild } from '@angular/core';
 
 import { AutoCompleteOptions } from 'ionic4-auto-complete';
 import { SearchService } from '../../services/search.service';
@@ -14,10 +14,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
+  @ViewChild('publicacionesHome') publicaciones;
 
   public options: AutoCompleteOptions;
 
   public selected: string[] = [];
+  primerIngreso = true;
+
 
   constructor( public searchService: SearchService,
                 //public FCM: FCM,
@@ -29,6 +32,16 @@ export class HomePage implements OnInit {
     // this.FCM.getToken().then(token => {
     //   console.log(token);
     // });
+    this.primerIngreso = true;
+  }
+
+  ionViewWillEnter(){
+    if (this.primerIngreso != true) {
+      this.publicaciones.ngOnInit();
+    } else this.primerIngreso = false
+  }
+  ionViewWillLeave (){
+    this.publicaciones.publicaciones = [];
   }
 
   itemSelected(item: any) {

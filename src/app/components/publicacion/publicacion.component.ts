@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewChecked, Output, EventEmitter, ViewChild} from '@angular/core';
+import { Component, OnInit, AfterViewChecked, Output, EventEmitter, ViewChild, OnDestroy} from '@angular/core';
 import { PopoverController, AlertController, PickerController } from '@ionic/angular';
 import { PopPublicacionSettingsComponent } from '../pop-publicacion-settings/pop-publicacion-settings.component';
 import { PublicacionesService } from 'src/app/services/publicaciones.service';
@@ -25,7 +25,7 @@ import { PopPublicacionesReportComponent } from '../pop-publicaciones-report/pop
   styleUrls: ['./publicacion.component.scss'],
 })
 
-export class PublicacionComponent implements OnInit, AfterViewChecked {
+export class PublicacionComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   private suscripcion: Subscription;
   textoEditar:string="";
@@ -92,6 +92,10 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
     });
 
     this.verificarPath();
+  }
+
+  ngOnDestroy() {
+    console.log("destroy publicaciones");
   }
 
   ngAfterViewChecked(): void {
@@ -574,7 +578,6 @@ export class PublicacionComponent implements OnInit, AfterViewChecked {
 
   doRefresh( event){
     this.verificarPath();
-    console.log(this.publicaciones);
     event.target.complete();
   }
 
