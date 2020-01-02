@@ -27,6 +27,7 @@ export class ProfileOtherPage implements OnInit {
   profileOther:any[];
 
   constructor(private route: ActivatedRoute,
+              private router: Router,
               private usuarioService: UsuarioPloggerService,
               private dataShare: DataShareService,
               private followService: FollowService,
@@ -39,12 +40,14 @@ export class ProfileOtherPage implements OnInit {
     this.dataShare.currentUser.subscribe( usuario => {
       this.usuario = usuario
     });
-    console.log('key');
-    console.log(this.keyOther);
   }
 
   ionViewDidEnter(){
     this.getProfileOther();
+  }
+
+  volver() {
+    this.router.navigate(['/home']);
   }
 
   getProfileOther() {

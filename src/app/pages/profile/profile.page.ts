@@ -41,18 +41,12 @@ export class ProfilePage implements OnInit {
               }
 
   ngOnInit() {
-    console.log("ngOninit")
-    this.dataShare.currentUser.subscribe( usuario => this.usuario = usuario);
-    if (this.usuario.seguidores===undefined) {
-      this.cantSeguidores=0;
-    } else {
-      this.cantSeguidores=this.usuario.seguidores.length;
-    }
-    if (this.usuario.seguidos===undefined) {
-      this.cantSeguidos=0;
-    } else {
-      this.cantSeguidos=this.usuario.seguidos.length;
-    }
+    
+    
+    this.dataShare.currentUser.subscribe( usuario => {
+      this.usuario = usuario
+    });
+
     this.usuarioAdmin();
     this.primerIngreso = true;
   }
@@ -66,6 +60,16 @@ export class ProfilePage implements OnInit {
   }
 
   ionViewWillEnter(){
+    if (this.usuario.seguidores===undefined) {
+      this.cantSeguidores=0;
+    } else {
+      this.cantSeguidores=this.usuario.seguidores.length;
+    }
+    if (this.usuario.seguidos===undefined) {
+      this.cantSeguidos=0;
+    } else {
+      this.cantSeguidos = this.usuario.seguidos.length;
+    }
     this.getNombre();
     this.getFoto();
     if (this.primerIngreso != true) {

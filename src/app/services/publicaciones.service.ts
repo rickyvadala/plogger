@@ -113,9 +113,7 @@ export class PublicacionesService{
     //Armo el vector iterable para las publicaciones
     const publicaciones: PublicacionModel[] = [];
     Object.keys(resp).forEach(key =>{
-
-        if(this.usuario.seguidos.includes(resp[key].uid) || resp[key].uid === this.usuario.key) {
-        
+        if (this.usuario.seguidos && this.usuario.seguidos.includes(resp[key].uid) || resp[key].uid === this.usuario.key) {
         let publicacion: PublicacionModel = resp[key];
         publicacion.pid = key;
 
