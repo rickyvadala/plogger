@@ -27,6 +27,7 @@ import { PopPublicacionesReportComponent } from '../pop-publicaciones-report/pop
 
 export class PublicacionComponent implements OnInit, AfterViewChecked, OnDestroy {
 
+  @ViewChild('infinite') infiniteScroll;
   private suscripcion: Subscription;
   textoEditar:string="";
 
@@ -46,9 +47,10 @@ export class PublicacionComponent implements OnInit, AfterViewChecked, OnDestroy
   nombre = "Nombre Harcodeado";
   imagenPublicacion = "../../../assets/shapes.svg";
   publicaciones:any[]=[];
+  publicacionesAll:any[]=[];
   comentarios:ComentarioModel[]=[];
   uid:string;
-  cantPosts:number;
+  cantPosts:Number;
   flagComentarios:boolean=false;
 
   flagLike:boolean;
@@ -115,6 +117,7 @@ export class PublicacionComponent implements OnInit, AfterViewChecked, OnDestroy
     var x = window.location.href;
     var ubicacion = x.substring(x.lastIndexOf('/') + 1);
     if (ubicacion==='profile') {
+      this.publicaciones=[];
       this.cargarPublicacionesPerfil();
       return;
     } 
@@ -166,8 +169,10 @@ export class PublicacionComponent implements OnInit, AfterViewChecked, OnDestroy
 
     this.suscripcion=this.publicacionService.obtenerPublicacionesPerfil(UID)
     .subscribe((resp: any) => {
-      this.publicaciones = resp;   
-      this.cantPosts = resp.length;
+      let cant = new Number(resp.length)
+      this.publicacionesAll = resp
+      this.publicaciones.push(...this.publicacionesAll.splice(0,5)); 
+      this.cantPosts = cant;
       // this.publicaciones.forEach(p => {
         
       //   if(p.evento) {
@@ -184,7 +189,8 @@ export class PublicacionComponent implements OnInit, AfterViewChecked, OnDestroy
   cargarPublicacionesHome(){
     this.suscripcion=this.publicacionService.obtenerPublicacionesHome()
     .subscribe(resp => {
-      this.publicaciones = resp; 
+      this.publicacionesAll = resp
+      this.publicaciones.push(...this.publicacionesAll.splice(0,5)); 
       }  
     );  
   }
@@ -466,8 +472,6 @@ export class PublicacionComponent implements OnInit, AfterViewChecked, OnDestroy
   }
 
   async publicar() {
-    console.log(this.usuario.key)
-
     this.publicacion.uid = this.usuario.key;
     this.publicacion.fecha = (new Date).toString();
     this.publicacion.nombre = this.usuario.nombre;
@@ -475,26 +479,20 @@ export class PublicacionComponent implements OnInit, AfterViewChecked, OnDestroy
     this.publicacion.fotoPerfil = this.usuario.foto;
     this.publicacion.reportada = false;
 
-
     if (this.publicacion.texto==='' && this.publicacion.foto==='') {
       const alert = await this.alertCtrl.create({
         header: 'Publicacion vacia!',
         subHeader: 'Debes ingresar al menos un texto o una foto!',
-        // message: 'This is an alert message.',
         buttons: [ {
             text: 'Ok',
             cssClass: 'danger'
           }
         ]
       });
-  
       await alert.present();
       return;
     } else {
-
       this.publicacionService.guardarPost(this.publicacion).subscribe(resp => {
-  
-        //this.publicaciones.push(this.publicacion)
         this.verificarPath();
         this.hayFoto = false;
         this.publicacion.texto='';
@@ -577,6 +575,8 @@ export class PublicacionComponent implements OnInit, AfterViewChecked, OnDestroy
 }
 
   doRefresh( event){
+    this.publicaciones = []
+    this.infiniteScroll.disabled = false;
     this.verificarPath();
     event.target.complete();
   }
@@ -621,6 +621,17 @@ export class PublicacionComponent implements OnInit, AfterViewChecked, OnDestroy
 
   goToEvent(evento) {
     this.router.navigate([`/event/${evento.id}`],  {state:  evento} );
+  }
 
+  loadData(event) {
+    setTimeout(() => {
+      if (this.publicacionesAll.length === 0) {
+        event.target.complete();
+        this.infiniteScroll.disabled = true;
+        return;
+      }
+      this.publicaciones.push(...this.publicacionesAll.splice(0,5)); 
+      event.target.complete();
+    }, 500);
   }
 }
