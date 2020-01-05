@@ -57,10 +57,11 @@
                 <ion-label position="floating">Repetir Contraseña</ion-label>
                 <ion-input #pass2 name="password1" minlength="8" (input)="validarContrasena(pass1.value, pass2.value)" [(ngModel)]="usuario.password" type="password" required></ion-input>
             </ion-item>
-            <ion-item>
+            <!-- <ion-item>
                 <ion-label position="floating">Lugar de residencia</ion-label>
                 <ion-input name="ubicacion" [(ngModel)]="usuario.ubicacion" type="text" required></ion-input>
-            </ion-item>
+            </ion-item> -->
+            <combo-ubicacion></combo-ubicacion>
 
             <ion-label *ngIf="(contValidas === false) && (formulario.valid)" color="danger">&nbsp;&nbsp;Verificar contraseñas</ion-label>
             <ion-item>

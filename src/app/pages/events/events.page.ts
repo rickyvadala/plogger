@@ -6,6 +6,7 @@ import { SearchEventService } from '../../services/search-event.service';
 import { TypeEventService } from 'src/app/services/type-event.service';
 import { ModalController } from '@ionic/angular';
 import { MisEventosPage } from '../mis-eventos/mis-eventos.page';
+import { ComboUbicacionService } from '../../services/combo-ubicacion.service';
 
 @Component({
   selector: 'app-events',
@@ -31,6 +32,7 @@ export class EventsPage implements OnInit, AfterViewInit {
               private eventService: EventService,
               public searchService: SearchEventService,
               private modalCtrl: ModalController,
+              private comboUbicacionService: ComboUbicacionService
               ) { 
               }
 
@@ -80,7 +82,7 @@ export class EventsPage implements OnInit, AfterViewInit {
   filter() {
     this.eventService.filterFechaDesde = this.filterFechaDesde;
     this.eventService.filterFechaHasta = this.filterFechaHasta;
-    this.eventService.filterCiudad = this.filterCiudad;
+    this.eventService.filterCiudad = this.comboUbicacionService.provinciaSeleccionada;
     this.filters = false;
     this.evento.eventosFiltrados();    
   }

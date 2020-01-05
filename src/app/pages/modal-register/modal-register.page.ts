@@ -5,6 +5,7 @@ import { UsuarioPloggerModel } from '../../models/usuario-plogger.model';
 import { NgForm } from '@angular/forms';
 import { UsuarioPloggerService } from 'src/app/services/usuario-plogger.service';
 import { TerminosCondicionesPage } from '../terminos-condiciones/terminos-condiciones.page';
+import { ComboUbicacionService } from '../../services/combo-ubicacion.service';
 
 @Component({
   selector: 'app-modal-register',
@@ -24,7 +25,8 @@ export class ModalRegisterPage implements OnInit {
   constructor(private modalCtrl: ModalController,
               private router: Router,
               private authPlogger: UsuarioPloggerService,
-              public alertCtrl: AlertController) { }
+              public alertCtrl: AlertController, 
+              private comboUbicacionService: ComboUbicacionService ) { }
 
 
 
@@ -38,6 +40,7 @@ export class ModalRegisterPage implements OnInit {
             text: 'Ok',
             handler: (blah) => {
               console.log('Boton ok');
+              this.comboUbicacionService.provinciaSeleccionada = null;
 
             }
           }
@@ -95,6 +98,8 @@ export class ModalRegisterPage implements OnInit {
   onSubmitTemplate(form: NgForm) {
 
     if ( form.invalid ) { return; }
+
+    this.usuario.ubicacion = this.comboUbicacionService.provinciaSeleccionada;
 
     this.authPlogger.nuevoUsuarioPlogger(this.usuario)
     .subscribe( (resp: any) => {
