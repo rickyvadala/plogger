@@ -94,6 +94,7 @@ export class PublicacionComponent implements OnInit, AfterViewChecked, OnDestroy
     });
 
     this.verificarPath();
+ 
   }
 
   ngOnDestroy() {
@@ -181,6 +182,9 @@ export class PublicacionComponent implements OnInit, AfterViewChecked, OnDestroy
       //     this.evento.mostrarEventoPublicacion(p.evento);
       //   }
       // });
+      if (this.publicacionService.cambioNombre === true ){
+        this.publicaciones = this.publicacionService.publicaciones;
+      }
       this.enviarMensaje();
       }  
     );   
@@ -191,6 +195,9 @@ export class PublicacionComponent implements OnInit, AfterViewChecked, OnDestroy
     .subscribe(resp => {
       this.publicacionesAll = resp
       this.publicaciones.push(...this.publicacionesAll.splice(0,5)); 
+      if (this.publicacionService.cambioNombre === true ){
+        this.publicaciones = this.publicacionService.publicaciones;
+      }
       }  
     );  
   }
