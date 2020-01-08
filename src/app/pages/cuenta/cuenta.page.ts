@@ -56,6 +56,8 @@ export class CuentaPage implements OnInit {
     this.dataShare.currentUser.subscribe( usuario => this.usuario = usuario);
     console.log(this.usuario);
     this.mostrarSegunTipoUsuario();
+
+  
     
   }
 
@@ -175,32 +177,27 @@ export class CuentaPage implements OnInit {
   }
 
   actualizarPublicaciones(){
-    this.publicacionesService.obtenerPublicacionesPerfil(this.usuario.uid).subscribe(resp => 
-      
-     { 
-       if(this.usuario.uid = this.usuario.key) {
-          resp.forEach(publicacion => {
-            publicacion.nombre = this.usuario.nombre;
-            publicacion.apellido = this.usuario.apellido;
-            publicacion.fotoPerfil = this.usuario.foto;
-            //de aca hay q llamar las publicaciones para q actualice..
-            let cant = new Number(resp.length)
-            this.publicacionesAll = resp
-            this.publicaciones.push(...this.publicacionesAll.splice(0,5)); 
-            this.cantPosts = cant;
-            this.publicacionesService.publicaciones = this.publicaciones;
-            this.publicacionesService.cambioNombre = true;      
+    let UID = this.usuario.uid;
+    this.publicacionesService.obtenerPublicacionesPerfil(this.usuario.uid).subscribe(resp => {
+      if(this.usuario.uid = this.usuario.key) {
+        resp.forEach(publicacion => {
+           publicacion.nombre = this.usuario.nombre;
+           publicacion.apellido = this.usuario.apellido;
+           publicacion.fotoPerfil = this.usuario.foto;
+          // //de aca hay q llamar las publicaciones para q actualice..
+           this.publicacionesAll = resp;
+           this.publicaciones.push(...this.publicacionesAll.splice(0,5)); 
+          this.publicaciones.forEach(element => {
+            element.nombre = this.usuario.nombre;
+            element.apellido = this.usuario.apellido;
+            element.fotoPerfil = this.usuario.foto;
+            this.publicacionesService.publicaciones.push(element);
           });
-        }
-    } )
-    // this.suscripcion=this.publicacionesService.obtenerPublicacionesHome()
-    // .subscribe(resp => {
-    //   this.publicacionesAll = resp
-    //   this.publicaciones.push(...this.publicacionesAll.splice(0,5)); 
-    //   this.publicacionesService.publicaciones = this.publicaciones;
+           this.publicacionesService.cambioNombre = true;     
+        });
+      } else { console.log('else');}
+    });
 
-    //   }  
-    // );  
   }
 
   
