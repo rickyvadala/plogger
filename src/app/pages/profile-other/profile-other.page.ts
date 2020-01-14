@@ -47,7 +47,7 @@ export class ProfileOtherPage implements OnInit {
   }
 
   volver() {
-    this.router.navigate(['/home']);
+    this.router.navigate(['/tabs/home']);
   }
 
   getProfileOther() {
