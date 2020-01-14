@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { UsuarioPloggerService } from 'src/app/services/usuario-plogger.service';
 import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
@@ -9,6 +9,9 @@ import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker/ngx'
 import { File } from '@ionic-native/file/ngx';
 import { storage } from 'firebase';
 import { DataShareService } from 'src/app/services/data-share.service';
+import { PublicacionesService } from 'src/app/services/publicaciones.service';
+import { PublicacionComponent } from 'src/app/components/publicacion/publicacion.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-cuenta',
@@ -30,8 +33,14 @@ export class CuentaPage implements OnInit {
 
   hayFoto = false;
   mostrarTipoPersona = false;
+  publicaciones:any[]=[];
+  publicacionesAll:any[]=[];
+  cantPosts:Number;
 
 
+  private suscripcion: Subscription;
+
+  @ViewChild('publicacion') publicacion: PublicacionComponent;
 
 
   constructor(private authPlogger: UsuarioPloggerService, 
@@ -39,12 +48,17 @@ export class CuentaPage implements OnInit {
               private router: Router,
               public imagePicker: ImagePicker,
               public file: File,
-              private dataShare: DataShareService) { }
+              private dataShare: DataShareService,
+              public publicacionesService:PublicacionesService
+              ) { }
 
   ngOnInit() {
     this.dataShare.currentUser.subscribe( usuario => this.usuario = usuario);
     console.log(this.usuario);
     this.mostrarSegunTipoUsuario();
+
+  
+    
   }
 
   volver() {
@@ -89,6 +103,9 @@ export class CuentaPage implements OnInit {
     this.usuario.nombre = form.value.nombre;
     this.usuario.fechaNac = form.value.fecha;
     this.usuario.sexo = form.value.sexo;
+
+  
+    this.actualizarPublicaciones();
 
     this.dataShare.changeUser(this.usuario);
     
@@ -158,4 +175,32 @@ export class CuentaPage implements OnInit {
       this.mostrarTipoPersona = true;
     }
   }
+
+  actualizarPublicaciones(){
+    let UID = this.usuario.uid;
+    this.publicacionesService.obtenerPublicacionesPerfil(this.usuario.uid).subscribe(resp => {
+      if(this.usuario.uid = this.usuario.key) {
+        resp.forEach(publicacion => {
+          console.log(publicacion);
+           publicacion.nombre = this.usuario.nombre;
+           publicacion.apellido = this.usuario.apellido;
+           publicacion.fotoPerfil = this.usuario.foto;
+          
+          // //de aca hay q llamar las publicaciones para q actualice..
+           this.publicacionesAll = resp;
+           this.publicaciones.push(...this.publicacionesAll.splice(0,5)); 
+          this.publicaciones.forEach(element => {
+            element.nombre = this.usuario.nombre;
+            element.apellido = this.usuario.apellido;
+            element.fotoPerfil = this.usuario.foto;
+            this.publicacionesService.publicaciones.push(element);
+          });
+           this.publicacionesService.cambioNombre = true;     
+        });
+      } else { console.log('else');}
+    });
+
+  }
+
+  
 }

@@ -6,6 +6,8 @@ import { NgForm } from '@angular/forms';
 import { UsuarioPloggerService } from 'src/app/services/usuario-plogger.service';
 import { TerminosCondicionesPage } from '../terminos-condiciones/terminos-condiciones.page';
 import { FCM } from '@ionic-native/fcm/ngx';
+import { ComboUbicacionService } from '../../services/combo-ubicacion.service';
+
 @Component({
   selector: 'app-modal-register',
   templateUrl: './modal-register.page.html',
@@ -25,7 +27,8 @@ export class ModalRegisterPage implements OnInit {
               private router: Router,
               private authPlogger: UsuarioPloggerService,
               public alertCtrl: AlertController,
-              public FCM: FCM) { }
+              public FCM: FCM,
+              private comboUbicacionService: ComboUbicacionService ) { }
 
 
 
@@ -39,6 +42,7 @@ export class ModalRegisterPage implements OnInit {
             text: 'Ok',
             handler: (blah) => {
               console.log('Boton ok');
+              this.comboUbicacionService.provinciaSeleccionada = null;
 
             }
           }
@@ -99,6 +103,9 @@ export class ModalRegisterPage implements OnInit {
     this.FCM.getToken().then(token => {
       this.token = token
     })
+
+    this.usuario.ubicacion = this.comboUbicacionService.provinciaSeleccionada;
+
     this.authPlogger.nuevoUsuarioPlogger(this.usuario)
     .subscribe( (resp: any) => {
       let mail = this.usuario.email;

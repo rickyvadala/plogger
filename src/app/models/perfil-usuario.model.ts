@@ -16,5 +16,6 @@ export class PerfilUsuarioModel {
     reportados?: any[];
     admin?: boolean;
     token?: string;
+    ubicacion?: string;
 }
 

@@ -80,8 +80,8 @@ export class UsuarioPloggerService {
                 tipoUsuario: array[index].tipoUsuario,
                 descripcion: array[index].descripcion,
                 admin: array[index].admin,
-
-                token: this.token
+                token: this.token,
+                ubicacion: array[index].ubicacion
               }
               console.log('llega puto cagon')
               this.dataShare.changeUser(objUsuario);

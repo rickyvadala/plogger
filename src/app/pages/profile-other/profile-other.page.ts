@@ -41,8 +41,6 @@ export class ProfileOtherPage implements OnInit {
   ngOnInit() {
     this.getProfileOther();
     this.dataShare.currentUser.subscribe( usuario => {
-      console.log('----------------');
-      console.log(usuario);
       this.usuario = usuario
     });
   }
@@ -52,7 +50,7 @@ export class ProfileOtherPage implements OnInit {
   }
 
   volver() {
-    this.router.navigate(['/home']);
+    this.router.navigate(['/tabs/home']);
   }
 
   getProfileOther() {

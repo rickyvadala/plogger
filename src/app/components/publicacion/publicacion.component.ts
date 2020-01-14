@@ -98,6 +98,7 @@ export class PublicacionComponent implements OnInit, AfterViewChecked, OnDestroy
     });
 
     this.verificarPath();
+ 
   }
 
   ngOnDestroy() {
@@ -188,6 +189,9 @@ export class PublicacionComponent implements OnInit, AfterViewChecked, OnDestroy
       //     this.evento.mostrarEventoPublicacion(p.evento);
       //   }
       // });
+      if (this.publicacionService.cambioNombre === true ){
+        this.publicaciones = this.publicacionService.publicaciones;
+      }
       this.enviarMensaje();
       }  
     );   
@@ -200,8 +204,11 @@ export class PublicacionComponent implements OnInit, AfterViewChecked, OnDestroy
       this.publicacionesAll = resp
       this.publicaciones.push(...this.publicacionesAll.splice(0,5)); 
       this.loadingService.dismissLoading();  
-    }  
-    );  
+      
+      if (this.publicacionService.cambioNombre === true ){
+        this.publicaciones = this.publicacionService.publicaciones;
+      } 
+    }); 
   }
 
   async mostrarPop(evento,i, publicacion:PublicacionModel) {

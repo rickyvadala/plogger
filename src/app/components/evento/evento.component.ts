@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ɵConsole } from '@angular/core';
 import { EventService } from 'src/app/services/event.service';
 import { EventoModel } from 'src/app/models/evento.model';
 import { Subscription } from 'rxjs';
@@ -54,6 +54,7 @@ export class EventoComponent implements OnInit {
     this.dataShare.currentMessage.subscribe( mensaje => this.popClick = mensaje);
     this.dataShare.currentUser.subscribe( usuario => {
       this.usuario = usuario
+      console.log(this.usuario);
     });
     //this.cargarEventos();
   }
@@ -70,33 +71,60 @@ export class EventoComponent implements OnInit {
   }
 
   eventosFinalizados(){
+    let eventosMiUbicacion = [];
+    let otrosEventos = [];
     this.eventService.obtenerEventosFinalizados().subscribe(resp => {
       this.eventos = resp;
       this.eventos.forEach(evento => {
         evento.orderDate = new Date(evento.startDate);
+        if(evento.ubication.toLowerCase().includes(this.usuario.ubicacion.toLowerCase())) {
+          eventosMiUbicacion.push(evento);
+        } else {
+          otrosEventos.push(evento);
+        }
       });
-      this.eventos = this.eventos.sort((a,b) => a.orderDate- b.orderDate);
+      eventosMiUbicacion = eventosMiUbicacion.sort((a,b) => a.orderDate- b.orderDate);
+      otrosEventos = otrosEventos.sort((a,b) => a.orderDate- b.orderDate);
+      this.eventos = eventosMiUbicacion.concat(otrosEventos);
    });
   }
 
 
   eventosEnProceso() {
+    let eventosMiUbicacion = [];
+    let otrosEventos = [];
     this.eventService.obtenerEventosEnProceso().subscribe(resp => {
       this.eventos = resp;
       this.eventos.forEach(evento => {
         evento.orderDate = new Date(evento.startDate);
+        if(evento.ubication.toLowerCase().includes(this.usuario.ubicacion.toLowerCase())) {
+          eventosMiUbicacion.push(evento);
+        } else {
+          otrosEventos.push(evento);
+        }
       });
-      this.eventos = this.eventos.sort((a,b) => a.orderDate- b.orderDate);
+      eventosMiUbicacion = eventosMiUbicacion.sort((a,b) => a.orderDate- b.orderDate);
+      otrosEventos = otrosEventos.sort((a,b) => a.orderDate- b.orderDate);
+      this.eventos = eventosMiUbicacion.concat(otrosEventos);
      });
   }
 
   obtenerMisEventos(){
+    let eventosMiUbicacion = [];
+    let otrosEventos = [];
    this.eventService.obtenerMisEventos().subscribe(resp => {
       this.eventos = resp;
       this.eventos.forEach(evento => {
         evento.orderDate = new Date(evento.startDate);
+        if(evento.ubication.toLowerCase().includes(this.usuario.ubicacion.toLowerCase())) {
+          eventosMiUbicacion.push(evento);
+        } else {
+          otrosEventos.push(evento);
+        }
       });
-      this.eventos = this.eventos.sort((a,b) => a.orderDate- b.orderDate);
+      eventosMiUbicacion = eventosMiUbicacion.sort((a,b) => a.orderDate- b.orderDate);
+      otrosEventos = otrosEventos.sort((a,b) => a.orderDate- b.orderDate);
+      this.eventos = eventosMiUbicacion.concat(otrosEventos);
     });
   }
 

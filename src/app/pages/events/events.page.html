@@ -61,10 +61,11 @@
                 <ion-datetime name="filterFechaHasta" [(ngModel)]="filterFechaHasta" display-format="DD.MM.YYYY"></ion-datetime>
             </ion-item>
             <br>
-            <ion-item>
+            <!-- <ion-item>
                 <ion-label>Cuidad:</ion-label>
                 <ion-input name="filterCiudad" [(ngModel)]="filterCiudad"></ion-input>
-            </ion-item>
+            </ion-item> -->
+            <combo-ubicacion></combo-ubicacion>
         </ion-list>
 
         <ion-button color="petroleo" (click)="filter()" expand="full" fill="outline">Filtrar</ion-button>
