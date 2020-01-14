@@ -41,6 +41,7 @@ export class PublicacionOthersComponent implements OnInit {
 
   ionViewWillEnter(){
     this.cargarPublicacionesPerfil();
+
   }
 
   cancelarEdicion(i) {

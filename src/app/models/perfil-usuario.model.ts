@@ -15,5 +15,6 @@ export class PerfilUsuarioModel {
     descripcion?: string;
     reportados?: any[];
     admin?: boolean;
+    ubicacion?: string;
 }
 

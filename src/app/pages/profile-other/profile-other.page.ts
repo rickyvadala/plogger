@@ -38,7 +38,8 @@ export class ProfileOtherPage implements OnInit {
   ngOnInit() {
     this.getProfileOther();
     this.dataShare.currentUser.subscribe( usuario => {
-      this.usuario = usuario
+      this.usuario = usuario;
+      console.log(this.usuario);
     });
   }
 

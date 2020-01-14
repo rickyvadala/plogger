@@ -13,6 +13,9 @@ export class PublicacionesService{
   usuario:PerfilUsuarioModel={};
 
   uidOther: string;
+  publicaciones:any[]=[];
+  cambioNombre: boolean = false;
+
 
   constructor(private http:HttpClient,
               private dataShare: DataShareService
