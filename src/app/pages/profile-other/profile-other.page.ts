@@ -6,6 +6,7 @@ import { PerfilUsuarioModel } from 'src/app/models/perfil-usuario.model';
 import { FollowService } from 'src/app/services/follow.service';
 import { PopFollowComponent } from 'src/app/components/pop-follow/pop-follow.component';
 import { PopoverController } from '@ionic/angular';
+import { notificationPushService } from '../../services/notificationPush.service';
 
 @Component({
   selector: 'app-profile-other',
@@ -25,19 +26,23 @@ export class ProfileOtherPage implements OnInit {
   flagFollow:boolean;
   usuario:PerfilUsuarioModel;
   profileOther:any[];
+  key:string;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
               private usuarioService: UsuarioPloggerService,
               private dataShare: DataShareService,
               private followService: FollowService,
-              private popoverCtrl:PopoverController ) {
+              private popoverCtrl:PopoverController,
+              public notificationPushService: notificationPushService) {
     this.profileOtherUid = this.route.snapshot.params['id'];
   }
 
   ngOnInit() {
     this.getProfileOther();
     this.dataShare.currentUser.subscribe( usuario => {
+      console.log('----------------');
+      console.log(usuario);
       this.usuario = usuario
     });
   }
@@ -57,6 +62,8 @@ export class ProfileOtherPage implements OnInit {
       let apellido = this.profileOther[0].apellido;
       this.nombre = nombre.concat(' ').concat(apellido);
       this.foto = this.profileOther[0].foto;
+      this.key = this.profileOther[0].token;
+
       //Cantidad de seguidos
       if (this.profileOther[0].seguidos === undefined) {
         this.cantSeguidos = 0;
@@ -100,6 +107,9 @@ export class ProfileOtherPage implements OnInit {
       if (this.usuario.seguidos===undefined) {
         this.usuario.seguidos=[this.keyOther];
         this.profileOther[0].seguidores=[this.usuario.key];
+        let descripcion = this.usuario.nombre + " " + "comenzó a seguirte";
+        this.notificationPushService.sendNotification(descripcion, this.key).subscribe(resp =>{
+        });
       } else {
         this.usuario.seguidos.unshift(this.keyOther);
         this.profileOther[0].seguidores.push(this.usuario.key);

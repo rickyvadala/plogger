@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "925235686551",
+    "firebase_url": "https://notisconcoconut.firebaseio.com",
+    "project_id": "notisconcoconut",
+    "storage_bucket": "notisconcoconut.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:925235686551:android:525e2b68178a55a94a8dd2",
+        "android_client_info": {
+          "package_name": "com.acadep.daniel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "925235686551-89950o50516ec60r2l4135fngl7l3iih.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7A-bp7EFZvilgyYZD1swLs3A5iTsJVg8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "925235686551-89950o50516ec60r2l4135fngl7l3iih.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

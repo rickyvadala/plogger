@@ -7,6 +7,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { PerfilUsuarioModel } from '../models/perfil-usuario.model';
 import * as firebase from 'firebase';
 import { DataShareService } from './data-share.service';
+import { FCM } from '@ionic-native/fcm/ngx';
 
 
 
@@ -24,11 +25,14 @@ export class UsuarioPloggerService {
   private urlABM = 'https://plogger-437eb.firebaseio.com';
 
   private usuario:PerfilUsuarioModel={};
+  
+  private token: string;
 
   constructor( private http: HttpClient, 
               public guard: GuardService, 
               public  afAuth: AngularFireAuth,
-              private dataShare: DataShareService ) {
+              private dataShare: DataShareService,
+              private FCM: FCM ) {
     this.guard.leerToken();
     this.dataShare.currentUser.subscribe( usuario => this.usuario = usuario);
 
@@ -39,7 +43,9 @@ export class UsuarioPloggerService {
       ...usuario, // trae todas las propiedades del UsuarioPlogger
       returnSecureToken: true
     };
-
+    this.FCM.getToken().then(token => {
+      this.token = token
+    })
     return this.http.
     post(`${ this.url }/verifyPassword?key=${ this.apikey }`,
     authData).pipe(
@@ -55,6 +61,7 @@ export class UsuarioPloggerService {
           const arrayKeys: any[] = Object.keys(resp);
           for (let index = 0; index < array.length; index++) {
             if (array[index].uid === UID) {
+              console.log('lo encontro');
               //Se crea el objeto usuario con mail y nroUsuario
               let nroUsuario = arrayKeys[index];
               let objUsuario: PerfilUsuarioModel = {
@@ -72,16 +79,19 @@ export class UsuarioPloggerService {
                 eventosMeInteresa: array[index].eventosMeInteresa,
                 tipoUsuario: array[index].tipoUsuario,
                 descripcion: array[index].descripcion,
-                admin: array[index].admin
+                admin: array[index].admin,
+
+                token: this.token
               }
+              console.log('llega puto cagon')
               this.dataShare.changeUser(objUsuario);
+              this.editarUsuario(objUsuario)
               return;
             }
           }
         });
       })
     );
-
   }
 
   nuevoUsuarioPlogger( usuario: UsuarioPloggerModel ) {
@@ -165,6 +175,8 @@ export class UsuarioPloggerService {
   }
 
   editarUsuario (usr) {
+    console.log('sdfghjklkjhgfdgkjhgfd')
+    console.log(this.usuario);
     const usrTemp = {
       ...usr
     };

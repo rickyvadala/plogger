@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { EventService } from 'src/app/services/event.service';
 import { AlertController } from '@ionic/angular';
+import { LoadingService } from '../../services/loading.service'
 
 @Component({
   selector: 'app-eventos-reportados',
@@ -17,6 +18,7 @@ export class EventosReportadosComponent implements OnInit {
 
   constructor( public router: Router,
               private eventService: EventService,
+              public loadingService: LoadingService,
               private alertCtrl: AlertController) { }
 
   ngOnInit() {
@@ -24,9 +26,11 @@ export class EventosReportadosComponent implements OnInit {
   }
 
   cargarPublicacionesReportadas(){
+    this.loadingService.presentLoading();
     this.suscripcion=this.eventService.obtenerEventosReportados()
     .subscribe(resp => {
       this.eventos = resp; 
+      this.loadingService.dismissLoading();
       }  
     );  
   }

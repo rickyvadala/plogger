@@ -18,6 +18,8 @@ import { Router } from '@angular/router';
 import { PopLikesComponent } from '../pop-likes/pop-likes.component';
 import { EventoComponent } from '../evento/evento.component';
 import { PopPublicacionesReportComponent } from '../pop-publicaciones-report/pop-publicaciones-report.component';
+import { notificationPushService } from '../../services/notificationPush.service';
+import { LoadingService } from '../../services/loading.service'
 
 @Component({
   selector: 'app-publicacion',
@@ -85,7 +87,9 @@ export class PublicacionComponent implements OnInit, AfterViewChecked, OnDestroy
               private dataShare: DataShareService,
               public camera: Camera,
               public router: Router,
-              private pickerController: PickerController
+              public notificationPushService : notificationPushService,
+              private pickerController: PickerController,
+              public loadingService: LoadingService,
               ) { }
   ngOnInit() {
     this.dataShare.currentMessage.subscribe( mensaje => this.popClick = mensaje);
@@ -166,6 +170,7 @@ export class PublicacionComponent implements OnInit, AfterViewChecked, OnDestroy
 
   cargarPublicacionesPerfil(){ 
     let UID = this.usuario.uid;
+    this.loadingService.presentLoading();
 
     this.suscripcion=this.publicacionService.obtenerPublicacionesPerfil(UID)
     .subscribe((resp: any) => {
@@ -173,6 +178,8 @@ export class PublicacionComponent implements OnInit, AfterViewChecked, OnDestroy
       this.publicacionesAll = resp
       this.publicaciones.push(...this.publicacionesAll.splice(0,5)); 
       this.cantPosts = cant;
+      this.loadingService.dismissLoading();
+
       // this.publicaciones.forEach(p => {
         
       //   if(p.evento) {
@@ -187,11 +194,13 @@ export class PublicacionComponent implements OnInit, AfterViewChecked, OnDestroy
   }
 
   cargarPublicacionesHome(){
+    this.loadingService.presentLoading();
     this.suscripcion=this.publicacionService.obtenerPublicacionesHome()
     .subscribe(resp => {
       this.publicacionesAll = resp
       this.publicaciones.push(...this.publicacionesAll.splice(0,5)); 
-      }  
+      this.loadingService.dismissLoading();  
+    }  
     );  
   }
 
@@ -429,9 +438,13 @@ export class PublicacionComponent implements OnInit, AfterViewChecked, OnDestroy
   }
 
   like(i,publicacion:PublicacionModel) {
+    console.log(publicacion)
     this.publicacionService.likePost(publicacion).subscribe( resp => {
       if (this.publicaciones[i].like===undefined) {
         this.publicaciones[i].like=[this.usuario.uid];
+        let descripcion ="A " +  this.usuario.nombre + " " + " le gustó tu publicacion";
+        // this.notificationPushService.sendNotification(descripcion, this.key).subscribe(resp =>{
+        // });
       } else {
         this.publicaciones[i].like.unshift(this.usuario.uid);
       }

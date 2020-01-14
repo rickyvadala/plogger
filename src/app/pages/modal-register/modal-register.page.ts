@@ -5,7 +5,7 @@ import { UsuarioPloggerModel } from '../../models/usuario-plogger.model';
 import { NgForm } from '@angular/forms';
 import { UsuarioPloggerService } from 'src/app/services/usuario-plogger.service';
 import { TerminosCondicionesPage } from '../terminos-condiciones/terminos-condiciones.page';
-
+import { FCM } from '@ionic-native/fcm/ngx';
 @Component({
   selector: 'app-modal-register',
   templateUrl: './modal-register.page.html',
@@ -20,11 +20,12 @@ export class ModalRegisterPage implements OnInit {
   esPersona= true;;
   requiredTipoUsu = false;
   requiredCheckBox = false;
-
+  token:string;
   constructor(private modalCtrl: ModalController,
               private router: Router,
               private authPlogger: UsuarioPloggerService,
-              public alertCtrl: AlertController) { }
+              public alertCtrl: AlertController,
+              public FCM: FCM) { }
 
 
 
@@ -95,7 +96,9 @@ export class ModalRegisterPage implements OnInit {
   onSubmitTemplate(form: NgForm) {
 
     if ( form.invalid ) { return; }
-
+    this.FCM.getToken().then(token => {
+      this.token = token
+    })
     this.authPlogger.nuevoUsuarioPlogger(this.usuario)
     .subscribe( (resp: any) => {
       let mail = this.usuario.email;
@@ -110,7 +113,8 @@ export class ModalRegisterPage implements OnInit {
         tipoInicio: 'p',
         tipoUsuario: this.tipoUsuario,
         mail: mail,
-        admin: false
+        admin: false,
+        token: this.token
       };
       this.authPlogger.crearPerfil(usr)
       .subscribe();

@@ -16,6 +16,8 @@ import { PerfilUsuarioModel } from 'src/app/models/perfil-usuario.model';
 import { ComentarioModel } from 'src/app/models/comentario.model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EventService } from 'src/app/services/event.service';
+import { LoadingService } from '../../services/loading.service'
+
 
 @Component({
   selector: 'app-publicacion-evento',
@@ -65,6 +67,7 @@ export class PublicacionEventoComponent implements OnInit {
               public camera: Camera,
               public router: Router,
               private eventService: EventService,
+              public loadingService: LoadingService,
               public route: ActivatedRoute
               ) {
 
@@ -120,11 +123,14 @@ export class PublicacionEventoComponent implements OnInit {
 
 
   cargarPublicacionesEvento(){
+    this.loadingService.presentLoading();
+
     this.suscripcion=this.eventService.obtenerEventos()
     .subscribe(resp => {
       let evento = resp.filter(e => e.id == this.eid );
       this.publicaciones = evento[0].publicaciones;
-      }  
+      this.loadingService.dismissLoading();  
+    }  
     );  
   }
 

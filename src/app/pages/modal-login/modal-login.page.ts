@@ -6,13 +6,14 @@ import { UsuarioPloggerService } from 'src/app/services/usuario-plogger.service'
 import { NgForm } from '@angular/forms';
 import { UsuarioPloggerModel } from 'src/app/models/usuario-plogger.model';
 
-
 @Component({
   selector: 'app-modal-login',
   templateUrl: './modal-login.page.html',
   styleUrls: ['./modal-login.page.scss'],
 })
+
 export class ModalLoginPage implements OnInit {
+  token:string;
 
  usuario: UsuarioPloggerModel;
 
@@ -137,7 +138,7 @@ export class ModalLoginPage implements OnInit {
   ngOnInit() {
     this.usuario = new UsuarioPloggerModel();
     this.usuario = {
-      email: 'ricky@gmail.com',
+      email: 'coco1@hotmail.com',
       password: '12345678'
     };
   }
@@ -147,11 +148,11 @@ export class ModalLoginPage implements OnInit {
   }
 
   login(form: NgForm) {
-
     if (form.invalid) { return; }
-
     this.authPlogger.login(this.usuario)
+
     .subscribe( resp => {
+     
       this.modalCtrl.dismiss();
       this.router.navigate(['/tabs/home']);
     }, (err) => {

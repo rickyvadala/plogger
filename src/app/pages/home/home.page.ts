@@ -5,7 +5,11 @@ import { SearchService } from '../../services/search.service';
 import { Router } from '@angular/router';
 
 //Send notifications push FCM
-//import { FCM } from '@ionic-native/fcm/ngx';
+import { FCM } from '@ionic-native/fcm/ngx';
+import { notificationPushService } from '../../services/notificationPush.service';
+import { PerfilUsuarioModel } from 'src/app/models/perfil-usuario.model';
+import { UsuarioPloggerService } from 'src/app/services/usuario-plogger.service';
+import { DataShareService } from 'src/app/services/data-share.service';
 
 
 @Component({
@@ -20,19 +24,33 @@ export class HomePage implements OnInit {
 
   public selected: string[] = [];
   primerIngreso = true;
+  token:string;
 
 
   constructor( public searchService: SearchService,
-                //public FCM: FCM,
-                public router: Router) {     
-  
+                public FCM: FCM,
+                public router: Router,
+                public notificationPushService : notificationPushService,
+                private authPlogger: UsuarioPloggerService,
+                private dataShare: DataShareService
+                ) {     
   }
 
   ngOnInit() {
-    // this.FCM.getToken().then(token => {
-    //   console.log(token);
+
+    // this.dataShare.currentUser.subscribe( usuario => {
+    //   console.log('----------------');
+    //   console.log(usuario);
     // });
     this.primerIngreso = true;
+
+    // this.FCM.getToken().then(token => {
+    //   this.token = token
+    // })
+    // const usuario: PerfilUsuarioModel ={
+    //   token: this.token
+    // }
+    // this.authPlogger.editarUsuario(usuario);
   }
 
   ionViewWillEnter(){
