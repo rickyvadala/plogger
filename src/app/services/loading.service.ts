@@ -18,9 +18,9 @@ export class LoadingService {
             this.loading = null;
         }
         this.loading = await this.loadingController.create({
-            spinner: "circles",
-            translucent: false,
-            cssClass: 'danger'
+            spinner: "crescent",
+            translucent: true,
+            cssClass: 'my-loading-class',
         });
         await this.loading.present();
     }

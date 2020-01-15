@@ -52,3 +52,18 @@
 ion-label {
     font-size: 15px;
 }
+
+ion-loading.my-loading-class {
+    .loading-wrapper {
+      background: transparent;
+      box-shadow: none;
+      
+    }
+  }
+
+  ion-loading.my-loading-class {
+    .sc-ion-loading-md {
+      background: transparent;
+      box-shadow: none;
+    }
+  }

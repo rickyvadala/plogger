@@ -10,6 +10,7 @@ import { PublicacionModel } from 'src/app/models/publicacion.model';
 import { PopPublicacionesReportComponent } from '../pop-publicaciones-report/pop-publicaciones-report.component';
 import { PublicacionesService } from 'src/app/services/publicaciones.service';
 import { SearchTypeEventService } from 'src/app/services/search-type-event.service';
+import { LoadingService } from '../../services/loading.service'
 
 
 @Component({
@@ -47,7 +48,8 @@ export class EventoComponent implements OnInit {
               private dataShare: DataShareService,
               private popoverCtrl: PopoverController,
               private alertCtrl: AlertController,
-              private pickerController: PickerController               ) {
+              public loadingService: LoadingService,
+              private pickerController: PickerController) {
    }
 
   ngOnInit() {
@@ -64,13 +66,16 @@ export class EventoComponent implements OnInit {
   }
 
   cargarEventos() {
+  this.loadingService.presentLoading();
   this.subscripcion =  this.eventService.obtenerEventos()
     .subscribe(respuesta => {
       this.eventos = respuesta;
+      this.loadingService.dismissLoading();
     })
   }
 
   eventosFinalizados(){
+    this.loadingService.presentLoading();
     let eventosMiUbicacion = [];
     let otrosEventos = [];
     this.eventService.obtenerEventosFinalizados().subscribe(resp => {
@@ -86,11 +91,13 @@ export class EventoComponent implements OnInit {
       eventosMiUbicacion = eventosMiUbicacion.sort((a,b) => a.orderDate- b.orderDate);
       otrosEventos = otrosEventos.sort((a,b) => a.orderDate- b.orderDate);
       this.eventos = eventosMiUbicacion.concat(otrosEventos);
+      this.loadingService.dismissLoading();
    });
   }
 
 
   eventosEnProceso() {
+    this.loadingService.presentLoading();
     let eventosMiUbicacion = [];
     let otrosEventos = [];
     this.eventService.obtenerEventosEnProceso().subscribe(resp => {
@@ -106,10 +113,12 @@ export class EventoComponent implements OnInit {
       eventosMiUbicacion = eventosMiUbicacion.sort((a,b) => a.orderDate- b.orderDate);
       otrosEventos = otrosEventos.sort((a,b) => a.orderDate- b.orderDate);
       this.eventos = eventosMiUbicacion.concat(otrosEventos);
+      this.loadingService.dismissLoading();
      });
   }
 
   obtenerMisEventos(){
+    this.loadingService.presentLoading();
     let eventosMiUbicacion = [];
     let otrosEventos = [];
    this.eventService.obtenerMisEventos().subscribe(resp => {
@@ -125,6 +134,7 @@ export class EventoComponent implements OnInit {
       eventosMiUbicacion = eventosMiUbicacion.sort((a,b) => a.orderDate- b.orderDate);
       otrosEventos = otrosEventos.sort((a,b) => a.orderDate- b.orderDate);
       this.eventos = eventosMiUbicacion.concat(otrosEventos);
+      this.loadingService.dismissLoading();
     });
   }
 
