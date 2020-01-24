@@ -5,6 +5,8 @@ import { map } from 'rxjs/operators';
 import { DataShareService } from './data-share.service';
 import { PerfilUsuarioModel } from '../models/perfil-usuario.model';
 import { ComentarioModel } from '../models/comentario.model';
+import { notificationPushService } from '../services/notificationPush.service';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -16,9 +18,12 @@ export class PublicacionesService{
   publicaciones:any[]=[];
   cambioNombre: boolean = false;
 
+  perfilOther:PerfilUsuarioModel = null;
+
 
   constructor(private http:HttpClient,
-              private dataShare: DataShareService
+              private dataShare: DataShareService,
+              public notificationPushService: notificationPushService
               ) { 
                 this.dataShare.currentUser.subscribe( usuario => this.usuario = usuario);
               }
@@ -156,7 +161,10 @@ export class PublicacionesService{
   }
 
   comentarPost(publicacion:PublicacionModel, comentario:ComentarioModel){
-    return this.http.post(`${ this.urlABM }/publicacion/${ publicacion.pid }/comentarios.json`,comentario); 
+    return this.http.post(`${ this.urlABM }/publicacion/${ publicacion.pid }/comentarios.json`,comentario).subscribe(x => {
+       this.getUsuarioParaNotificacion(publicacion.uid, true);
+       return x;
+    }); 
   }
 
   borrarComentarioPost(publicacion:PublicacionModel, comentario:ComentarioModel) {
@@ -181,10 +189,12 @@ export class PublicacionesService{
         }
         likeArray = x;
         likeArray.push(this.usuario.uid);
+        this.getUsuarioParaNotificacion(publicacion.uid, false);
         return this.http.put(`${ this.urlABM }/publicacion/${ publicacion.pid }/like.json`,likeArray).subscribe();
       } else {
         //aca viene cuando es el primer like de una publicacion
         likeArray = [this.usuario.uid]; 
+        this.getUsuarioParaNotificacion(publicacion.uid, false);
         return this.http.put(`${ this.urlABM }/publicacion/${ publicacion.pid }/like.json`,likeArray).subscribe();    
       }
     }));
@@ -300,6 +310,28 @@ private crearArregloPerfilOther(resp){
           });
         }
       }));
-    } 
+    }
+
+    mandarNotificacionLike (token) {
+      let descripcion = "A " + this.usuario.nombre + " le gustó tu publicación";
+      this.notificationPushService.sendNotification(descripcion, token).subscribe(resp =>{});
+    }
+
+    mandarNotificacionComentario (token) {
+      let descripcion = this.usuario.nombre + " comentó tu publicación";
+      this.notificationPushService.sendNotification(descripcion, token).subscribe(resp =>{});
+    }
+    
+    getUsuarioParaNotificacion (uid, flag) {
+      this.http.get(`${ this.urlABM }/perfil/${ uid }.json`).subscribe((x:any) => {
+        this.perfilOther = x
+        if (flag) {
+          this.mandarNotificacionComentario(x.token)
+        } else {
+          this.mandarNotificacionLike(x.token)
+        }
+      });
+       
+    }
 
 }

@@ -105,15 +105,13 @@ export class ProfileOtherPage implements OnInit {
       if (this.usuario.seguidos===undefined) {
         this.usuario.seguidos=[this.keyOther];
         this.profileOther[0].seguidores=[this.usuario.key];
-        let descripcion = this.usuario.nombre + " " + "comenzó a seguirte";
-        this.notificationPushService.sendNotification(descripcion, this.key).subscribe(resp =>{
-        });
       } else {
         this.usuario.seguidos.unshift(this.keyOther);
         this.profileOther[0].seguidores.push(this.usuario.key);
       }
       this.cantSeguidores=this.cantSeguidores+1;
-
+      let descripcion = this.usuario.nombre + " " + "comenzó a seguirte";
+      this.notificationPushService.sendNotification(descripcion, this.key).subscribe(resp =>{console.log(this.key)});
       return;
     });
   }
