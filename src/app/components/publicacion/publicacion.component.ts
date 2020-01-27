@@ -396,7 +396,8 @@ export class PublicacionComponent implements OnInit, AfterViewChecked, OnDestroy
           this.publicacionService.comentarPost(publicacion,comentario).subscribe( (resp:any) => {
             comentario.cid=resp.name;
             input.value="";
-            this.publicaciones[i].comentarios.unshift(comentario);     
+            this.publicacionService.getUsuarioParaNotificacion(this.publicaciones[i].uid, true);
+            this.publicaciones[i].comentarios.unshift(comentario);
           });
           return;
         }          

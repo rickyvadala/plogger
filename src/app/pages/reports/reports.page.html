@@ -9,34 +9,117 @@
 </ion-header>
 
 <ion-content>
+    <ion-segment mode="md" (ionChange)="segmentChanged($event)" color="gris1">
+        <ion-segment-button value="estadisticas">
+            <ion-icon mode="md" name="globe"></ion-icon>
+            <ion-label>Estadisticas</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="reportes">
+            <ion-icon name="ribbon"></ion-icon>
+            <ion-label>Reportes</ion-label>
+        </ion-segment-button>
+    </ion-segment>
 
-    <tr>
-        <h6 class="alinear">Eventos por cada ciudad</h6>
-        <ngx-charts-bar-vertical-2d [view]="view" [results]="multi" [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel">
-        </ngx-charts-bar-vertical-2d>
-    </tr>
-    <tr>
-        <h6 class="alinear">Personas por sexo </h6>
-        <canvas *ngIf="mostrarSexo" baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend">
-        </canvas>
-    </tr>
-    <br>
-    <tr>
-        <h6 class="alinear">Eventos por tipo de eventos</h6>
-        <canvas *ngIf="mostrarEventosTipo" baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType">
-      </canvas>
-    </tr>
-    <tr>
-        <h6 class="alinear">Eventos finalizados</h6>
-        <canvas *ngIf="mostrarEventosFinalizados" baseChart [data]="pieChartDataEventosFinal" [labels]="pieChartLabelsEventosFinal" [chartType]="pieChartTypeEventosFinal" [options]="pieChartOptionsEventosFinal" [plugins]="pieChartPluginsEventosFinal" [legend]="pieChartLegendEventosFinal">
-        </canvas>
-    </tr>
-    <br>
-    <tr>
-        <h6 class="alinear">Eventos según creación</h6>
-        <canvas *ngIf="eventosMesReady" baseChart width="400" height="400" [datasets]="lineChartData" [labels]="lineChartLabels" [colors]="lineChartColors" [legend]="lineChartLegend" [options]="pieChartOptions2" [chartType]="lineChartType" [plugins]="lineChartPlugins">
-        </canvas>
-    </tr>
+    <div *ngIf="estadisticasFlag">
+        <tr>
+            <h6 class="alinear">Eventos por cada ciudad</h6>
+            <ngx-charts-bar-vertical-2d [view]="view" [results]="multi" [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel">
+            </ngx-charts-bar-vertical-2d>
+        </tr>
+        <tr>
+            <h6 class="alinear">Personas por sexo </h6>
+            <canvas *ngIf="mostrarSexo" baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend">
+            </canvas>
+        </tr>
+        <br>
+        <tr>
+            <h6 class="alinear">Eventos por tipo de eventos</h6>
+            <canvas *ngIf="mostrarEventosTipo" baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType">
+            </canvas>
+        </tr>
+        <tr>
+            <h6 class="alinear">Eventos finalizados</h6>
+            <canvas *ngIf="mostrarEventosFinalizados" baseChart [data]="pieChartDataEventosFinal" [labels]="pieChartLabelsEventosFinal" [chartType]="pieChartTypeEventosFinal" [options]="pieChartOptionsEventosFinal" [plugins]="pieChartPluginsEventosFinal" [legend]="pieChartLegendEventosFinal">
+            </canvas>
+        </tr>
+        <br>
+        <tr>
+            <h6 class="alinear">Eventos según creación</h6>
+            <canvas *ngIf="eventosMesReady" baseChart width="400" height="400" [datasets]="lineChartData" [labels]="lineChartLabels" [colors]="lineChartColors" [legend]="lineChartLegend" [options]="pieChartOptions2" [chartType]="lineChartType" [plugins]="lineChartPlugins">
+            </canvas>
+        </tr>
+    </div>
 
+    <div *ngIf="reportesFlag">
+        <br>
+        <!-- Reporte 1 -->
+
+        <!-- <ion-button *ngIf="user.admin" color="spot" (click)="cantMgYComentariosPublicacionReport()" expand="full" fill="outline">Publicaciones con cant Mg y comentarios</ion-button> -->
+        <ion-button color="spot" (click)="cantMgYComentariosPublicacionReport()" expand="full" fill="outline">Publicaciones con cant Mg y comentarios</ion-button>
+        <ion-progress-bar *ngIf="loadingcantMgYComentarios" color="spot" type="indeterminate"></ion-progress-bar>
+        <div class="table-containter" *ngIf="cantMgYComentariosReady">
+            <table>
+                <tr>
+                    <th>Usuario</th>
+                    <th>Fecha</th>
+                    <th>Cantidad MG</th>
+                    <th>Cantidad comentarios</th>
+                </tr>
+                <tr *ngFor="let publicacion of cantMgYComentariosPublicacionRows">
+                    <td>{{ publicacion.usuario }}</td>
+                    <td>{{ publicacion.fecha | date: 'dd/MM/yyyy HH:mm'}}</td>
+                    <td>{{ publicacion.cantMg }}</td>
+                    <td>{{ publicacion.cantComentarios }}</td>
+                </tr>
+            </table>
+        </div>
+        <br>
+
+        <!-- Reporte 2 -->
+
+        <!-- <ion-button *ngIf="user.admin" color="spot" (click)="cantSeguidosYSeguidoresPerfilReporte()" expand="full" fill="outline">Seguidos y seguidores por perfil</ion-button> -->
+        <ion-button color="spot" (click)="cantSeguidosYSeguidoresPerfilReporte()" expand="full" fill="outline">Seguidos y seguidores por perfil</ion-button>
+        <ion-progress-bar *ngIf="loadingcantSeguidoresYSeguidos" color="spot" type="indeterminate"></ion-progress-bar>
+        <div class="table-containter" *ngIf="cantSeguidoresYSeguidosReady">
+            <table>
+                <tr>
+                    <th>Usuario</th>
+                    <th>Cantidad seguidores</th>
+                    <th>Cantidad seguidos</th>
+                    <th>Cantidad publicaciones</th>
+                </tr>
+                <tr *ngFor="let perfil of cantSeguidoresYSeguidosPerfilRows">
+                    <td>{{ perfil.usuario }}</td>
+                    <td>{{ perfil.cantSeguidores}}</td>
+                    <td>{{ perfil.cantSeguidores }}</td>
+                    <td>{{ perfil.cantPublicaciones }}</td>
+                </tr>
+            </table>
+        </div>
+        <br>
+
+        <!-- Reporte 3 -->
+
+        <!-- <ion-button *ngIf="user.admin" color="spot" (click)="cantSeguidosYSeguidoresPerfilReporte()" expand="full" fill="outline">Seguidos y seguidores por perfil</ion-button> -->
+        <ion-button color="spot" (click)="eventosConAsistireReporte()" expand="full" fill="outline">Asistire por eventos</ion-button>
+        <ion-progress-bar *ngIf="loadingEventosInfo" color="spot" type="indeterminate"></ion-progress-bar>
+        <div class="table-containter" *ngIf="infoEventosReady">
+            <table>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Fecha</th>
+                    <th>Ubicación</th>
+                    <th>Cantidad asistiré</th>
+                </tr>
+                <tr *ngFor="let evento of cantAsistireYInfoRows">
+                    <td>{{ evento.nombre }}</td>
+                    <td>{{ evento.fecha | date: 'dd/MM/yyyy HH:mm'}}</td>
+                    <td>{{ evento.ubicacion }}</td>
+                    <td>{{ evento.asistire }}</td>
+                </tr>
+            </table>
+        </div>
+        <br>
+    </div>
 
 </ion-content>

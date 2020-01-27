@@ -7,3 +7,24 @@
     display: block;
     margin-bottom: 40px;
 }
+
+.table-containter {
+    padding: 10px;
+}
+
+table {
+    font-family: Arial, Helvetica, sans-serif;
+    border: 2px solid gray;
+}
+
+td {
+    text-align: center;
+    margin-top: 5px;
+    white-space: normal;
+}
+
+tr {
+    padding-top: 7px;
+    margin-bottom: 7px;
+    border: 1px solid gray;
+}

@@ -26,7 +26,7 @@ const routes: Routes = [
     ChartsModule,
     NgxChartsModule,
     ComponentsModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
   ],
   declarations: [ReportsPage]
 })

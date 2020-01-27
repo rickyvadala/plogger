@@ -82,10 +82,10 @@ export class PublicacionesService{
     return publicaciones; 
   }
 
-  obtenerPublicacionesHome(){
+  obtenerPublicacionesHome(reporte?:boolean){
     return this.http.get(`${ this.urlABM }/publicacion.json`)
     .pipe(
-      map( resp=>this.crearArregloHome(resp) )
+      map( resp=>this.crearArregloHome(resp, reporte) )
     );
   }
 
@@ -116,12 +116,12 @@ export class PublicacionesService{
     return publicaciones;
   }
 
-  private crearArregloHome(resp){
+  private crearArregloHome(resp, reporte?: boolean){
     if (resp===null||resp===undefined) {return [];}
     //Armo el vector iterable para las publicaciones
     const publicaciones: PublicacionModel[] = [];
-    Object.keys(resp).forEach(key =>{
-        if (this.usuario.seguidos && this.usuario.seguidos.includes(resp[key].uid) || resp[key].uid === this.usuario.key) {
+    if( reporte) {
+      Object.keys(resp).forEach(key =>{
         let publicacion: PublicacionModel = resp[key];
         publicacion.pid = key;
 
@@ -142,8 +142,35 @@ export class PublicacionesService{
         //Aca termina la parte de comentarios
 
         publicaciones.unshift(publicacion);
-        }
     });
+
+    } else {
+
+      Object.keys(resp).forEach(key =>{
+          if (this.usuario.seguidos && this.usuario.seguidos.includes(resp[key].uid) || resp[key].uid === this.usuario.key) {
+          let publicacion: PublicacionModel = resp[key];
+          publicacion.pid = key;
+  
+          //Armo el vector iterable para los comentarios de las publicaciones
+          const comentarios: ComentarioModel[] = [];
+          var x = resp[key].comentarios;
+          if (x === undefined || x === null) {
+            publicacion.comentarios = [];
+          }
+          else {
+            Object.keys(resp[key].comentarios).forEach(keyComentario =>{
+              let comentario: ComentarioModel = resp[key].comentarios[keyComentario];
+              comentario.cid = keyComentario.toString();
+              comentarios.unshift(comentario);
+            });
+          }
+          publicacion.comentarios = comentarios;
+          //Aca termina la parte de comentarios
+  
+          publicaciones.unshift(publicacion);
+          }
+      });
+    }
     return publicaciones;
   }
 
@@ -161,10 +188,7 @@ export class PublicacionesService{
   }
 
   comentarPost(publicacion:PublicacionModel, comentario:ComentarioModel){
-    return this.http.post(`${ this.urlABM }/publicacion/${ publicacion.pid }/comentarios.json`,comentario).subscribe(x => {
-       this.getUsuarioParaNotificacion(publicacion.uid, true);
-       return x;
-    }); 
+    return this.http.post(`${ this.urlABM }/publicacion/${ publicacion.pid }/comentarios.json`,comentario);
   }
 
   borrarComentarioPost(publicacion:PublicacionModel, comentario:ComentarioModel) {
@@ -323,7 +347,7 @@ private crearArregloPerfilOther(resp){
     }
     
     getUsuarioParaNotificacion (uid, flag) {
-      this.http.get(`${ this.urlABM }/perfil/${ uid }.json`).subscribe((x:any) => {
+      return this.http.get(`${ this.urlABM }/perfil/${ uid }.json`).subscribe((x:any) => {
         this.perfilOther = x
         if (flag) {
           this.mandarNotificacionComentario(x.token)
