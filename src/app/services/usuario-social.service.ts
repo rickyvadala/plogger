@@ -106,28 +106,22 @@ export class UsuarioService {
 
 
     });
-    console.log(this.usuario);
    }
 
    logout() {
-    console.log("Metodo logout");
     this.tipoInicio = undefined;
     this.usuario.nombre = undefined;
     this.usuario = {};
     this.afAuth.auth.signOut().then(function() {
-      console.log("Cerro correctamente");
     }).catch(function(error) {
-      console.log(error);
     });
 
    }
 
    crearPerfil(user: PerfilUsuarioModel) {
-    console.log(user);
     return this.http.post(`${this.urlABM}/perfil.json`, user)
     .pipe(
       map( (resp: any) => {
-        console.log(resp);
         let nroUsuario = resp.name;
         this.usuario.key=nroUsuario;
         this.dataShare.changeUser(this.usuario);

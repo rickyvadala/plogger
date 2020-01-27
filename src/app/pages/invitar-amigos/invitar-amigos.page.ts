@@ -44,7 +44,6 @@ export class InvitarAmigosPage implements OnInit {
   
 
   invitarSeguidores(){
-    console.log(this.usuario);
     this.followService.getUserOfData(this.usuario.seguidores).subscribe( resp => {
       this.usuarios = resp;
       this.mostrarSelect = true;
@@ -68,7 +67,6 @@ export class InvitarAmigosPage implements OnInit {
     this.eventoService.obtenerInvitados(this.eid).subscribe((resp: any[]) => {
       this.listaInvitados = resp;
       this.mostrarSelect = true;
-      console.log(resp);
       if(this.listaInvitados) {
          this.obtenerUsuarios(true);
       } else {
@@ -97,7 +95,6 @@ export class InvitarAmigosPage implements OnInit {
     } else {
       this.usuarioPlogger.obtenerPerfiles().subscribe(resp => {
        this.usuarios = resp;
-       console.log(this.usuarios);
         });
     
     }

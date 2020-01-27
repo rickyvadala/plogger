@@ -38,7 +38,6 @@ export class FollowService {
           this.cargarEnSeguidores(keyOther).subscribe();
         });
       } else {
-        console.log(keyOther);
         //aca viene cuando es el primer usuario que sigue
         seguidosArray = [keyOther]; 
         return this.http.put(`${ this.urlABM }/perfil/${ this.usuario.key }/seguidos.json`,seguidosArray).subscribe(resp =>{

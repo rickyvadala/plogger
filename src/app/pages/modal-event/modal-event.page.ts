@@ -211,7 +211,6 @@ export class ModalEventPage implements OnInit, AfterViewInit {
      if( this.validarFechas(this.event.endDate, this.event.startDate)){
       this.eventServices.guardarEvento(this.event)
       .subscribe(resp => {
-        console.log(resp);
         if (resp !== null) {
           this.eventoCreadoAlert();
           this.volver();
@@ -269,9 +268,6 @@ export class ModalEventPage implements OnInit, AfterViewInit {
 
       const pictures = storage().ref(img);
       pictures.putString(this.imageURL, 'data_url');
-
-      console.log('imageUrl');
-      console.log(this.imageURL);
 
     }, (err) => {
       alert(err);

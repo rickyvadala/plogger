@@ -54,7 +54,6 @@ export class CompartirEventoPage implements OnInit {
     this.publicacion.fotoPerfil = this.usuario.foto;
     this.publicacion.fecha = (new Date()).toString()
 
-    console.log(this.publicacion);
     this.publicacionService.guardarPost(this.publicacion).subscribe(resp => {   
       this.publicacionCreada();  
       

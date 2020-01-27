@@ -54,14 +54,12 @@ export class UsuarioPloggerService {
         this.guard.guardarToken( resp['idToken'] );
         const mail = usuario.email;
         const UID = resp.localId;
-        console.log(UID);
         this.http.get(`${ this.urlABM }/perfil.json`)
         .subscribe( resp => {
           const array: any[] = Object.values(resp);
           const arrayKeys: any[] = Object.keys(resp);
           for (let index = 0; index < array.length; index++) {
             if (array[index].uid === UID) {
-              console.log('lo encontro');
               //Se crea el objeto usuario con mail y nroUsuario
               let nroUsuario = arrayKeys[index];
               let objUsuario: PerfilUsuarioModel = {
@@ -83,7 +81,6 @@ export class UsuarioPloggerService {
                 token: this.token,
                 ubicacion: array[index].ubicacion
               }
-              console.log('llega puto cagon')
               this.dataShare.changeUser(objUsuario);
               this.editarUsuario(objUsuario)
               return;
@@ -127,7 +124,6 @@ export class UsuarioPloggerService {
   // aca creamos el perfil del usuario en su primer login yo que se
 
   crearPerfil(user: PerfilUsuarioModel) {
-    console.log(user);
     return this.http.post(`${this.urlABM}/perfil.json`, user)
     .pipe(
       map( (resp: any) => {
@@ -175,8 +171,6 @@ export class UsuarioPloggerService {
   }
 
   editarUsuario (usr) {
-    console.log('sdfghjklkjhgfdgkjhgfd')
-    console.log(this.usuario);
     const usrTemp = {
       ...usr
     };

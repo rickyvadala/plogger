@@ -1,6 +1,6 @@
 <ion-header>
     <ion-toolbar mode="ios" color="plogger">
-        <ion-title>Estadísticas</ion-title>
+        <ion-title>{{ user.admin? 'Reportes y Estadisticas': 'Estadisticas' }}</ion-title>
         <ion-buttons slot="start">
             <ion-back-button></ion-back-button>
         </ion-buttons>
@@ -14,7 +14,7 @@
             <ion-icon mode="md" name="globe"></ion-icon>
             <ion-label>Estadisticas</ion-label>
         </ion-segment-button>
-        <ion-segment-button value="reportes">
+        <ion-segment-button *ngIf="user.admin" value="reportes">
             <ion-icon name="ribbon"></ion-icon>
             <ion-label>Reportes</ion-label>
         </ion-segment-button>
@@ -55,7 +55,7 @@
         <!-- Reporte 1 -->
 
         <!-- <ion-button *ngIf="user.admin" color="spot" (click)="cantMgYComentariosPublicacionReport()" expand="full" fill="outline">Publicaciones con cant Mg y comentarios</ion-button> -->
-        <ion-button color="spot" (click)="cantMgYComentariosPublicacionReport()" expand="full" fill="outline">Publicaciones con cant Mg y comentarios</ion-button>
+        <ion-button color="spot" (click)="cantMgYComentariosPublicacionReport()" expand="full" fill="outline">Me gustas y comentarios en publicaciones</ion-button>
         <ion-progress-bar *ngIf="loadingcantMgYComentarios" color="spot" type="indeterminate"></ion-progress-bar>
         <div class="table-containter" *ngIf="cantMgYComentariosReady">
             <table>
@@ -78,7 +78,7 @@
         <!-- Reporte 2 -->
 
         <!-- <ion-button *ngIf="user.admin" color="spot" (click)="cantSeguidosYSeguidoresPerfilReporte()" expand="full" fill="outline">Seguidos y seguidores por perfil</ion-button> -->
-        <ion-button color="spot" (click)="cantSeguidosYSeguidoresPerfilReporte()" expand="full" fill="outline">Seguidos y seguidores por perfil</ion-button>
+        <ion-button color="spot" (click)="cantSeguidosYSeguidoresPerfilReporte()" expand="full" fill="outline">Seguidos y seguidores por usuario</ion-button>
         <ion-progress-bar *ngIf="loadingcantSeguidoresYSeguidos" color="spot" type="indeterminate"></ion-progress-bar>
         <div class="table-containter" *ngIf="cantSeguidoresYSeguidosReady">
             <table>
@@ -101,7 +101,7 @@
         <!-- Reporte 3 -->
 
         <!-- <ion-button *ngIf="user.admin" color="spot" (click)="cantSeguidosYSeguidoresPerfilReporte()" expand="full" fill="outline">Seguidos y seguidores por perfil</ion-button> -->
-        <ion-button color="spot" (click)="eventosConAsistireReporte()" expand="full" fill="outline">Asistire por eventos</ion-button>
+        <ion-button color="spot" (click)="eventosConAsistireReporte()" expand="full" fill="outline">Informacion de eventos</ion-button>
         <ion-progress-bar *ngIf="loadingEventosInfo" color="spot" type="indeterminate"></ion-progress-bar>
         <div class="table-containter" *ngIf="infoEventosReady">
             <table>

@@ -56,7 +56,6 @@ export class EventoComponent implements OnInit {
     this.dataShare.currentMessage.subscribe( mensaje => this.popClick = mensaje);
     this.dataShare.currentUser.subscribe( usuario => {
       this.usuario = usuario
-      console.log(this.usuario);
     });
     //this.cargarEventos();
   }

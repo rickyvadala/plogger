@@ -41,7 +41,6 @@ export class ModalRegisterPage implements OnInit {
           {
             text: 'Ok',
             handler: (blah) => {
-              console.log('Boton ok');
               this.comboUbicacionService.provinciaSeleccionada = null;
 
             }
@@ -61,7 +60,6 @@ export class ModalRegisterPage implements OnInit {
             {
               text: 'Ok',
               handler: (blah) => {
-                console.log('Boton ok');
   
               }
             }
@@ -77,7 +75,6 @@ export class ModalRegisterPage implements OnInit {
             {
               text: 'Ok',
               handler: (blah) => {
-                console.log('Boton ok')
               }
             }
           ]
@@ -132,7 +129,6 @@ export class ModalRegisterPage implements OnInit {
       this.modalCtrl.dismiss();
       this.router.navigate(['/tabs']);
     }, (err) => {
-      console.log(err.status);
       this.registroIncorrecto(err.status);
     });
   }

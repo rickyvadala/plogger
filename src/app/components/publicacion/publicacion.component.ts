@@ -102,7 +102,6 @@ export class PublicacionComponent implements OnInit, AfterViewChecked, OnDestroy
   }
 
   ngOnDestroy() {
-    console.log("destroy publicaciones");
   }
 
   ngAfterViewChecked(): void {
@@ -446,7 +445,6 @@ export class PublicacionComponent implements OnInit, AfterViewChecked, OnDestroy
   }
 
   like(i,publicacion:PublicacionModel) {
-    console.log(publicacion)
     this.publicacionService.likePost(publicacion).subscribe( resp => {
       if (this.publicaciones[i].like===undefined) {
         this.publicaciones[i].like=[this.usuario.uid];
@@ -591,7 +589,6 @@ export class PublicacionComponent implements OnInit, AfterViewChecked, OnDestroy
     this.publicacion.foto = this.imageURL;
 
   } catch (e) {
-    console.log(e); 
   }
 }
 
@@ -611,7 +608,6 @@ export class PublicacionComponent implements OnInit, AfterViewChecked, OnDestroy
 
   goToProfileOther(i) {
     let otherProfileUid = this.publicaciones[i].uid;
-    console.log(otherProfileUid);
     if(otherProfileUid === this.usuario.key){ 
       this.router.navigate(['/tabs/profile']);
       // return;

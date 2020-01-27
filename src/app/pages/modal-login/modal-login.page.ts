@@ -88,7 +88,6 @@ export class ModalLoginPage implements OnInit {
             return this.authPlogger.sendPasswordResetEmail(data.name1).then(resp => {
               this.emailEnviado();
             }).catch( err => {
-              console.log(err);
               this.emailNoValido(err.message, err.code);
             });
             return;

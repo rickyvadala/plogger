@@ -54,7 +54,6 @@ export class CuentaPage implements OnInit {
 
   ngOnInit() {
     this.dataShare.currentUser.subscribe( usuario => this.usuario = usuario);
-    console.log(this.usuario);
     this.mostrarSegunTipoUsuario();
 
   
@@ -66,7 +65,6 @@ export class CuentaPage implements OnInit {
   }
 
     cambioFecha(event) {
-    console.log('Date', new Date(event.detail.value));
   }
 
   onSubmitTemplate(form: NgForm) {
@@ -114,9 +112,7 @@ export class CuentaPage implements OnInit {
 
   async cambiarContrasena() {
     const mail = this.usuario.mail;
-    console.log(mail);
     return await this.authPlogger.sendPasswordResetEmail(mail).then(resp => {
-      console.log(resp);
       this.emailEnviado();
   });
 }
@@ -181,7 +177,6 @@ export class CuentaPage implements OnInit {
     this.publicacionesService.obtenerPublicacionesPerfil(this.usuario.uid).subscribe(resp => {
       if(this.usuario.uid = this.usuario.key) {
         resp.forEach(publicacion => {
-          console.log(publicacion);
            publicacion.nombre = this.usuario.nombre;
            publicacion.apellido = this.usuario.apellido;
            publicacion.fotoPerfil = this.usuario.foto;
@@ -197,7 +192,7 @@ export class CuentaPage implements OnInit {
           });
            this.publicacionesService.cambioNombre = true;     
         });
-      } else { console.log('else');}
+      } 
     });
 
   }

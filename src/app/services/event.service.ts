@@ -323,7 +323,6 @@ report(event,personaQueReporta){
   // Obtiene los reportes
   return this.http.get(`${ this.urlABM }/reportes/eventos/${ event.id }.json`)
   .pipe(map((x:any) => {
-    console.log(event);
     let reportadosArray: any[]; 
     if (x!==null) {
       //aca viene cuando ya reportre a otras

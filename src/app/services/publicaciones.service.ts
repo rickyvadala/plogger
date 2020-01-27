@@ -307,7 +307,6 @@ private crearArregloPerfilOther(resp){
       // Obtiene los reportes
       return this.http.get(`${ this.urlABM }/reportes/publicacion/${ publicacion.pid }.json`)
       .pipe(map((x:any) => {
-        console.log(publicacion);
         let reportadosArray: any[]; 
         if (x!==null) {
           //aca viene cuando ya reportre a otras

@@ -26,7 +26,6 @@ export class PopFollowComponent implements OnInit {
       return
     }
     this.followService.getUserOfData(this.passedData).subscribe( resp => {
-     // console.log(resp);
       this.users=resp;
     });
   }
@@ -36,7 +35,6 @@ export class PopFollowComponent implements OnInit {
   }
 
   goToProfileOther(i) {
-    console.log(i);
     this.popoverCtrl.dismiss();
     let otherProfileUid = i;
     this.router.navigate(['/profile', otherProfileUid]);

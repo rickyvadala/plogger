@@ -26,9 +26,7 @@ export class PopLikesComponent implements OnInit {
   ngOnInit() {
     this.dataShare.currentUser.subscribe( usuario => this.usuario = usuario);
     this.passedLikes = this.navParams.get('likes');
-    console.log(this.passedLikes);
     this.publicacionesService.getUserOfLikes(this.passedLikes).subscribe( resp => {
-      console.log(resp);
       this.usersLikes=resp;
     });
   }
@@ -40,7 +38,6 @@ export class PopLikesComponent implements OnInit {
   goToProfileOther(i) {
     this.popoverCtrl.dismiss();
     let otherProfileUid = i;
-    console.log(otherProfileUid);
     if (otherProfileUid === this.usuario.key) {
       this.router.navigate(['/tabs/profile']);
      } else {

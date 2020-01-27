@@ -399,7 +399,6 @@ export class PublicacionEventoComponent implements OnInit {
     this.publicacion.foto = this.imageURL;
 
   } catch (e) {
-    console.log(e); 
   }
 }
 
@@ -417,7 +416,6 @@ export class PublicacionEventoComponent implements OnInit {
 
   goToProfileOther(i) {
     let otherProfileUid = this.publicaciones[i].uid;
-    console.log(otherProfileUid);
     if(otherProfileUid === this.usuario.uid){ 
       this.router.navigate(['/tabs/profile']);
       // return;

@@ -14,7 +14,6 @@ export class ComboUbicacionComponent implements OnInit {
     ngOnInit() {}
 
     onSelectChange(event) {
-      console.log(event.target.value);
       this.comboUbicacionService.provinciaSeleccionada = event.target.value;
     }
 

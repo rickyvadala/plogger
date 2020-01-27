@@ -80,7 +80,6 @@ export class PublicacionOthersComponent implements OnInit {
 //falta arreglar metodo comentar 
   comentar(i, publicacion:PublicacionModel){
     let elem = document.getElementsByClassName("i"+i) as HTMLCollectionOf<HTMLElement>;
-    console.log(elem)
     var x = window.location.href;
     var ubicacion = x.substring(x.lastIndexOf('/') + 1);
     for (let index = 0; index < elem.length; index++) {

@@ -28,7 +28,6 @@ export class AsistiranPage implements OnInit {
   }
 
   buscarPersonas() {
-   console.log( this.asistiranUid);
     let perfiles: any [] = []
     this.profileService.obtenerPerfiles().subscribe( resp => { 
       perfiles = resp;

@@ -51,7 +51,6 @@ export class PublicacionesReportadasComponent implements OnInit {
 
   goToProfileOther(i) {
     let otherProfileUid = this.publicaciones[i].uid;
-    console.log(otherProfileUid);
     if(otherProfileUid === this.usuario.key){ 
       this.router.navigate(['/tabs/profile']);
       // return;
