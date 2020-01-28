@@ -1,5 +1,5 @@
 import { FCM } from '@ionic-native/fcm/ngx';
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { NotificacionModel } from '../models/notificaciones.model';
@@ -13,6 +13,8 @@ urlApiFCM ='https://fcm.googleapis.com/fcm/send';
 private urlABM = 'https://plogger-437eb.firebaseio.com';
 userToken: string;
 authHeaders: HttpHeaders
+
+nuevaNotificacionEvent: EventEmitter<NotificacionModel> = new EventEmitter<NotificacionModel>()
 
 constructor(
     private http: HttpClient) { }

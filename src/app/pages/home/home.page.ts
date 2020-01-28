@@ -11,6 +11,7 @@ import { PerfilUsuarioModel } from 'src/app/models/perfil-usuario.model';
 import { UsuarioPloggerService } from 'src/app/services/usuario-plogger.service';
 import { DataShareService } from 'src/app/services/data-share.service';
 import { NotificacionModel } from 'src/app/models/notificaciones.model';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -29,6 +30,7 @@ export class HomePage implements OnInit {
   usuario: PerfilUsuarioModel;
   notificaciones: NotificacionModel[];
 
+  nuevaNotificacionSubscription: Subscription
 
   constructor(public searchService: SearchService,
     public FCM: FCM,
@@ -40,10 +42,22 @@ export class HomePage implements OnInit {
 
     this.dataShare.currentUser.subscribe(usuario => {
       this.usuario = usuario
-      this.notificationPushService.getNotifications(this.usuario.key).subscribe(resp => {
-        this.notificaciones = resp
-      })
+      this.getNotifications()
+
     });
+
+    this.nuevaNotificacionSubscription = this.notificationPushService.nuevaNotificacionEvent.subscribe((notificacion) => {
+      this.getNotifications()
+    }
+    )
+  }
+
+  getNotifications() {
+    this.notificationPushService.getNotifications(this.usuario.key).subscribe(resp => {
+      this.notificaciones = resp
+      console.log(this.notificaciones);
+    })
+
   }
 
   ngOnInit() {

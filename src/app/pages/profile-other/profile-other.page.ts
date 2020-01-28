@@ -8,6 +8,7 @@ import { PopFollowComponent } from 'src/app/components/pop-follow/pop-follow.com
 import { PopoverController } from '@ionic/angular';
 import { notificationPushService } from '../../services/notificationPush.service';
 import { NotificacionModel } from '../../models/notificaciones.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-profile-other',
@@ -28,6 +29,7 @@ export class ProfileOtherPage implements OnInit {
   usuario:PerfilUsuarioModel;
   profileOther:any[];
   key:string;
+
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -117,6 +119,7 @@ export class ProfileOtherPage implements OnInit {
       this.cantSeguidores = this.cantSeguidores+1;
       let descripcion = this.usuario.nombre + " " + "comenzó a seguirte";
       this.notificationPushService.addNotification(this.keyOther, notificacion).subscribe((resp) => {
+        this.notificationPushService.nuevaNotificacionEvent.emit(notificacion)
 
       }
       )
