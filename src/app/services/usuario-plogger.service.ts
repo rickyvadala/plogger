@@ -79,7 +79,8 @@ export class UsuarioPloggerService {
                 descripcion: array[index].descripcion,
                 admin: array[index].admin,
                 token: this.token,
-                ubicacion: array[index].ubicacion
+                ubicacion: array[index].ubicacion,
+                notificaciones: array[index].notificaciones,
               }
               this.dataShare.changeUser(objUsuario);
               this.editarUsuario(objUsuario)

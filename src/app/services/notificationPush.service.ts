@@ -1,12 +1,16 @@
 import { FCM } from '@ionic-native/fcm/ngx';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+import { NotificacionModel } from '../models/notificaciones.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class notificationPushService {
 urlApiFCM ='https://fcm.googleapis.com/fcm/send';
+
+private urlABM = 'https://plogger-437eb.firebaseio.com';
 userToken: string;
 authHeaders: HttpHeaders
 
@@ -31,4 +35,27 @@ private _setAuthHeaders() {
     this.authHeaders = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': userToken });
   }
 
+  addNotification( key: string, notificacion: NotificacionModel) {
+      return this.http.post(this.urlABM + '/perfil/' + key +  '/notificaciones.json', notificacion)
+  }
+
+  getNotifications(key: string) {
+      console.log(`${this.urlABM}/perfil/${key}/notificaciones.json`);
+      return this.http.get(`${this.urlABM}/perfil/${key}/notificaciones.json`).
+      pipe(
+          map(resp => this.crearArregloNotificaciones(resp))
+      )
+  }
+
+  private crearArregloNotificaciones(resp) {
+      if (resp===null||resp===undefined) {return [];}
+      //Armo el vector iterable para las publicaciones
+      const notificaciones: any[] = [];
+      Object.keys(resp).forEach(key =>{
+          let notificacion: any = resp[key];
+          notificacion.key=key;
+          notificaciones.unshift(notificacion);
+      });
+      return notificaciones;
+  }
 }

@@ -7,6 +7,7 @@ import { FollowService } from 'src/app/services/follow.service';
 import { PopFollowComponent } from 'src/app/components/pop-follow/pop-follow.component';
 import { PopoverController } from '@ionic/angular';
 import { notificationPushService } from '../../services/notificationPush.service';
+import { NotificacionModel } from '../../models/notificaciones.model';
 
 @Component({
   selector: 'app-profile-other',
@@ -109,9 +110,20 @@ export class ProfileOtherPage implements OnInit {
         this.usuario.seguidos.unshift(this.keyOther);
         this.profileOther[0].seguidores.push(this.usuario.key);
       }
-      this.cantSeguidores=this.cantSeguidores+1;
+      let notificacion: NotificacionModel = {
+        remitente: this.usuario.nombre + ' ' + this.usuario.apellido,
+        descripcion: 'nuevo seguidor'
+      }
+      this.cantSeguidores = this.cantSeguidores+1;
       let descripcion = this.usuario.nombre + " " + "comenzó a seguirte";
-      this.notificationPushService.sendNotification(descripcion, this.key).subscribe(resp =>{console.log(this.key)});
+      this.notificationPushService.addNotification(this.keyOther, notificacion).subscribe((resp) => {
+
+      }
+      )
+      this.notificationPushService.sendNotification(descripcion, this.key).subscribe( resp => {
+        console.log(this.key)
+      });
+      
       return;
     });
   }

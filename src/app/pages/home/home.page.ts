@@ -10,6 +10,7 @@ import { notificationPushService } from '../../services/notificationPush.service
 import { PerfilUsuarioModel } from 'src/app/models/perfil-usuario.model';
 import { UsuarioPloggerService } from 'src/app/services/usuario-plogger.service';
 import { DataShareService } from 'src/app/services/data-share.service';
+import { NotificacionModel } from 'src/app/models/notificaciones.model';
 
 
 @Component({
@@ -24,24 +25,29 @@ export class HomePage implements OnInit {
 
   public selected: string[] = [];
   primerIngreso = true;
-  token:string;
+  token: string;
+  usuario: PerfilUsuarioModel;
+  notificaciones: NotificacionModel[];
 
 
-  constructor( public searchService: SearchService,
-                public FCM: FCM,
-                public router: Router,
-                public notificationPushService : notificationPushService,
-                private authPlogger: UsuarioPloggerService,
-                private dataShare: DataShareService
-                ) {     
+  constructor(public searchService: SearchService,
+    public FCM: FCM,
+    public router: Router,
+    public notificationPushService: notificationPushService,
+    private authPlogger: UsuarioPloggerService,
+    private dataShare: DataShareService
+  ) {
+
+    this.dataShare.currentUser.subscribe(usuario => {
+      this.usuario = usuario
+      this.notificationPushService.getNotifications(this.usuario.key).subscribe(resp => {
+        this.notificaciones = resp
+      })
+    });
   }
 
   ngOnInit() {
 
-    // this.dataShare.currentUser.subscribe( usuario => {
-    //   console.log('----------------');
-    //   console.log(usuario);
-    // });
     this.primerIngreso = true;
 
     // this.FCM.getToken().then(token => {
@@ -53,12 +59,12 @@ export class HomePage implements OnInit {
     // this.authPlogger.editarUsuario(usuario);
   }
 
-  ionViewWillEnter(){
+  ionViewWillEnter() {
     if (this.primerIngreso != true) {
       this.publicaciones.ngOnInit();
     } else this.primerIngreso = false
   }
-  ionViewWillLeave (){
+  ionViewWillLeave() {
     this.publicaciones.publicaciones = [];
   }
 
@@ -66,7 +72,7 @@ export class HomePage implements OnInit {
     this.router.navigate(['/profile', item.uid]);
   }
 
-  goToChat(){
+  goToChat() {
     this.router.navigate(['/message']);
   }
 
