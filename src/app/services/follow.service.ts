@@ -119,7 +119,8 @@ export class FollowService {
               nombre: resp[key].nombre,
               apellido: resp[key].apellido,
               foto: resp[key].foto,
-              uid: key
+              uid: key,
+              key: key
             }
             usersArray.unshift(objeto);
           }

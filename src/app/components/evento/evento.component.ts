@@ -103,6 +103,7 @@ export class EventoComponent implements OnInit {
       this.eventos = resp;
       this.eventos.forEach(evento => {
         evento.orderDate = new Date(evento.startDate);
+        console.log(this.usuario);
         if(evento.ubication.toLowerCase().includes(this.usuario.ubicacion.toLowerCase())) {
           eventosMiUbicacion.push(evento);
         } else {

@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { DataShareService } from './data-share.service';
 import { PerfilUsuarioModel } from '../models/perfil-usuario.model';
 import { PublicacionModel } from '../models/publicacion.model';
+import { notificationPushService } from './notificationPush.service';
 
 
 @Injectable({
@@ -14,15 +15,18 @@ export class EventService  {
 
   private urlABM = 'https://plogger-437eb.firebaseio.com';
   usuario: PerfilUsuarioModel={};
+  perfilOther;
 
   filterFechaDesde = null;
   filterFechaHasta = null;
   filterCiudad = null;
 
   constructor(private http: HttpClient,
-              private dataShare: DataShareService) { 
+              private dataShare: DataShareService,
+              private notificationPushService: notificationPushService ) { 
   
      this.dataShare.currentUser.subscribe( usuario => this.usuario = usuario);
+
               }
               
 
@@ -185,25 +189,28 @@ agregarInvitados(eventoId, invitados) {
         let invitadosArray: any[]; 
         if (x!==null) {
           //aca viene cuando ya tiene algun evento en meInteresa
-          for (let index = 0; index < x.length; index++) {
-            invitados.forEach(invitado => {
-              if (x[index]===invitado) {
-                return;
-              }
-            });
+          // for (let index = 0; index < x.length; index++) {
+          //   invitados.forEach(invitado => {
+
+          //     if (x[index]===invitado) {
+          //       return;
+          //     }
+          //   });
             
-          }
+          // }
           invitadosArray = x;
           invitados.forEach(i => {
             invitadosArray.push(i);
-            
+            this.getUsuarioParaNotificacion(i)
           });
          
           return this.http.put(`${this.urlABM}/evento/${eventoId}/invitados.json`,invitadosArray).subscribe();
         } else {
           //aca viene cuando no tiene algun evento en meInteresa
           invitadosArray = invitados; 
+
           return this.http.put(`${this.urlABM}/evento/${eventoId}/invitados.json`,invitadosArray).subscribe();    
+        
         }
       }));
 }
@@ -404,6 +411,21 @@ private crearArregloEventoFinalizados(resp){
   });
   return eventos;
 }
-    
+
+getUsuarioParaNotificacion (uid) {
+  return this.http.get(`${ this.urlABM }/perfil/${ uid }.json`).subscribe((x:any) => {
+    this.perfilOther = x
+    this.mandarNotificacionEvento(x.token)
+  
+  });
+  
+}
+
+mandarNotificacionEvento (token) {
+  let descripcion = this.usuario.nombre + " te invito a un evento";
+  if (token) {
+    this.notificationPushService.sendNotification(descripcion, token).subscribe(resp =>{});
+  }
+}
 
 }

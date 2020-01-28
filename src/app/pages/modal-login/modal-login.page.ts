@@ -137,7 +137,7 @@ export class ModalLoginPage implements OnInit {
   ngOnInit() {
     this.usuario = new UsuarioPloggerModel();
     this.usuario = {
-      email: 'lukiparese95@hotmail.com',
+      email: 'enzoimola@hotmail.com',
       password: '12345678'
     };
   }

@@ -27,7 +27,7 @@ export class InvitarAmigosPage implements OnInit {
   checkedList:any =[];
   usuario:PerfilUsuarioModel={};
   mostrarSelect =false;
-
+  usuariosInvitados:any [] = [];
  
 
 
@@ -47,6 +47,7 @@ export class InvitarAmigosPage implements OnInit {
     this.followService.getUserOfData(this.usuario.seguidores).subscribe( resp => {
       this.usuarios = resp;
       this.mostrarSelect = true;
+      this.usuariosInvitados = resp;
      });
 
   }
@@ -55,6 +56,7 @@ export class InvitarAmigosPage implements OnInit {
     this.followService.getUserOfData(this.usuario.seguidos).subscribe( resp => {
       this.usuarios = resp;      
       this.mostrarSelect = true;
+      this.usuariosInvitados = resp;
 
      });
   }
@@ -78,6 +80,7 @@ export class InvitarAmigosPage implements OnInit {
   obtenerUsuarios(hayInvitados: boolean) {
     if (hayInvitados) {
       this.usuarioPlogger.obtenerPerfiles().subscribe(resp => {
+        
         let usuariostemp = resp;
         usuariostemp.forEach((us, index) => {
           this.listaInvitados.forEach(i => {
@@ -90,11 +93,14 @@ export class InvitarAmigosPage implements OnInit {
     
         });
         this.usuarios = usuariostemp;
+        this.usuariosInvitados = this.listaInvitados;
         });
 
     } else {
       this.usuarioPlogger.obtenerPerfiles().subscribe(resp => {
+  
        this.usuarios = resp;
+       this.usuariosInvitados = resp;
         });
     
     }
@@ -141,10 +147,16 @@ export class InvitarAmigosPage implements OnInit {
       if (this.checkedList.length > 0)  {
         this.eventoService.agregarInvitados(this.eid, this.checkedList).subscribe(resp => {
           this.amigosInvitados();
+
+          // this.eventoService.getUsuarioParaNotificacion()
+
         });
       }else {
         this.eventoService.agregarInvitados(this.eid, this.nuevaSeleccionInvitados).subscribe(resp => {
           this.amigosInvitados();
+          console.log(this.usuarios);
+
+
         });
       }
       
