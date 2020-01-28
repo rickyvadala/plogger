@@ -19,16 +19,19 @@ constructor(
 
 
 sendNotification(description: string, to: string ){
-    this._setAuthHeaders();
-    const body = {
-        "notification":{
-            "title"	: "Plogger",
-            "body": description
-            
-        },
-        "to" : to
+    if (to) {
+        this._setAuthHeaders();
+        const body = {
+            "notification":{
+                "title"	: "Plogger",
+                "body": description
+                
+            },
+            "to" : to
+        }
+        return this.http.post(this.urlApiFCM, body, {headers: this.authHeaders});
     }
-    return this.http.post(this.urlApiFCM, body, {headers: this.authHeaders});
+    return
 }
 private _setAuthHeaders() {
     const userToken = 'key=AAAA12xYLJc:APA91bE7gtZTa_FBULSnGJUmJpDqAGZWb1QA2hWp9_7Q8qTqvPjTGSfbDGbGBJ5xHgUUoCVh-6MFMN38cWSZ3Ims9uA1e3xfkKZhKxXomCKKvd2YfY-iU2jZDtzBS_qL1QFTb6ww5HBY';
