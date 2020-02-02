@@ -113,19 +113,19 @@ export class ProfileOtherPage implements OnInit {
         this.profileOther[0].seguidores.push(this.usuario.key);
       }
       let notificacion: NotificacionModel = {
+        key: this.keyOther,
         remitente: this.usuario.nombre + ' ' + this.usuario.apellido,
         descripcion: 'nuevo seguidor'
       }
       this.cantSeguidores = this.cantSeguidores+1;
       let descripcion = this.usuario.nombre + " " + "comenzó a seguirte";
-      this.notificationPushService.addNotification(this.keyOther, notificacion).subscribe((resp) => {
-        this.notificationPushService.nuevaNotificacionEvent.emit(notificacion)
+      this.notificationPushService.agregarNotificacion(notificacion).then()
 
+      if (this.profileOther[0].token) {
+        this.notificationPushService.sendNotification(descripcion, this.key).subscribe( resp => {
+          console.log(this.key)
+        });
       }
-      )
-      this.notificationPushService.sendNotification(descripcion, this.key).subscribe( resp => {
-        console.log(this.key)
-      });
       
       return;
     });

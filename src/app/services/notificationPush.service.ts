@@ -3,6 +3,7 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { NotificacionModel } from '../models/notificaciones.model';
+import { AngularFirestoreCollection, AngularFirestore } from 'angularfire2/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +13,17 @@ urlApiFCM ='https://fcm.googleapis.com/fcm/send';
 
 private urlABM = 'https://plogger-437eb.firebaseio.com';
 userToken: string;
-authHeaders: HttpHeaders
+authHeaders: HttpHeaders;
+
+private itemsCollection: AngularFirestoreCollection<NotificacionModel>;
+
+notifiaciones: NotificacionModel[];
+
 
 nuevaNotificacionEvent: EventEmitter<NotificacionModel> = new EventEmitter<NotificacionModel>()
 
 constructor(
-    private http: HttpClient) { }
+    private http: HttpClient,  private afs: AngularFirestore) { }
 
 
 sendNotification(description: string, to: string ){
@@ -40,27 +46,25 @@ private _setAuthHeaders() {
     this.authHeaders = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': userToken });
   }
 
-  addNotification( key: string, notificacion: NotificacionModel) {
-      return this.http.post(this.urlABM + '/perfil/' + key +  '/notificaciones.json', notificacion)
+  cargarNotificaciones(key: string) {
+    this.itemsCollection = this.afs.collection<NotificacionModel>(`notificaciones${key}`);
+
+    return this.itemsCollection.valueChanges().pipe(
+      map((notificaciones: NotificacionModel[]) => {
+        this.notifiaciones = notificaciones;
+      
+        return this.notifiaciones;
+      }
+      ))
   }
 
-  getNotifications(key: string) {
-      console.log(`${this.urlABM}/perfil/${key}/notificaciones.json`);
-      return this.http.get(`${this.urlABM}/perfil/${key}/notificaciones.json`).
-      pipe(
-          map(resp => this.crearArregloNotificaciones(resp))
-      )
-  }
-
-  private crearArregloNotificaciones(resp) {
-      if (resp===null||resp===undefined) {return [];}
-      //Armo el vector iterable para las publicaciones
-      const notificaciones: any[] = [];
-      Object.keys(resp).forEach(key =>{
-          let notificacion: any = resp[key];
-          notificacion.key=key;
-          notificaciones.unshift(notificacion);
-      });
-      return notificaciones;
+  agregarNotificacion(notificacion: NotificacionModel) {
+    this.itemsCollection = this.afs.collection<NotificacionModel>(`notificaciones${notificacion.key}`);
+    let data: any = {
+        key: notificacion.key,
+        descripcion: notificacion.descripcion,
+        remitente: notificacion.remitente,
+    }
+    return this.itemsCollection.add(data);
   }
 }

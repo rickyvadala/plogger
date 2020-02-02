@@ -53,9 +53,8 @@ export class HomePage implements OnInit {
   }
 
   getNotifications() {
-    this.notificationPushService.getNotifications(this.usuario.key).subscribe(resp => {
-      this.notificaciones = resp
-      console.log(this.notificaciones);
+    this.notificationPushService.cargarNotificaciones(this.usuario.key).subscribe((resp) => {
+      this.notificaciones = resp;
     })
 
   }
