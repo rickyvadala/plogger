@@ -18,6 +18,7 @@ import { PopPublicacionesReportComponent } from './pop-publicaciones-report/pop-
 import { PublicacionesReportadasComponent } from './publicaciones-reportadas/publicaciones-reportadas.component';
 import { EventosReportadosComponent } from './eventos-reportados/eventos-reportados.component';
 import { ComboUbicacionComponent } from './ubicacion-usuario/combo-ubicacion.component';
+import { PopNotificacionesComponent } from './pop-notificaciones/pop-notificaciones.component';
 
 @NgModule({
   entryComponents: [
@@ -26,7 +27,8 @@ import { ComboUbicacionComponent } from './ubicacion-usuario/combo-ubicacion.com
     PopLikesComponent,
     PopFollowComponent,
     PopPublicacionesReportComponent,
-    EventoComponent
+    EventoComponent,
+    PopNotificacionesComponent
   ],
   declarations: [
     PopProfileSettingsComponent,
@@ -41,7 +43,8 @@ import { ComboUbicacionComponent } from './ubicacion-usuario/combo-ubicacion.com
     PopPublicacionesReportComponent,
     PopLikesComponent,
     PopFollowComponent,
-    ComboUbicacionComponent
+    ComboUbicacionComponent,
+    PopNotificacionesComponent
   ],
   exports: [
     PopProfileSettingsComponent,
@@ -56,7 +59,8 @@ import { ComboUbicacionComponent } from './ubicacion-usuario/combo-ubicacion.com
     PopEventoSettingsComponent,
     PopLikesComponent,
     PopFollowComponent,
-    ComboUbicacionComponent
+    ComboUbicacionComponent,
+    PopNotificacionesComponent
   ],
   imports: [
     CommonModule,

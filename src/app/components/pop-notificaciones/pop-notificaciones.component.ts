@@ -41,5 +41,10 @@ export class PopNotificacionesComponent implements OnInit {
 
   }
 
+  goToNotification(item) {
+    console.log(item)
+    
+  }
+
 
 }

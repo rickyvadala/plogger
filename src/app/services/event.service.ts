@@ -422,9 +422,18 @@ getUsuarioParaNotificacion (uid) {
 }
 
 mandarNotificacionEvento (token) {
-  let descripcion = this.usuario.nombre + " te invito a un evento";
+  let descripcion = this.usuario.nombre + " te invitó a un evento";
+  let descripcionLista = " te invitó a un evento";
+  let notificacion = {
+    key: this.perfilOther.key,
+    descripcion: descripcionLista,
+    remitente: this.usuario.nombre + ' ' + this.usuario.apellido,
+    tipo: 'invitacionEvento',
+  }
+  this.notificationPushService.agregarNotificacion(notificacion).then()
   if (token) {
-    this.notificationPushService.sendNotification(descripcion, token).subscribe(resp =>{});
+    this.notificationPushService.sendNotification(descripcion, token).subscribe(resp =>{
+    });
   }
 }
 

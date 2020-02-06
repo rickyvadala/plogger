@@ -12,6 +12,8 @@ import { UsuarioPloggerService } from 'src/app/services/usuario-plogger.service'
 import { DataShareService } from 'src/app/services/data-share.service';
 import { NotificacionModel } from 'src/app/models/notificaciones.model';
 import { Subscription } from 'rxjs';
+import { PopoverController } from '@ionic/angular';
+import { PopNotificacionesComponent } from '../../components/pop-notificaciones/pop-notificaciones.component';
 
 
 @Component({
@@ -36,7 +38,7 @@ export class HomePage implements OnInit {
     public router: Router,
     public notificationPushService: notificationPushService,
     private authPlogger: UsuarioPloggerService,
-    private dataShare: DataShareService
+    private dataShare: DataShareService, private popoverCtrl: PopoverController
   ) {
 
     this.dataShare.currentUser.subscribe(usuario => {
@@ -75,6 +77,15 @@ export class HomePage implements OnInit {
   ionViewWillLeave() {
     this.publicaciones.publicaciones = [];
   }
+
+  async mostrarPop(evento) {
+    const popover = await this.popoverCtrl.create({
+      component: PopNotificacionesComponent,
+      event: evento,
+      mode: 'ios'
+    });
+    await popover.present();
+  } 
 
   itemSelected(item: any) {
     this.router.navigate(['/profile', item.uid]);

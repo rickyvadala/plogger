@@ -46,6 +46,7 @@ private _setAuthHeaders() {
   }
 
   cargarNotificaciones(key: string) {
+    console.log(key)
     this.itemsCollection = this.afs.collection<NotificacionModel>(`notificaciones${key}`);
 
     return this.itemsCollection.valueChanges().pipe(
@@ -57,6 +58,7 @@ private _setAuthHeaders() {
   }
 
   agregarNotificacion(notificacion: NotificacionModel) {
+    console.log(notificacion)
     this.itemsCollection = this.afs.collection<NotificacionModel>(`notificaciones${notificacion.key}`);
     let data: any = {
         key: notificacion.key,
