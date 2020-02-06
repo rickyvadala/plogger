@@ -19,8 +19,7 @@ private itemsCollection: AngularFirestoreCollection<NotificacionModel>;
 
 notifiaciones: NotificacionModel[];
 
-
-nuevaNotificacionEvent: EventEmitter<NotificacionModel> = new EventEmitter<NotificacionModel>()
+getNotificacionEvent: EventEmitter<NotificacionModel> = new EventEmitter<NotificacionModel>()
 
 constructor(
     private http: HttpClient,  private afs: AngularFirestore) { }
@@ -52,7 +51,6 @@ private _setAuthHeaders() {
     return this.itemsCollection.valueChanges().pipe(
       map((notificaciones: NotificacionModel[]) => {
         this.notifiaciones = notificaciones;
-      
         return this.notifiaciones;
       }
       ))

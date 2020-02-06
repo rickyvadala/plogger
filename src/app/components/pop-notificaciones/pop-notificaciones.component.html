@@ -1,0 +1,5 @@
+<ion-list class="popList">
+  <ion-item *ngFor="let item of notifaciones; let i = index;">
+    <ion-icon name="person" color="primary"></ion-icon>
+      <ion-label>&nbsp;&nbsp;&nbsp;{{item.remitente}}&nbsp;{{item.descripcion}}</ion-label>
+  </ion-item>

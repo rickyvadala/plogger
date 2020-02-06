@@ -30,7 +30,6 @@ export class HomePage implements OnInit {
   usuario: PerfilUsuarioModel;
   notificaciones: NotificacionModel[];
 
-  nuevaNotificacionSubscription: Subscription
 
   constructor(public searchService: SearchService,
     public FCM: FCM,
@@ -45,15 +44,11 @@ export class HomePage implements OnInit {
       this.getNotifications()
 
     });
-
-    this.nuevaNotificacionSubscription = this.notificationPushService.nuevaNotificacionEvent.subscribe((notificacion) => {
-      this.getNotifications()
-    }
-    )
   }
 
   getNotifications() {
     this.notificationPushService.cargarNotificaciones(this.usuario.key).subscribe((resp) => {
+      this.notificationPushService.getNotificacionEvent.emit()
       this.notificaciones = resp;
     })
 
