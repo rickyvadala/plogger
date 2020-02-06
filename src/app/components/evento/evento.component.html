@@ -6,8 +6,8 @@
 </div>
 
 <ion-card *ngFor="let event of eventos; let i = index;" class="evento">
-    <ion-item mode="ios" class="ion-item">
-        <ion-card-header (click)="goToEvent(i)">
+    <ion-item mode="ios" class="ion-item" color="gris2">
+        <ion-card-header (click)="goToEvent(i)" color="gris2">
             <ion-card-subtitle>{{ event.startDate | date: 'dd/MM/yyyy HH:mm'}}</ion-card-subtitle>
 
             <ion-card-title><b>{{ event.name }} </b> </ion-card-title>
