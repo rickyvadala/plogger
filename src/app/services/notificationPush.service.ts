@@ -46,7 +46,6 @@ private _setAuthHeaders() {
   }
 
   cargarNotificaciones(key: string) {
-    console.log(key)
     this.itemsCollection = this.afs.collection<NotificacionModel>(`notificaciones${key}`);
 
     return this.itemsCollection.valueChanges().pipe(
@@ -58,12 +57,36 @@ private _setAuthHeaders() {
   }
 
   agregarNotificacion(notificacion: NotificacionModel) {
-    console.log(notificacion)
     this.itemsCollection = this.afs.collection<NotificacionModel>(`notificaciones${notificacion.key}`);
     let data: any = {
         key: notificacion.key,
         descripcion: notificacion.descripcion,
         remitente: notificacion.remitente,
+        tipo: notificacion.tipo,
+        keyOther: notificacion.keyOther
+    }
+    return this.itemsCollection.add(data);
+  }
+
+  agregarNotificacionLikeYComentario(notificacion: NotificacionModel) {
+    this.itemsCollection = this.afs.collection<NotificacionModel>(`notificaciones${notificacion.key}`);
+    let data: any = {
+        key: notificacion.key,
+        descripcion: notificacion.descripcion,
+        remitente: notificacion.remitente,
+        tipo: notificacion.tipo
+    }
+    return this.itemsCollection.add(data);
+  }
+
+  agregarNotificacionEvento(notificacion: NotificacionModel) {
+    this.itemsCollection = this.afs.collection<NotificacionModel>(`notificaciones${notificacion.key}`);
+    let data: any = {
+        key: notificacion.key,
+        descripcion: notificacion.descripcion,
+        remitente: notificacion.remitente,
+        tipo: notificacion.tipo,
+        eventKey: notificacion.eventKey
     }
     return this.itemsCollection.add(data);
   }

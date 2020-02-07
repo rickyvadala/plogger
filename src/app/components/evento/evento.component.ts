@@ -180,6 +180,7 @@ export class EventoComponent implements OnInit {
 
   goToEvent(i) {
     let eid = this.eventos[i].id;
+    console.log(this.eventos[i])
     this.router.navigate([`/event/${eid}`],  {state:  this.eventos[i]} );
     // this.router.navigate(['/event', eid],).then();
   }

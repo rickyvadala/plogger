@@ -337,11 +337,26 @@ private crearArregloPerfilOther(resp){
 
     mandarNotificacionLike (token) {
       let descripcion = "A " + this.usuario.nombre + " le gustó tu publicación";
+      let notificacion = {  
+        key: this.perfilOther.key,
+        descripcion: 'puso me gusta en tu publicación',
+        remitente: this.usuario.nombre + ' ' + this.usuario.apellido,
+        tipo: 'meGusta',
+      }
+      this.notificationPushService.agregarNotificacionLikeYComentario(notificacion).then()
       this.notificationPushService.sendNotification(descripcion, token).subscribe(resp =>{});
     }
 
     mandarNotificacionComentario (token) {
       let descripcion = this.usuario.nombre + " comentó tu publicación";
+      let notificacion = {  
+        key: this.perfilOther.key,
+        descripcion: 'comentó tu publicación',
+        remitente: this.usuario.nombre + ' ' + this.usuario.apellido,
+        tipo: 'comentario',
+      }
+      this.notificationPushService.agregarNotificacionLikeYComentario(notificacion).then()
+
       this.notificationPushService.sendNotification(descripcion, token).subscribe(resp =>{});
     }
     

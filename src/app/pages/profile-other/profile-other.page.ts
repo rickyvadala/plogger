@@ -112,11 +112,13 @@ export class ProfileOtherPage implements OnInit {
         this.usuario.seguidos.unshift(this.keyOther);
         this.profileOther[0].seguidores.push(this.usuario.key);
       }
+
       let notificacion: NotificacionModel = {
         key: this.keyOther,
         remitente: this.usuario.nombre + ' ' + this.usuario.apellido,
-        descripcion: 'nuevo seguidor',
-        tipo: 'nuevoSeguidor'
+        descripcion: ' comenzó a seguirte',
+        tipo: 'nuevoSeguidor',
+        keyOther: this.usuario.key
       }
       this.cantSeguidores = this.cantSeguidores+1;
       let descripcion = this.usuario.nombre + " " + "comenzó a seguirte";

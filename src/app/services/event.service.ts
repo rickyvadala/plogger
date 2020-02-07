@@ -21,6 +21,8 @@ export class EventService  {
   filterFechaHasta = null;
   filterCiudad = null;
 
+  eventKey: string;
+
   constructor(private http: HttpClient,
               private dataShare: DataShareService,
               private notificationPushService: notificationPushService ) { 
@@ -182,6 +184,7 @@ obtenerInvitados(eventoId) {
 }
 
 agregarInvitados(eventoId, invitados) {
+  this.eventKey = eventoId
       // return this.http.put(`${this.urlABM}/evento/${eventoId}/invitados.json`,invitadosArray);
 
       return this.http.get(`${this.urlABM}/evento/${eventoId}/invitados.json`)
@@ -312,6 +315,7 @@ private crearArregloTipoEventos(resp){
   return eventos;
 }
 
+
 obtenerDescripcionTipoEventos(id){
   return this.http.get(`https://plogger-437eb.firebaseio.com/tipoEvento/${ id }.json`);
 }
@@ -319,6 +323,7 @@ obtenerDescripcionTipoEventos(id){
 obtenerEvento(eventoId) {
   return this.http.get(`${this.urlABM}/evento/${eventoId}.json`);
 }
+
 
 motivoReporte(event, motivo){
   return this.http.put(`${ this.urlABM }/reportes/motivos/eventos/${ event.id }.json`,motivo).subscribe(resp =>{
@@ -429,8 +434,9 @@ mandarNotificacionEvento (token) {
     descripcion: descripcionLista,
     remitente: this.usuario.nombre + ' ' + this.usuario.apellido,
     tipo: 'invitacionEvento',
+    eventKey: this.eventKey
   }
-  this.notificationPushService.agregarNotificacion(notificacion).then()
+  this.notificationPushService.agregarNotificacionEvento(notificacion).then()
   if (token) {
     this.notificationPushService.sendNotification(descripcion, token).subscribe(resp =>{
     });
