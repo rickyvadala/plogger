@@ -501,7 +501,7 @@ export class PublicacionComponent implements OnInit, AfterViewChecked, OnDestroy
     this.publicacion.uid = this.usuario.key;
     this.publicacion.fecha = (new Date).toString();
     this.publicacion.nombre = this.usuario.nombre;
-    this.publicacion.apellido = this.usuario.apellido
+    this.publicacion.apellido = this.usuario.apellido;
     this.publicacion.fotoPerfil = this.usuario.foto;
     this.publicacion.reportada = false;
 
