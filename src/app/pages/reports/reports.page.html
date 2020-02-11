@@ -21,11 +21,7 @@
     </ion-segment>
 
     <div *ngIf="estadisticasFlag">
-        <tr>
-            <h6 class="alinear">Eventos por cada ciudad</h6>
-            <ngx-charts-bar-vertical-2d [view]="view" [results]="multi" [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel">
-            </ngx-charts-bar-vertical-2d>
-        </tr>
+
         <tr>
             <h6 class="alinear">Personas por sexo </h6>
             <canvas *ngIf="mostrarSexo" baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend">
@@ -47,6 +43,11 @@
             <h6 class="alinear">Eventos según creación</h6>
             <canvas *ngIf="eventosMesReady" baseChart width="400" height="400" [datasets]="lineChartData" [labels]="lineChartLabels" [colors]="lineChartColors" [legend]="lineChartLegend" [options]="pieChartOptions2" [chartType]="lineChartType" [plugins]="lineChartPlugins">
             </canvas>
+        </tr>
+        <tr>
+            <h6 class="alinear">Eventos por cada ciudad</h6>
+            <ngx-charts-bar-vertical-2d [view]="view" [results]="multi" [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel">
+            </ngx-charts-bar-vertical-2d>
         </tr>
     </div>
 
