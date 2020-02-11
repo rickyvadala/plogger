@@ -28,9 +28,16 @@
 
 <ion-content padding>
 
+
+
     <ion-auto-complete [template]="name" [showResultsFirst]="false" [(model)]="selected" (itemSelected)="itemSelected($event)" [multi]="false" [dataProvider]="searchService" [disabled]="false" [removeButtonColor]="'dark'" [options]="{ placeholder : ' ', debounce : '1000' }">
     </ion-auto-complete>
 
-    <app-publicacion #publicacionesHome></app-publicacion>
+    <app-publicacion (mensajeEvent)="recibirMensaje($event)" #publicacionesHome></app-publicacion>
+
+    <div *ngIf="!hayPublicacion" style="text-align: center;">
+        <p>No hay publicaciones para mostrar</p>
+        <ion-img src="../../assets/img/logo.png" class="logo mb-20" style="margin: 0 80px;"></ion-img>
+    </div>
 
 </ion-content>

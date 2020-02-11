@@ -31,6 +31,7 @@ export class HomePage implements OnInit {
   token: string;
   usuario: PerfilUsuarioModel;
   notificaciones: NotificacionModel[];
+  hayPublicacion = true;
 
 
   constructor(public searchService: SearchService,
@@ -67,6 +68,16 @@ export class HomePage implements OnInit {
     //   token: this.token
     // }
     // this.authPlogger.editarUsuario(usuario);
+  }
+
+  recibirMensaje($event) {
+    debugger
+    if ($event >= 1) { 
+      this.hayPublicacion = true;
+    } else {
+      this.hayPublicacion = false;
+    }
+
   }
 
   ionViewWillEnter() {

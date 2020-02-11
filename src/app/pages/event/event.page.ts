@@ -116,6 +116,8 @@ export class EventPage implements OnInit {
           }
         });
       }
+      console.log('here');
+      console.log(this.type);
 
       this.type.forEach(tipo => {
      
