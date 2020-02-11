@@ -63,7 +63,8 @@ private _setAuthHeaders() {
         descripcion: notificacion.descripcion,
         remitente: notificacion.remitente,
         tipo: notificacion.tipo,
-        keyOther: notificacion.keyOther
+        keyOther: notificacion.keyOther,
+        date: new Date()
     }
     return this.itemsCollection.add(data);
   }
@@ -74,7 +75,8 @@ private _setAuthHeaders() {
         key: notificacion.key,
         descripcion: notificacion.descripcion,
         remitente: notificacion.remitente,
-        tipo: notificacion.tipo
+        tipo: notificacion.tipo,
+        date: new Date()
     }
     return this.itemsCollection.add(data);
   }
@@ -86,7 +88,8 @@ private _setAuthHeaders() {
         descripcion: notificacion.descripcion,
         remitente: notificacion.remitente,
         tipo: notificacion.tipo,
-        eventKey: notificacion.eventKey
+        eventKey: notificacion.eventKey,
+        date: new Date()
     }
     return this.itemsCollection.add(data);
   }

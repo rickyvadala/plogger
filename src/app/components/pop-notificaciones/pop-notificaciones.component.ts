@@ -38,7 +38,18 @@ export class PopNotificacionesComponent implements OnInit {
 
   getNotifications() {
     this.notificationPushService.cargarNotificaciones(this.usuario.key).subscribe((resp) => {
-      this.notificaciones = resp;
+    this.notificaciones = resp.map((x) => {
+          return {
+            key: x.key,
+            descripcion: x.descripcion,
+            remitente: x.remitente,
+            tipo: x.tipo,
+            keyOther: x.keyOther ? x.keyOther : null,
+            eventKey: x.eventKey ? x.eventKey : null,
+            date: new Date(x.date)
+          }
+       })
+      this.notificaciones.sort((a,b) =>  b.date - a.date)
     })
 
   }
