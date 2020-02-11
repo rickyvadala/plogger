@@ -155,8 +155,6 @@ export class InvitarAmigosPage implements OnInit {
         this.eventoService.agregarInvitados(this.eid, this.nuevaSeleccionInvitados).subscribe(resp => {
           this.amigosInvitados();
           console.log(this.usuarios);
-
-
         });
       }
       

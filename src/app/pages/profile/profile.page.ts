@@ -45,6 +45,7 @@ export class ProfilePage implements OnInit {
     
     this.dataShare.currentUser.subscribe( usuario => {
       this.usuario = usuario
+  
     });
 
     this.usuarioAdmin();
