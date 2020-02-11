@@ -64,8 +64,10 @@
     <app-publicacion (mensajeEvent)="recibirMensaje($event)" #publicaciones></app-publicacion>
 
 
-    <div *ngIf="!hayPublicacion && !esAdmin" class="sinMensaje">
-        <tr>No hay publicaciones en este perfil </tr>
+    <div *ngIf="!hayPublicacion && !esAdmin" style="text-align: center;">
+        <br>
+        <p>No hay publicaciones en este perfil</p>
+        <ion-img src="../../assets/img/logo.png" class="logo mb-20" style="margin: 0 80px;"></ion-img>
     </div>
 
     <div>

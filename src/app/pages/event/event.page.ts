@@ -84,7 +84,6 @@ export class EventPage implements OnInit {
     this.evento = this.router.getCurrentNavigation().extras.state;
     this.eid = this.evento.id;
     this.eventService.obtenerEvento(this.eid).subscribe((resp: any) => {
-
       this.name =  resp.name;
       this.description = resp.description;
       this.inicio = resp.startDate;
@@ -116,9 +115,7 @@ export class EventPage implements OnInit {
           }
         });
       }
-
       this.type.forEach(tipo => {
-     
       this.eventService.obtenerDescripcionTipoEventos(tipo)
       .subscribe((resp: any) => { 
         this.typeDescripcion.push(resp);
@@ -252,6 +249,7 @@ export class EventPage implements OnInit {
       this.eventoAsistire.push(this.usuario.key);
     } else {
       this.eventService.eliminarAsistire(eid).subscribe();
+      
       for (let i = 0; i < this.eventoAsistire.length; i++) {
         const asistire = this.eventoAsistire[i];
         if( asistire == this.usuario.key) {

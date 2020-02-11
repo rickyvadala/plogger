@@ -102,10 +102,10 @@
             </ion-item> -->
             <ion-item>
                 <!--  ubicacion del evento -->
-                <form [formGroup]="directionFormGeo" (ngSubmit)="obtenerDireccionEvento(directionFormGeo.value)">
+                <form [formGroup]="directionFormGeo" (ngSubmit)="obtenerDireccionEvento(directionFormGeo.value)" required>
                     <ion-item>
                         <ion-icon mode="ios" color="secondary" name="navigate"></ion-icon>
-                        <ion-input formControlName="destination" placeholder="Ubicación"></ion-input>
+                        <ion-input formControlName="destination" (ionChange)="habilitarDireccion()" placeholder="Ubicación"></ion-input>
                     </ion-item>
                     <ion-button slot="end" type="submit" color="dark" [disabled]="!directionFormGeo.valid">Mostrar mapa
                         <ion-icon mode="ios" name="pin"></ion-icon>
@@ -135,7 +135,7 @@
 
 
         </ion-list>
-        <ion-button color="dark" expand="full" type="submit" [disabled]="formulario.invalid">
+        <ion-button color="dark" expand="full" type="submit" [disabled]="desactivarBoton(formulario.valid)">
             <ion-icon slot="start" name="create"> </ion-icon>Crear
         </ion-button>
         <br>

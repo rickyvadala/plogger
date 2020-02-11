@@ -344,7 +344,9 @@ private crearArregloPerfilOther(resp){
         tipo: 'meGusta',
       }
       this.notificationPushService.agregarNotificacionLikeYComentario(notificacion).then()
-      this.notificationPushService.sendNotification(descripcion, token).subscribe(resp =>{});
+      if(token) {
+        this.notificationPushService.sendNotification(descripcion, token).subscribe(resp =>{});
+      }
     }
 
     mandarNotificacionComentario (token) {
@@ -356,18 +358,19 @@ private crearArregloPerfilOther(resp){
         tipo: 'comentario',
       }
       this.notificationPushService.agregarNotificacionLikeYComentario(notificacion).then()
-
-      this.notificationPushService.sendNotification(descripcion, token).subscribe(resp =>{});
+      if(token) {
+        this.notificationPushService.sendNotification(descripcion, token).subscribe(resp =>{});
+      }
     }
     
     getUsuarioParaNotificacion (uid, flag) {
       return this.http.get(`${ this.urlABM }/perfil/${ uid }.json`).subscribe((x:any) => {
         this.perfilOther = x
-        if (flag) {
-          this.mandarNotificacionComentario(x.token)
-        } else {
-          this.mandarNotificacionLike(x.token)
-        }
+          if (flag) {
+            this.mandarNotificacionComentario(x.token)
+          } else {
+            this.mandarNotificacionLike(x.token)
+          }
       });
        
     }

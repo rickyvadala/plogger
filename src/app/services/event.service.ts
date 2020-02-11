@@ -407,8 +407,9 @@ private crearArregloEventoFinalizados(resp){
       evento.id = key;
 
       let fechaActual = new Date; 
-      let fechaFinEvento = evento.endDate;
-      if (fechaFinEvento < fechaActual.toISOString()){
+      let fechaFinEvento = new Date(evento.endDate);
+      
+      if (fechaFinEvento < fechaActual){
         eventos.unshift(evento);
         return;
       }

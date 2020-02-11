@@ -31,7 +31,7 @@ import { FCM } from '@ionic-native/fcm/ngx';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ChartsModule } from 'ng2-charts';
 
-
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [AppComponent],
@@ -55,6 +55,7 @@ import { ChartsModule } from 'ng2-charts';
     SplashScreen,
     ImagePicker,
     AngularFirestore,
+    DatePipe,
     File,
     Camera,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

@@ -62,6 +62,8 @@ export class PublicacionComponent implements OnInit, AfterViewChecked, OnDestroy
 
   conEvento = false;
 
+  ubicacion:String;
+
   defaultColumnOptions = [
     [
       'Desnudos o actividad sexual',
@@ -120,6 +122,7 @@ export class PublicacionComponent implements OnInit, AfterViewChecked, OnDestroy
     // cada uno se carga con distinto metodo, cargarPublicacionesPerfil() y otro cargarPublicacionesHome()
     var x = window.location.href;
     var ubicacion = x.substring(x.lastIndexOf('/') + 1);
+    this.ubicacion = ubicacion;
     if (ubicacion==='profile') {
       this.publicaciones=[];
       this.cargarPublicacionesPerfil();
@@ -200,13 +203,17 @@ export class PublicacionComponent implements OnInit, AfterViewChecked, OnDestroy
     this.loadingService.presentLoading();
     this.suscripcion=this.publicacionService.obtenerPublicacionesHome()
     .subscribe(resp => {
+      let cant = new Number(resp.length)
+      
       this.publicacionesAll = resp
       this.publicaciones.push(...this.publicacionesAll.splice(0,5)); 
       this.loadingService.dismissLoading();  
-      
+      this.cantPosts = cant;
+
       if (this.publicacionService.cambioNombre === true ){
         this.publicaciones = this.publicacionService.publicaciones;
       } 
+      this.enviarMensaje();
     }); 
   }
 

@@ -4,5 +4,6 @@ export class NotificacionModel {
     remitente: string;
     tipo?: string;
     keyOther?: string;
-    eventKey?: string
+    eventKey?: string;
+    date?: any
 }

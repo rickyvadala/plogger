@@ -1,3 +1,15 @@
 .icon {
     font-size: 30px;
 }
+
+.event {
+    transition: background-color 0.5s ease;
+    background-color: #308871;
+    color: white;
+}
+
+.no-event {
+    transition: background-color 0.5s ease;
+    background-color: #0d8a4d;
+    color: white;
+}

@@ -14,6 +14,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 //Google Maps
 import {Geolocation} from '@ionic-native/geolocation/ngx';
 import { GoogleMap } from '@ionic-native/google-maps';
+import { FLAGS } from '@angular/core/src/render3/interfaces/view';
 
 
 declare var google;
@@ -62,6 +63,8 @@ export class ModalEventPage implements OnInit, AfterViewInit {
   hayFoto= false;
   imagStorage: string;
   fechasInvalidas = true;
+  selecTipoEvento = false;
+  hayDireccion = false;
 
   editar = false;
   showMap = false;
@@ -114,6 +117,14 @@ export class ModalEventPage implements OnInit, AfterViewInit {
 
   ngOnInit() {
 
+  }
+
+  desactivarBoton (param) {
+    let flag = true;
+    if (param && this.selecTipoEvento && this.hayDireccion) {
+      flag = false
+    }
+    return flag;
   }
 
 //recorrido
@@ -183,7 +194,13 @@ export class ModalEventPage implements OnInit, AfterViewInit {
         window.alert('Dirección no encontrada, ingrese nuevamente.'); //+ status);
       }
     });
+
   }
+
+habilitarDireccion(){
+  this.hayDireccion = true;
+
+}
   
   onSubmitTemplate(form: NgForm) {
 
@@ -347,6 +364,7 @@ export class ModalEventPage implements OnInit, AfterViewInit {
   //Tipo de evento seleccionado
   itemSelected (event) {
   this.tipoEvento.push(event.id);
+  this.selecTipoEvento = true;
   // this.selectedType.push(event);
   // console.log('selected');
   // console.log(this.selectedType);

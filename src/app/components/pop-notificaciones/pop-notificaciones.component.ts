@@ -7,7 +7,7 @@ import { PerfilUsuarioModel } from 'src/app/models/perfil-usuario.model';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { PopoverController } from '@ionic/angular';
-import { EventService } from '../../services/event.service';
+
 @Component({
   selector: 'app-pop-notificaciones',
   templateUrl: './pop-notificaciones.component.html',
@@ -36,9 +36,21 @@ export class PopNotificacionesComponent implements OnInit {
 
   getNotifications() {
     this.notificationPushService.cargarNotificaciones(this.usuario.key).subscribe((resp) => {
-      this.notificaciones = resp;
-      console.log(this.notificaciones)
-      this.notificationPushService.nuevaNotificacionEvent.emit()
+    console.log(this.notificaciones)
+    this.notificationPushService.nuevaNotificacionEvent.emit()
+
+    this.notificaciones = resp.map((x) => {
+          return {
+            key: x.key,
+            descripcion: x.descripcion,
+            remitente: x.remitente,
+            tipo: x.tipo,
+            keyOther: x.keyOther ? x.keyOther : null,
+            eventKey: x.eventKey ? x.eventKey : null,
+            date: new Date(x.date)
+          }
+       })
+       this.notificaciones.sort((a,b) =>  b.date - a.date)
     })
   }
 
