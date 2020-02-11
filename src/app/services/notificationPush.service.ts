@@ -17,9 +17,10 @@ authHeaders: HttpHeaders;
 
 private itemsCollection: AngularFirestoreCollection<NotificacionModel>;
 
-notifiaciones: NotificacionModel[];
+notificaciones: NotificacionModel[];
 
 getNotificacionEvent: EventEmitter<NotificacionModel> = new EventEmitter<NotificacionModel>()
+nuevaNotificacionEvent: EventEmitter<any> = new EventEmitter<any>()
 
 constructor(
     private http: HttpClient,  private afs: AngularFirestore) { }
@@ -47,11 +48,12 @@ private _setAuthHeaders() {
 
   cargarNotificaciones(key: string) {
     this.itemsCollection = this.afs.collection<NotificacionModel>(`notificaciones${key}`);
-
+    
     return this.itemsCollection.valueChanges().pipe(
       map((notificaciones: NotificacionModel[]) => {
-        this.notifiaciones = notificaciones;
-        return this.notifiaciones;
+        this.nuevaNotificacionEvent.emit()
+      this.notificaciones = notificaciones;
+        return this.notificaciones;
       }
       ))
   }
@@ -76,6 +78,7 @@ private _setAuthHeaders() {
         remitente: notificacion.remitente,
         tipo: notificacion.tipo
     }
+
     return this.itemsCollection.add(data);
   }
 
@@ -88,6 +91,7 @@ private _setAuthHeaders() {
         tipo: notificacion.tipo,
         eventKey: notificacion.eventKey
     }
+
     return this.itemsCollection.add(data);
   }
 }

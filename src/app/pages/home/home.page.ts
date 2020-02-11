@@ -32,6 +32,9 @@ export class HomePage implements OnInit {
   usuario: PerfilUsuarioModel;
   notificaciones: NotificacionModel[];
 
+  nuevaNotificacionSubscription: Subscription
+  showBadge = false;
+
 
   constructor(public searchService: SearchService,
     public FCM: FCM,
@@ -46,12 +49,20 @@ export class HomePage implements OnInit {
       this.getNotifications()
 
     });
+
+    this.nuevaNotificacionSubscription = this.notificationPushService.nuevaNotificacionEvent.subscribe(() => {
+      console.log('nuevaNotificacionEven')
+      this.showBadge = true;
+      console.log(this.showBadge)
+    }
+    )
   }
 
   getNotifications() {
     this.notificationPushService.cargarNotificaciones(this.usuario.key).subscribe((resp) => {
-      this.notificationPushService.getNotificacionEvent.emit()
       this.notificaciones = resp;
+      this.notificationPushService.getNotificacionEvent.emit()
+      this.showBadge = true;
     })
 
   }
@@ -79,13 +90,18 @@ export class HomePage implements OnInit {
   }
 
   async mostrarPop(evento) {
+    this.showBadge = false;
+    console.log(this.showBadge)
     const popover = await this.popoverCtrl.create({
       component: PopNotificacionesComponent,
       event: evento,
       mode: 'ios'
     });
     await popover.present();
+
   } 
+ 
+  
 
   itemSelected(item: any) {
     this.router.navigate(['/profile', item.uid]);

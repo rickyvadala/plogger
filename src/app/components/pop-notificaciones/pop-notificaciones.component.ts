@@ -18,16 +18,14 @@ export class PopNotificacionesComponent implements OnInit {
   usuario: PerfilUsuarioModel;
   getNotificacionSubscription: Subscription
 
-  constructor(     private dataShare: DataShareService,
+  constructor(private dataShare: DataShareService,
        public notificationPushService: notificationPushService,
         public router: Router,  private popoverCtrl: PopoverController
     )
      {
-
       this.getNotificacionSubscription = this.notificationPushService.getNotificacionEvent.subscribe(() => {
         this.getNotifications();
       })
-      
       this.dataShare.currentUser.subscribe(usuario => {
         this.usuario = usuario
         this.getNotifications()
@@ -39,8 +37,9 @@ export class PopNotificacionesComponent implements OnInit {
   getNotifications() {
     this.notificationPushService.cargarNotificaciones(this.usuario.key).subscribe((resp) => {
       this.notificaciones = resp;
+      console.log(this.notificaciones)
+      this.notificationPushService.nuevaNotificacionEvent.emit()
     })
-
   }
 
   goToNotification(item) {
