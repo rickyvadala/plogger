@@ -1,12 +1,12 @@
 <ion-tabs>
-    <ion-tab-bar slot="bottom" color="plogger">
-        <ion-tab-button tab="events">
+    <ion-tab-bar slot="bottom">
+        <ion-tab-button [ngClass]="event ? 'event' : 'no-event' " (click)="eventClick($event)" tab="events">
             <ion-icon class="icon" name="planet"></ion-icon>
         </ion-tab-button>
-        <ion-tab-button tab="home">
+        <ion-tab-button [ngClass]="event ? 'event' : 'no-event' " tab="home" (click)="homeClick($event)">
             <ion-icon class="icon" name="home"></ion-icon>
         </ion-tab-button>
-        <ion-tab-button tab="profile">
+        <ion-tab-button [ngClass]="event ? 'event' : 'no-event' " tab="profile" (click)="profileClick($event)">
             <ion-icon class="icon" name="contact"></ion-icon>
         </ion-tab-button>
     </ion-tab-bar>

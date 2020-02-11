@@ -8,7 +8,21 @@ import { Router } from '@angular/router';
 })
 export class TabsPage {
 
+  event: boolean = false;
+
 
   constructor(public router: Router) {
+  }
+
+  eventClick(event) {
+    this.event = true;
+  }
+
+  homeClick(event) {
+    this.event = false;
+  }
+
+  profileClick(event) {
+    this.event = false;
   }
 }
