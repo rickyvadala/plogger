@@ -70,7 +70,7 @@
             </ion-item>
 
         </ion-list>
-        <ion-button color="dark" expand="full" type="submit" [disabled]="formulario.invalid || (contValidas === false) || !requiredTipoUsu || !requiredCheckBox">
+        <ion-button color="dark" expand="full" type="submit" [disabled]="formulario.invalid || (contValidas === false) || !requiredTipoUsu || !requiredCheckBox || !comboUbicacionService.provinciaSeleccionada">
             <ion-icon slot="start" name="walk"></ion-icon>Crear
         </ion-button>
         <br>

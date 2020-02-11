@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, Output} from '@angular/core';
 import { ComboUbicacionService } from '../../services/combo-ubicacion.service';
 
 @Component({
@@ -16,5 +16,7 @@ export class ComboUbicacionComponent implements OnInit {
     onSelectChange(event) {
       this.comboUbicacionService.provinciaSeleccionada = event.target.value;
     }
+
+
 
 }

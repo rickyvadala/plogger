@@ -28,7 +28,7 @@ export class ModalRegisterPage implements OnInit {
               private authPlogger: UsuarioPloggerService,
               public alertCtrl: AlertController,
               public FCM: FCM,
-              private comboUbicacionService: ComboUbicacionService ) { }
+              public comboUbicacionService: ComboUbicacionService ) { }
 
 
 
@@ -36,7 +36,7 @@ export class ModalRegisterPage implements OnInit {
       const alert = await this.alertCtrl.create({
         header: 'Usuario registrado',
         subHeader: 'Bienvenido a plogger!',
-        message: 'Entre todo podemos salvar el planeta!',
+        message: 'Entre todos podemos salvar el planeta!',
         buttons: [
           {
             text: 'Ok',

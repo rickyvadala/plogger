@@ -69,15 +69,13 @@ export class PublicacionEventoComponent implements OnInit {
               private eventService: EventService,
               public loadingService: LoadingService,
               public route: ActivatedRoute
-              ) {
+              ) {}
 
-               }
   ngOnInit() {
     this.dataShare.currentMessage.subscribe( mensaje => this.popClick = mensaje);
     this.dataShare.currentUser.subscribe( usuario => {
       this.usuario = usuario
     });
-
     this.cargarPublicacionesEvento();
   }
 
