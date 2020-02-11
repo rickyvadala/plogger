@@ -84,7 +84,6 @@ export class EventPage implements OnInit {
     this.evento = this.router.getCurrentNavigation().extras.state;
     this.eid = this.evento.id;
     this.eventService.obtenerEvento(this.eid).subscribe((resp: any) => {
-
       this.name =  resp.name;
       this.description = resp.description;
       this.inicio = resp.startDate;
@@ -116,11 +115,7 @@ export class EventPage implements OnInit {
           }
         });
       }
-      console.log('here');
-      console.log(this.type);
-
       this.type.forEach(tipo => {
-     
       this.eventService.obtenerDescripcionTipoEventos(tipo)
       .subscribe((resp: any) => { 
         this.typeDescripcion.push(resp);

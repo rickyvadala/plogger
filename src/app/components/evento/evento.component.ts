@@ -26,7 +26,7 @@ export class EventoComponent implements OnInit {
   misEventos: string;
   usuario:PerfilUsuarioModel={};
   popClick: string;
-
+  
   eventsReady = false;
 
   defaultColumnOptions = [

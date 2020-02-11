@@ -25,6 +25,7 @@ export class EventsPage implements OnInit, AfterViewInit {
   filterFechaDesde = null;
   filterFechaHasta = null;
   filterCiudad = null;
+  hayeventos=true;
 
   @ViewChild('evento') evento: EventoComponent;
 
@@ -56,11 +57,15 @@ export class EventsPage implements OnInit, AfterViewInit {
     this.misEventos = ev.target.value;
     if (ev.target.value == 'eventos') {
      this.evento.eventosEnProceso();
+     this.hayeventos = false;
     } else {
       if (ev.target.value == 'miseventos'){
       this.evento.obtenerMisEventos();
+      this.hayeventos = false;
+
       }else {
         this.evento.eventosFinalizados();
+        this.hayeventos = false;
       }
     }
   }
