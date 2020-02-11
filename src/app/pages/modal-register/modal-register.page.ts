@@ -5,7 +5,7 @@ import { UsuarioPloggerModel } from '../../models/usuario-plogger.model';
 import { NgForm } from '@angular/forms';
 import { UsuarioPloggerService } from 'src/app/services/usuario-plogger.service';
 import { TerminosCondicionesPage } from '../terminos-condiciones/terminos-condiciones.page';
-import { FCM } from '@ionic-native/fcm/ngx';
+//import { FCM } from '@ionic-native/fcm/ngx';
 import { ComboUbicacionService } from '../../services/combo-ubicacion.service';
 
 @Component({
@@ -27,7 +27,7 @@ export class ModalRegisterPage implements OnInit {
               private router: Router,
               private authPlogger: UsuarioPloggerService,
               public alertCtrl: AlertController,
-              public FCM: FCM,
+             // public FCM: FCM,
               private comboUbicacionService: ComboUbicacionService ) { }
 
 
@@ -97,9 +97,9 @@ export class ModalRegisterPage implements OnInit {
   onSubmitTemplate(form: NgForm) {
 
     if ( form.invalid ) { return; }
-    this.FCM.getToken().then(token => {
-      this.token = token
-    })
+    //this.FCM.getToken().then(token => {
+      //this.token = token
+    //})
 
     this.usuario.ubicacion = this.comboUbicacionService.provinciaSeleccionada;
 

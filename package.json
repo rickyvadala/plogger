@@ -26,7 +26,6 @@
         "@ionic-native/camera": "^5.12.0",
         "@ionic-native/core": "^5.14.0",
         "@ionic-native/facebook": "^5.14.0",
-        "@ionic-native/fcm": "^5.19.1",
         "@ionic-native/file": "^5.12.0",
         "@ionic-native/geolocation": "^5.14.0",
         "@ionic-native/google-maps": "^5.5.0",
@@ -42,7 +41,6 @@
         "cordova-ios": "^5.0.1",
         "cordova-plugin-camera": "^4.1.0",
         "cordova-plugin-facebook4": "^6.0.0",
-        "cordova-plugin-fcm-with-dependecy-updated": "^4.1.1",
         "cordova-plugin-file": "^6.0.2",
         "cordova-plugin-geolocation": "^4.0.2",
         "cordova-plugin-googlemaps": "^2.6.2",
@@ -122,7 +120,6 @@
                 "FACEBOOK_HYBRID_APP_EVENTS": "false",
                 "FACEBOOK_ANDROID_SDK_VERSION": "5.2.0"
             },
-            "cordova-plugin-fcm-with-dependecy-updated": {}
         },
         "platforms": [
             "android",

@@ -26,7 +26,7 @@ import { File } from '@ionic-native/file/ngx';
 import { Camera } from '@ionic-native/camera/ngx';
 
 //Send notifications push FCM
-import { FCM } from '@ionic-native/fcm/ngx';
+//import { FCM } from '@ionic-native/fcm/ngx';
 //Reports
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ChartsModule } from 'ng2-charts';
@@ -50,7 +50,7 @@ import { DatePipe } from '@angular/common';
     BrowserAnimationsModule
   ],
   providers: [
-    FCM,
+    //FCM,
     StatusBar,
     SplashScreen,
     ImagePicker,

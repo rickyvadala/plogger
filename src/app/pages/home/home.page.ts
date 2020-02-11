@@ -5,7 +5,7 @@ import { SearchService } from '../../services/search.service';
 import { Router } from '@angular/router';
 
 //Send notifications push FCM
-import { FCM } from '@ionic-native/fcm/ngx';
+//import { FCM } from '@ionic-native/fcm/ngx';
 import { notificationPushService } from '../../services/notificationPush.service';
 import { PerfilUsuarioModel } from 'src/app/models/perfil-usuario.model';
 import { UsuarioPloggerService } from 'src/app/services/usuario-plogger.service';
@@ -38,7 +38,7 @@ export class HomePage implements OnInit {
 
 
   constructor(public searchService: SearchService,
-    public FCM: FCM,
+   //public FCM: FCM,
     public router: Router,
     public notificationPushService: notificationPushService,
     private authPlogger: UsuarioPloggerService,
