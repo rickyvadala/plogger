@@ -31,8 +31,7 @@ export class AsistiranPage implements OnInit {
     let perfiles: any [] = []
     this.profileService.obtenerPerfiles().subscribe( resp => { 
       perfiles = resp;
-      console.log(perfiles);
-      debugger;
+      
       perfiles.forEach( p => {
         for (let i = 0; i < this.asistiranUid.length; i++) {
           if( p.key == this.asistiranUid[i]){

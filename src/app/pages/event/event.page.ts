@@ -254,6 +254,7 @@ export class EventPage implements OnInit {
       this.eventoAsistire.push(this.usuario.key);
     } else {
       this.eventService.eliminarAsistire(eid).subscribe();
+      
       for (let i = 0; i < this.eventoAsistire.length; i++) {
         const asistire = this.eventoAsistire[i];
         if( asistire == this.usuario.key) {

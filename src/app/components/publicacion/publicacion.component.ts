@@ -204,7 +204,7 @@ export class PublicacionComponent implements OnInit, AfterViewChecked, OnDestroy
     this.suscripcion=this.publicacionService.obtenerPublicacionesHome()
     .subscribe(resp => {
       let cant = new Number(resp.length)
-      debugger
+      
       this.publicacionesAll = resp
       this.publicaciones.push(...this.publicacionesAll.splice(0,5)); 
       this.loadingService.dismissLoading();  

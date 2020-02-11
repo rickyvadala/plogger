@@ -71,7 +71,7 @@ export class HomePage implements OnInit {
   }
 
   recibirMensaje($event) {
-    debugger
+    
     if ($event >= 1) { 
       this.hayPublicacion = true;
     } else {
