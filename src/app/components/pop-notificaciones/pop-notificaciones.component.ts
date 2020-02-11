@@ -36,7 +36,6 @@ export class PopNotificacionesComponent implements OnInit {
 
   getNotifications() {
     this.notificationPushService.cargarNotificaciones(this.usuario.key).subscribe((resp) => {
-    console.log(this.notificaciones)
     this.notificationPushService.nuevaNotificacionEvent.emit()
 
     this.notificaciones = resp.map((x) => {
@@ -51,6 +50,7 @@ export class PopNotificacionesComponent implements OnInit {
           }
        })
        this.notificaciones.sort((a,b) =>  b.date - a.date)
+
     })
   }
 

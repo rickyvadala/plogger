@@ -52,11 +52,9 @@ export class HomePage implements OnInit {
     });
 
     this.nuevaNotificacionSubscription = this.notificationPushService.nuevaNotificacionEvent.subscribe(() => {
-      console.log('nuevaNotificacionEven')
       this.showBadge = true;
-      console.log(this.showBadge)
-    }
-    )
+      console.log('nuevaNotificacionEven',this.showBadge)
+    })
   }
 
   getNotifications() {
