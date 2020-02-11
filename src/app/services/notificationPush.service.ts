@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { NotificacionModel } from '../models/notificaciones.model';
 import { AngularFirestoreCollection, AngularFirestore } from 'angularfire2/firestore';
+import { DatePipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ notifiaciones: NotificacionModel[];
 getNotificacionEvent: EventEmitter<NotificacionModel> = new EventEmitter<NotificacionModel>()
 
 constructor(
-    private http: HttpClient,  private afs: AngularFirestore) { }
+    private http: HttpClient,  private afs: AngularFirestore, private datePipe: DatePipe) { }
 
 
 sendNotification(description: string, to: string ){
@@ -64,7 +65,7 @@ private _setAuthHeaders() {
         remitente: notificacion.remitente,
         tipo: notificacion.tipo,
         keyOther: notificacion.keyOther,
-        date: new Date()
+        date: this.datePipe.transform(new Date(), 'dd-MM-yyyy HH:mm:ss')
     }
     return this.itemsCollection.add(data);
   }
@@ -76,7 +77,7 @@ private _setAuthHeaders() {
         descripcion: notificacion.descripcion,
         remitente: notificacion.remitente,
         tipo: notificacion.tipo,
-        date: new Date()
+        date: this.datePipe.transform(new Date(), 'dd-MM-yyyy HH:mm:ss')
     }
     return this.itemsCollection.add(data);
   }
@@ -89,7 +90,7 @@ private _setAuthHeaders() {
         remitente: notificacion.remitente,
         tipo: notificacion.tipo,
         eventKey: notificacion.eventKey,
-        date: new Date()
+        date: this.datePipe.transform(new Date(), 'dd-MM-yyyy HH:mm:ss')
     }
     return this.itemsCollection.add(data);
   }

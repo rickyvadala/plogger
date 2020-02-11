@@ -7,7 +7,7 @@ import { PerfilUsuarioModel } from 'src/app/models/perfil-usuario.model';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { PopoverController } from '@ionic/angular';
-import { EventService } from '../../services/event.service';
+
 @Component({
   selector: 'app-pop-notificaciones',
   templateUrl: './pop-notificaciones.component.html',
@@ -49,7 +49,7 @@ export class PopNotificacionesComponent implements OnInit {
             date: new Date(x.date)
           }
        })
-      this.notificaciones.sort((a,b) =>  b.date - a.date)
+       this.notificaciones.sort((a,b) =>  b.date - a.date)
     })
 
   }

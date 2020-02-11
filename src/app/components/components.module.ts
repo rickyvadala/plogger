@@ -19,6 +19,7 @@ import { PublicacionesReportadasComponent } from './publicaciones-reportadas/pub
 import { EventosReportadosComponent } from './eventos-reportados/eventos-reportados.component';
 import { ComboUbicacionComponent } from './ubicacion-usuario/combo-ubicacion.component';
 import { PopNotificacionesComponent } from './pop-notificaciones/pop-notificaciones.component';
+import {DatePipe} from '@angular/common';
 
 @NgModule({
   entryComponents: [
@@ -61,6 +62,9 @@ import { PopNotificacionesComponent } from './pop-notificaciones/pop-notificacio
     PopFollowComponent,
     ComboUbicacionComponent,
     PopNotificacionesComponent
+  ],
+  providers: [
+    DatePipe
   ],
   imports: [
     CommonModule,
