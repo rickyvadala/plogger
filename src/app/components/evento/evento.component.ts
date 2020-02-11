@@ -26,7 +26,7 @@ export class EventoComponent implements OnInit {
   misEventos: string;
   usuario:PerfilUsuarioModel={};
   popClick: string;
-
+  
   eventsReady = false;
 
   defaultColumnOptions = [
@@ -103,7 +103,6 @@ export class EventoComponent implements OnInit {
       this.eventos = resp;
       this.eventos.forEach(evento => {
         evento.orderDate = new Date(evento.startDate);
-        console.log(this.usuario);
         if(evento.ubication.toLowerCase().includes(this.usuario.ubicacion.toLowerCase())) {
           eventosMiUbicacion.push(evento);
         } else {
@@ -180,7 +179,6 @@ export class EventoComponent implements OnInit {
 
   goToEvent(i) {
     let eid = this.eventos[i].id;
-    console.log(this.eventos[i])
     this.router.navigate([`/event/${eid}`],  {state:  this.eventos[i]} );
     // this.router.navigate(['/event', eid],).then();
   }
