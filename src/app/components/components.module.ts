@@ -18,7 +18,6 @@ import { PopPublicacionesReportComponent } from './pop-publicaciones-report/pop-
 import { PublicacionesReportadasComponent } from './publicaciones-reportadas/publicaciones-reportadas.component';
 import { EventosReportadosComponent } from './eventos-reportados/eventos-reportados.component';
 import { ComboUbicacionComponent } from './ubicacion-usuario/combo-ubicacion.component';
-import { PopNotificacionesComponent } from './pop-notificaciones/pop-notificaciones.component';
 import {DatePipe} from '@angular/common';
 
 @NgModule({
@@ -29,7 +28,6 @@ import {DatePipe} from '@angular/common';
     PopFollowComponent,
     PopPublicacionesReportComponent,
     EventoComponent,
-    PopNotificacionesComponent
   ],
   declarations: [
     PopProfileSettingsComponent,
@@ -45,7 +43,6 @@ import {DatePipe} from '@angular/common';
     PopLikesComponent,
     PopFollowComponent,
     ComboUbicacionComponent,
-    PopNotificacionesComponent
   ],
   exports: [
     PopProfileSettingsComponent,
@@ -61,7 +58,6 @@ import {DatePipe} from '@angular/common';
     PopLikesComponent,
     PopFollowComponent,
     ComboUbicacionComponent,
-    PopNotificacionesComponent
   ],
   providers: [
     DatePipe

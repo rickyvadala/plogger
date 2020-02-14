@@ -18,7 +18,6 @@ import { Router } from '@angular/router';
 import { PopLikesComponent } from '../pop-likes/pop-likes.component';
 import { EventoComponent } from '../evento/evento.component';
 import { PopPublicacionesReportComponent } from '../pop-publicaciones-report/pop-publicaciones-report.component';
-import { notificationPushService } from '../../services/notificationPush.service';
 import { LoadingService } from '../../services/loading.service'
 
 @Component({
@@ -89,7 +88,6 @@ export class PublicacionComponent implements OnInit, AfterViewChecked, OnDestroy
               private dataShare: DataShareService,
               public camera: Camera,
               public router: Router,
-              public notificationPushService : notificationPushService,
               private pickerController: PickerController,
               public loadingService: LoadingService,
               ) { }
@@ -402,7 +400,6 @@ export class PublicacionComponent implements OnInit, AfterViewChecked, OnDestroy
           this.publicacionService.comentarPost(publicacion,comentario).subscribe( (resp:any) => {
             comentario.cid=resp.name;
             input.value="";
-            this.publicacionService.getUsuarioParaNotificacion(this.publicaciones[i].uid, true);
             this.publicaciones[i].comentarios.unshift(comentario);
           });
           return;

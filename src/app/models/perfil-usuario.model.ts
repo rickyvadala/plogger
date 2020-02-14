@@ -17,6 +17,5 @@ export class PerfilUsuarioModel {
     admin?: boolean;
     token?: string;
     ubicacion?: string;
-    notificaciones?: any[];
 }
 

@@ -34,7 +34,6 @@
 
     <ion-auto-complete [template]="name" [showResultsFirst]="false" [(model)]="selected" (itemSelected)="itemSelected($event)" [multi]="false" [dataProvider]="searchService" [disabled]="false" [removeButtonColor]="'dark'" [options]="{ placeholder : ' ', debounce : '1000' }">
     </ion-auto-complete>
-
     <app-publicacion (mensajeEvent)="recibirMensaje($event)" #publicacionesHome></app-publicacion>
 
     <div *ngIf="!hayPublicacion" style="text-align: center;">

@@ -5,7 +5,6 @@ import { map } from 'rxjs/operators';
 import { DataShareService } from './data-share.service';
 import { PerfilUsuarioModel } from '../models/perfil-usuario.model';
 import { ComentarioModel } from '../models/comentario.model';
-import { notificationPushService } from '../services/notificationPush.service';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +22,6 @@ export class PublicacionesService{
 
   constructor(private http:HttpClient,
               private dataShare: DataShareService,
-              public notificationPushService: notificationPushService
               ) { 
                 this.dataShare.currentUser.subscribe( usuario => this.usuario = usuario);
               }
@@ -213,12 +211,10 @@ export class PublicacionesService{
         }
         likeArray = x;
         likeArray.push(this.usuario.uid);
-        this.getUsuarioParaNotificacion(publicacion.uid, false);
         return this.http.put(`${ this.urlABM }/publicacion/${ publicacion.pid }/like.json`,likeArray).subscribe();
       } else {
         //aca viene cuando es el primer like de una publicacion
         likeArray = [this.usuario.uid]; 
-        this.getUsuarioParaNotificacion(publicacion.uid, false);
         return this.http.put(`${ this.urlABM }/publicacion/${ publicacion.pid }/like.json`,likeArray).subscribe();    
       }
     }));
@@ -334,45 +330,4 @@ private crearArregloPerfilOther(resp){
         }
       }));
     }
-
-    mandarNotificacionLike (token) {
-      let descripcion = "A " + this.usuario.nombre + " le gustó tu publicación";
-      let notificacion = {  
-        key: this.perfilOther.key,
-        descripcion: 'puso me gusta en tu publicación',
-        remitente: this.usuario.nombre + ' ' + this.usuario.apellido,
-        tipo: 'meGusta',
-      }
-      this.notificationPushService.agregarNotificacionLikeYComentario(notificacion).then()
-      if(token) {
-        this.notificationPushService.sendNotification(descripcion, token).subscribe(resp =>{});
-      }
-    }
-
-    mandarNotificacionComentario (token) {
-      let descripcion = this.usuario.nombre + " comentó tu publicación";
-      let notificacion = {  
-        key: this.perfilOther.key,
-        descripcion: 'comentó tu publicación',
-        remitente: this.usuario.nombre + ' ' + this.usuario.apellido,
-        tipo: 'comentario',
-      }
-      this.notificationPushService.agregarNotificacionLikeYComentario(notificacion).then()
-      if(token) {
-        this.notificationPushService.sendNotification(descripcion, token).subscribe(resp =>{});
-      }
-    }
-    
-    getUsuarioParaNotificacion (uid, flag) {
-      return this.http.get(`${ this.urlABM }/perfil/${ uid }.json`).subscribe((x:any) => {
-        this.perfilOther = x
-          if (flag) {
-            this.mandarNotificacionComentario(x.token)
-          } else {
-            this.mandarNotificacionLike(x.token)
-          }
-      });
-       
-    }
-
 }

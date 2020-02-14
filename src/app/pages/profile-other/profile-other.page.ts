@@ -6,8 +6,6 @@ import { PerfilUsuarioModel } from 'src/app/models/perfil-usuario.model';
 import { FollowService } from 'src/app/services/follow.service';
 import { PopFollowComponent } from 'src/app/components/pop-follow/pop-follow.component';
 import { PopoverController } from '@ionic/angular';
-import { notificationPushService } from '../../services/notificationPush.service';
-import { NotificacionModel } from '../../models/notificaciones.model';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -36,8 +34,7 @@ export class ProfileOtherPage implements OnInit {
               private usuarioService: UsuarioPloggerService,
               private dataShare: DataShareService,
               private followService: FollowService,
-              private popoverCtrl:PopoverController,
-              public notificationPushService: notificationPushService) {
+              private popoverCtrl:PopoverController,) {
     this.profileOtherUid = this.route.snapshot.params['id'];
   }
 
@@ -112,24 +109,7 @@ export class ProfileOtherPage implements OnInit {
         this.usuario.seguidos.unshift(this.keyOther);
         this.profileOther[0].seguidores.push(this.usuario.key);
       }
-
-      let notificacion: NotificacionModel = {
-        key: this.keyOther,
-        remitente: this.usuario.nombre + ' ' + this.usuario.apellido,
-        descripcion: ' comenzó a seguirte',
-        tipo: 'nuevoSeguidor',
-        keyOther: this.usuario.key
-      }
       this.cantSeguidores = this.cantSeguidores+1;
-      let descripcion = this.usuario.nombre + " " + "comenzó a seguirte";
-      this.notificationPushService.agregarNotificacion(notificacion).then()
-
-      if (this.profileOther[0].token) {
-        this.notificationPushService.sendNotification(descripcion, this.key).subscribe( resp => {
-          console.log(this.key)
-        });
-      }
-      
       return;
     });
   }

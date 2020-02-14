@@ -7,7 +7,6 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { PerfilUsuarioModel } from '../models/perfil-usuario.model';
 import * as firebase from 'firebase';
 import { DataShareService } from './data-share.service';
-import { FCM } from '@ionic-native/fcm/ngx';
 
 
 
@@ -32,7 +31,7 @@ export class UsuarioPloggerService {
               public guard: GuardService, 
               public  afAuth: AngularFireAuth,
               private dataShare: DataShareService,
-              private FCM: FCM ) {
+               ) {
     this.guard.leerToken();
     this.dataShare.currentUser.subscribe( usuario => this.usuario = usuario);
 
@@ -43,9 +42,6 @@ export class UsuarioPloggerService {
       ...usuario, // trae todas las propiedades del UsuarioPlogger
       returnSecureToken: true
     };
-    this.FCM.getToken().then(token => {
-      this.token = token
-    })
     return this.http.
     post(`${ this.url }/verifyPassword?key=${ this.apikey }`,
     authData).pipe(
@@ -80,7 +76,6 @@ export class UsuarioPloggerService {
                 admin: array[index].admin,
                 token: this.token,
                 ubicacion: array[index].ubicacion,
-                notificaciones: array[index].notificaciones,
               }
               this.dataShare.changeUser(objUsuario);
               this.editarUsuario(objUsuario)

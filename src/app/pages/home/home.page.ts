@@ -6,14 +6,11 @@ import { Router } from '@angular/router';
 
 //Send notifications push FCM
 //import { FCM } from '@ionic-native/fcm/ngx';
-import { notificationPushService } from '../../services/notificationPush.service';
 import { PerfilUsuarioModel } from 'src/app/models/perfil-usuario.model';
 import { UsuarioPloggerService } from 'src/app/services/usuario-plogger.service';
 import { DataShareService } from 'src/app/services/data-share.service';
-import { NotificacionModel } from 'src/app/models/notificaciones.model';
 import { Subscription } from 'rxjs';
 import { PopoverController } from '@ionic/angular';
-import { PopNotificacionesComponent } from '../../components/pop-notificaciones/pop-notificaciones.component';
 
 
 @Component({
@@ -30,42 +27,22 @@ export class HomePage implements OnInit {
   primerIngreso = true;
   token: string;
   usuario: PerfilUsuarioModel;
-  notificaciones: NotificacionModel[];
   hayPublicacion = true;
-
-  nuevaNotificacionSubscription: Subscription
-  showBadge = false;
-
 
   constructor(public searchService: SearchService,
    //public FCM: FCM,
     public router: Router,
-    public notificationPushService: notificationPushService,
     private authPlogger: UsuarioPloggerService,
     private dataShare: DataShareService, private popoverCtrl: PopoverController
   ) {
 
     this.dataShare.currentUser.subscribe(usuario => {
       this.usuario = usuario
-      this.getNotifications()
 
     });
-
-    this.nuevaNotificacionSubscription = this.notificationPushService.nuevaNotificacionEvent.subscribe(() => {
-      this.showBadge = true;
-      console.log('nuevaNotificacionEven',this.showBadge)
-    })
   }
 
-  getNotifications() {
-    this.notificationPushService.cargarNotificaciones(this.usuario.key).subscribe((resp) => {
-      this.notificaciones = resp;
-      this.notificationPushService.getNotificacionEvent.emit()
-      this.showBadge = true;
-    })
-
-  }
-
+ 
   ngOnInit() {
 
     this.primerIngreso = true;
@@ -78,7 +55,14 @@ export class HomePage implements OnInit {
     // }
     // this.authPlogger.editarUsuario(usuario);
   }
-
+  ionViewWillEnter() {
+    if (this.primerIngreso != true) {
+      this.publicaciones.ngOnInit();
+    } else this.primerIngreso = false
+  }
+  ionViewWillLeave() {
+    this.publicaciones.publicaciones = [];
+  }
   recibirMensaje($event) {
     
     if ($event >= 1) { 
@@ -88,30 +72,7 @@ export class HomePage implements OnInit {
     }
 
   }
-
-  ionViewWillEnter() {
-    if (this.primerIngreso != true) {
-      this.publicaciones.ngOnInit();
-    } else this.primerIngreso = false
-  }
-  ionViewWillLeave() {
-    this.publicaciones.publicaciones = [];
-  }
-
-  async mostrarPop(evento) {
-    this.showBadge = false;
-    console.log(this.showBadge)
-    const popover = await this.popoverCtrl.create({
-      component: PopNotificacionesComponent,
-      event: evento,
-      mode: 'ios'
-    });
-    await popover.present();
-
-  } 
- 
   
-
   itemSelected(item: any) {
     this.router.navigate(['/profile', item.uid]);
   }

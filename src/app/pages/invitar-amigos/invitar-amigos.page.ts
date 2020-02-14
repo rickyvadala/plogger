@@ -147,9 +147,6 @@ export class InvitarAmigosPage implements OnInit {
       if (this.checkedList.length > 0)  {
         this.eventoService.agregarInvitados(this.eid, this.checkedList).subscribe(resp => {
           this.amigosInvitados();
-
-          // this.eventoService.getUsuarioParaNotificacion()
-
         });
       }else {
         this.eventoService.agregarInvitados(this.eid, this.nuevaSeleccionInvitados).subscribe(resp => {

@@ -119,7 +119,7 @@
                 "APP_NAME": "MyApp",
                 "FACEBOOK_HYBRID_APP_EVENTS": "false",
                 "FACEBOOK_ANDROID_SDK_VERSION": "5.2.0"
-            },
+            }
         },
         "platforms": [
             "android",

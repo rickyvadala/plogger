@@ -5,7 +5,6 @@ import { map } from 'rxjs/operators';
 import { DataShareService } from './data-share.service';
 import { PerfilUsuarioModel } from '../models/perfil-usuario.model';
 import { PublicacionModel } from '../models/publicacion.model';
-import { notificationPushService } from './notificationPush.service';
 
 
 @Injectable({
@@ -24,8 +23,7 @@ export class EventService  {
   eventKey: string;
 
   constructor(private http: HttpClient,
-              private dataShare: DataShareService,
-              private notificationPushService: notificationPushService ) { 
+              private dataShare: DataShareService,) { 
   
      this.dataShare.currentUser.subscribe( usuario => this.usuario = usuario);
 
@@ -204,7 +202,6 @@ agregarInvitados(eventoId, invitados) {
           invitadosArray = x;
           invitados.forEach(i => {
             invitadosArray.push(i);
-            this.getUsuarioParaNotificacion(i)
           });
          
           return this.http.put(`${this.urlABM}/evento/${eventoId}/invitados.json`,invitadosArray).subscribe();
@@ -416,32 +413,6 @@ private crearArregloEventoFinalizados(resp){
 
   });
   return eventos;
-}
-
-getUsuarioParaNotificacion (uid) {
-  return this.http.get(`${ this.urlABM }/perfil/${ uid }.json`).subscribe((x:any) => {
-    this.perfilOther = x
-    this.mandarNotificacionEvento(x.token)
-  
-  });
-  
-}
-
-mandarNotificacionEvento (token) {
-  let descripcion = this.usuario.nombre + " te invitó a un evento";
-  let descripcionLista = " te invitó a un evento";
-  let notificacion = {
-    key: this.perfilOther.key,
-    descripcion: descripcionLista,
-    remitente: this.usuario.nombre + ' ' + this.usuario.apellido,
-    tipo: 'invitacionEvento',
-    eventKey: this.eventKey
-  }
-  this.notificationPushService.agregarNotificacionEvento(notificacion).then()
-  if (token) {
-    this.notificationPushService.sendNotification(descripcion, token).subscribe(resp =>{
-    });
-  }
 }
 
 }
