@@ -83,7 +83,7 @@ export class MessagePage implements OnInit {
   }
 
   goToChat(us, i) {
-    this.router.navigate(['chat'], { state: this.usuarios[i] });
+    this.router.navigate(['chat'], { state: us });
     this.chatService.usuarioDestinatario = us.key;
 
   }

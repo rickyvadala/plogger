@@ -53,7 +53,6 @@ export class HomePage implements OnInit {
 
     this.nuevaNotificacionSubscription = this.notificationPushService.nuevaNotificacionEvent.subscribe(() => {
       this.showBadge = true;
-      console.log('nuevaNotificacionEven',this.showBadge)
     })
   }
 
@@ -100,7 +99,6 @@ export class HomePage implements OnInit {
 
   async mostrarPop(evento) {
     this.showBadge = false;
-    console.log(this.showBadge)
     const popover = await this.popoverCtrl.create({
       component: PopNotificacionesComponent,
       event: evento,

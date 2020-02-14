@@ -54,7 +54,6 @@ private _setAuthHeaders() {
       map((notificaciones: NotificacionModel[]) => {
         this.nuevaNotificacionEvent.emit()
       this.notificaciones = notificaciones;
-      console.log(this.notificaciones)
         return this.notificaciones;
       }
       ))

@@ -1,6 +1,6 @@
 <ion-header>
     <ion-toolbar color="plogger">
-        <ion-title>Conversación</ion-title>
+        <ion-title>{{usuarioDestinatario.nombre}} {{usuarioDestinatario.apellido}}</ion-title>
         <ion-buttons>
             <ion-button slot="start">
                 <ion-back-button (click)="backToChats()"></ion-back-button>
@@ -13,7 +13,29 @@
 
 <ion-content padding>
 
-    <div class="app-mensajes chat-window" id="app-mensajes">
+    <div class="chat app-mensajes" id="app-mensajes">
+        <div *ngFor="let chat of chatService.chats" [ngClass]=" usuario.key == chat.uidUsuarioLogueado ? 'mine-message': 'yours-message' ">
+            <div class="message">
+                {{ chat.mensaje }}
+            </div>
+        </div>
+
+    </div>
+
+    <!-- <div class="app-mensajes chat-window" id="app-mensajes">
+
+        <div class="messages" *ngFor="let chat of chatService.chats" [ngClass]="{ 'textoChat': usuario.key == chat.uidUsuarioLogueado  }">
+
+            <ion-label color="primary" [ngClass]="{ 'textoChatUsuarioLog': usuario.key == chat.uidUsuarioLogueado,
+              'textoChatOtroUsuario': usuario.key != chat.uidUsuarioDestinatareo }">
+                {{ chat.nombre }}</ion-label>
+            <p>
+                {{ chat.mensaje }}
+            </p>
+        </div>
+
+    </div> -->
+    <!-- <div class="app-mensajes chat-window" id="app-mensajes">
 
         <div *ngFor="let chat of chatService.chats" [ngClass]="{ 'textoChat': usuario.key == chat.uidUsuarioLogueado  }">
 
@@ -25,7 +47,7 @@
             </p>
         </div>
 
-    </div>
+    </div> -->
 
 
 
